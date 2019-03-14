@@ -4,16 +4,16 @@
 
 def transpose(rD):
     """
-    xshorted pairs of y coord. to vice-versa
+    x shorted pairs of y coord. to vice-versa
     """
-    res = [[-1, -1] for i in range(len(rD))]
+    res = [[-1, -1] for _ in range(len(rD))]
     for i in range(len(rD)):
         for j in [0, 1]:
-            tmp = (rD[i][j], i)
-            if res[tmp[0]][0] == -1:
-                res[tmp[0]][0] = tmp[1]
+            tmp0, tmp1 = (rD[i][j], i)
+            if res[tmp0][0] == -1:
+                res[tmp0][0] = tmp1
             else:
-                res[tmp[0]][1] = tmp[1]
+                res[tmp0][1] = tmp1
     return res
 
 
@@ -83,24 +83,23 @@ def toStringNice(rect):
     """
     print(toStringNice([[0, 4], [3, 6], [2, 5], [1, 3], [4, 7], [2, 6], [0, 5], [1, 7]]))
     """
-    s = ''
-
     n = len(rect)
     tab = [[" "] * n for i in range(n)]
     for i in range(n):
-        for j in [0,1]:
+        for j in [0, 1]:
             tab[i][rect[i][j]] = "o"
-    for i in range(n):
-        for j in range(rect[i][0]+1, rect[i][1]):
+        for j in range(rect[i][0] + 1, rect[i][1]):
             tab[i][j] = u"│"
     rr = transpose(rect)
     for i in range(n):
-        for j in range(rr[i][0]+1, rr[i][1]):
+        for j in range(rr[i][0] + 1, rr[i][1]):
             if tab[j][i] == u"│":
                 tab[j][i] = u"┼"
             else:
                 tab[j][i] = u"─"
-    for i in range(n-1, -1, -1):
+
+    s = ''
+    for i in range(n - 1, -1, -1):
         for j in range(n):
             s += tab[j][i]
         s += "\n"
