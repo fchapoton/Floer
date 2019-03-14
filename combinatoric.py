@@ -90,18 +90,20 @@ def matrixProduct(a,b):
 ##print(matrixProduct([[1,2]],[[0],[1]]))
 
 
-def classify(l,func):
+def classify(l, func):
     """
+    Sorting a list l according to a function ?
+
     print(classify([1,2,3,4,5,6,7],lambda x:x%3))
     """
     dic = {}
-    tot=[]
+    tot = []
     for i in l:
-        tmp=func(i)
-        if dic.has_key(tmp):
+        tmp = func(i)
+        if tmp in dic:
             tot[dic[tmp]].append(i)
         else:
-            dic[tmp]=len(tot)
+            dic[tmp] = len(tot)
             tot.append([i])
     return tot
 

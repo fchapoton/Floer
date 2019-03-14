@@ -1,44 +1,58 @@
 import rectDiagMisc
 import generators
 from genGen import gen
+
 from copy import deepcopy
 from math import atan2
+import wx
+import show_all
 
 
-def maslovIndex(g,rect):
-    (p1,p2)=rectDiagMisc.recToPermAndComp(rect)[0]
-    tabMas=generators.maslovTab(p1)
-    ipp=generators._I(p1,p1)
-    g.maslov=generators._I(g.perm,g.perm)
-    return generators.maslovIndex2(g,tabMas,ipp)
+def maslovIndex(g, rect):
+    p1, p2 = rectDiagMisc.recToPermAndComp(rect)[0]
+    tabMas = generators.maslovTab(p1)
+    ipp = generators._I(p1,p1)
+    g.maslov = generators._I(g.perm,g.perm)
+    return generators.maslovIndex2(g, tabMas, ipp)
 
 
 def isSimplePermComp(p1, p2, trans1, trans2, startx):
     """
-    ##compute the size and whitney nb of a cycle of a perm
-    ##print(isSimplePermComp([2,1,0],[0,1,2],[2,1,0],[0,1,2],0))
+    compute the size and whitney nb of a cycle of a perm
+
+    print(isSimplePermComp([2,1,0],[0,1,2],[2,1,0],[0,1,2],0))
     """
     x=startx
     y=p1[x]
     whitney=0
     compSize=1
-    if trans2[y]<trans1[y]: dy=1
-    else: dy=-1
+    if trans2[y]<trans1[y]:
+        dy=1
+    else:
+        dy=-1
     while True:
-        if p1[x]<p2[x]: dx=1
-        else: dx=-1
+        if p1[x]<p2[x]:
+            dx=1
+        else:
+            dx=-1
         whitney-=dx*dy
-        if p1[x]==y: y=p2[x]
-        else: y=p1[x]
-        if trans2[y]<trans1[y]: dy=1
-        else: dy=-1
+        if p1[x]==y:
+            y=p2[x]
+        else:
+            y=p1[x]
+        if trans2[y]<trans1[y]:
+            dy=1
+        else:
+            dy=-1
         whitney+=dx*dy
-        if trans1[y]==x: x=trans2[y]
-        else: x=trans1[y]
-        if x==startx:break
+        if trans1[y]==x:
+            x=trans2[y]
+        else:
+            x=trans1[y]
+        if x==startx:
+            break
         compSize+=1
-    return (whitney,compSize)
-
+    return (whitney, compSize)
 
 
 def detectSimple(n,gen1,gen2,ellDir):##1=accepted 0 don't know -1 refused
@@ -249,11 +263,11 @@ def aim(rect,gen1,gen2,ell,ellDir,trans1,trans2,inter,x,y,xs,ys,d):
     lvl=0
 
     while True:
-        p,d=iterate(n,p,d)
+        p, d = iterate(n, p, d)
 
-        if not inter.has_key(p):
-
+        if p not in inter:
             continue
+
         if p==start or gen1.perm[p[0]]==p[1] and gen1.xShift[p[0]]==p[2] and gen1.yShift[p[0]]==p[3]: break
         if gen2.perm[p[0]]==p[1] and gen2.xShift[p[0]]==p[2] and gen2.yShift[p[0]]==p[3]: break
         if d%2==0:
@@ -466,8 +480,6 @@ def splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,p):
     return pairs
 
 ##debug
-import wx
-import show_all
 app = wx.PySimpleApp()
 totalG = 0
 ##end debug

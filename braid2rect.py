@@ -105,7 +105,7 @@ if __name__ == "__main__":
     print(atlas[(7, 2)])
     for i in range(13):
         for j in range(1, len(atlas) + 1):
-            if atlas.has_key((i, j)):
+            if (i, j) in atlas:
                 s += str((i,j))+": "+str(atlas[(i,j)])+"\n"
             else:
                 break

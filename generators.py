@@ -132,33 +132,34 @@ def classifiedGen(rect,ell,strat=0):
         miniA,maxiA=100000,-100000
         miniM,maxiM=100000,-100000
         for i in xrange(len(line)):
-            if line[i]==0: continue
+            if line[i]==0:
+                continue
             tmp=len(line[i])
-            if tmp!=0:
-                miniA=min(minimum+i,miniA)
-                maxiA=max(minimum+i,maxiA)
-                d={}
+            if tmp:
+                miniA = min(minimum+i,miniA)
+                maxiA = max(minimum+i,maxiA)
+                d = {}
                 for e in line[i]:
-                    mas=maslovIndex2(e,tabMas,ipp)
-                    if d.has_key(mas):
+                    mas = maslovIndex2(e, tabMas, ipp)
+                    if mas in d:
                         d[mas].append(e)
                     else:
                         d[mas]=[e]
                         
-                key=d.keys()
-                if key:
-                    miniM=min(min(key),miniM)
-                    maxiM=max(max(key),maxiM)
-                line[i]=d
+                keys = list(d)
+                if keys:
+                    miniM = min(min(keys), miniM)
+                    maxiM = max(max(keys), maxiM)
+                line[i] = d
+
         bounds=(miniA+AShift,maxiA+AShift,miniM,maxiM)
         gen=[[[] for j in xrange(miniM,maxiM+1)] for i in xrange(miniA,maxiA+1)]
-        for i,a in enumerate(line):
+        for i, a in enumerate(line):
             if a:
-                for b in a.keys():
+                for b in a:
                     gen[i+minimum-miniA][b-miniM]=a[b]
-        index=aimForIndex-miniA
-    return (gen,bounds,pool,index)
-
+        index = aimForIndex-miniA
+    return (gen, bounds, pool, index)
 
 
 if __name__ == "__main__":

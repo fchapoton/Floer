@@ -62,18 +62,22 @@ def listPossRectMp(rect,ell):##ell is only there to avoid where there is no oval
     return possRect
 
 
-def listRect(gen,possRect,immobile):
-    n=len(gen.perm)
-    res=[]
-    pts=[(i,gen.perm[i],gen.xShift[i],gen.yShift[i]) for i in xrange(n)]
+def listRect(gen, possRect, immobile):
+    n = len(gen.perm)
+    res = []
+    pts = [(i,gen.perm[i],gen.xShift[i],gen.yShift[i]) for i in xrange(n)]
     for j in pts:
-        if gen.perm[j[0]]==-1:continue
-        if immobile[j[0]]: continue
+        if gen.perm[j[0]]==-1:
+            continue
+        if immobile[j[0]]:
+            continue
         for i in xrange(j[0]):
-            if gen.perm[i]==-1:continue
-            if immobile[i]: continue
-            if possRect.has_key((pts[i],j)):
-                b=0
+            if gen.perm[i]==-1:
+                continue
+            if immobile[i]:
+                continue
+            if (pts[i], j) in possRect:
+                b = 0
                 for k in xrange(i+1,j[0]):
                     if gen.perm[i]<gen.perm[k]<gen.perm[j[0]]:
                         b=1
@@ -153,13 +157,13 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
     parity=0
     for g in acc:
         ttt=(tuple(g[0].perm),tuple(g[0].xShift),tuple(g[0].yShift))
-        if hmap.has_key(ttt):
-            if hmap[ttt]>=g[1]:
+        if ttt in hmap:
+            if hmap[ttt] >= g[1]:
                 continue
         if upDown==0 and areGenEqual(g[0],genGoal):
-            parity+=1
+            parity += 1
             continue
-        if depth>1:
+        if depth > 1:
             tmp=deepBdMapRec(g[0],genGoal,depth-1,init,immobile,1-upDown,g[1],hmap)
             if tmp==0: hmap[ttt]=g[1]
             parity+=tmp
@@ -168,7 +172,7 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
     return parity
 
 
-def initWith(rect,ell):
+def initWith(rect, ell):
     tr=[[] for i in xrange(len(rect))]
     for i,p in enumerate(rect):
         tr[p[0]].append(i)

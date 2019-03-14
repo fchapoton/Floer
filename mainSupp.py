@@ -4,16 +4,16 @@ import highLevel
 
 import time
 
-print(time.clock())
+print('time:', time.clock())
 for i in range(11, 12):
     for j in range(530, 550):
-        if braid2rect.atlas.has_key((i, j)):
+        if (i, j) in braid2rect.atlas:
             rect = braid2rect.atlas[(i, j)]
             print("KNOT:", i, "n", j)
             print(rect)
             print(rectDiagMisc.toStringNice(rect))
             print(highLevel.AllToString(rect))
-print(time.clock())
+print('time:', time.clock())
 
 ##i=7#int(raw_input("knot nb of crossings"))
 ##j=6#int(raw_input("knot nb"))

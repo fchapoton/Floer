@@ -3,16 +3,19 @@ import braid2rect
 import rectDiagMisc
 import simplify.diagSimplify
 
-s = "i"
-while s!="y" and s!="n":
-    s=raw_input("Do you want to enter a knot by its rectangular diagram (the alternative is its table location (for knots with strictly less than 13 crossings)?(y/n)")
+s = ""
+while s != "y" and s != "n":
+    s = raw_input("""Do you want to enter a knot:
+(y) by its rectangular diagram ?
+(n) by its table location (for knots with at most 12 crossings) ?
+Please answer (y/n)""")
 
-if s=="n":
-    i=int(raw_input("knot nb of crossings:"))
-    j=int(raw_input("knot nb:"))
-    if braid2rect.atlas.has_key((i,j)):
-        rect=braid2rect.atlas[(i,j)]
-        print("KNOT:",i,"n",j)
+if s == "n":
+    i = int(raw_input("knot nb of crossings:"))
+    j = int(raw_input("knot nb:"))
+    if (i, j) in braid2rect.atlas:
+        rect = braid2rect.atlas[(i, j)]
+        print("KNOT:", i, "n", j)
         print(rect)
         print(rectDiagMisc.toStringNice(rect))
         print(highLevel.AllToString(rect))
