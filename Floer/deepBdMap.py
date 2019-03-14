@@ -1,6 +1,6 @@
 from six.moves import range
 
-import rectDiagMisc
+from rectDiagMisc import recToPermAndComp
 import generators
 from genGen import gen
 
@@ -11,10 +11,13 @@ import show_all
 
 
 def maslovIndex(g, rect):
-    p1, p2 = rectDiagMisc.recToPermAndComp(rect)[0]
+    """
+    something about Maslov index
+    """
+    p1, p2 = recToPermAndComp(rect)[0]
     tabMas = generators.maslovTab(p1)
-    ipp = generators._I(p1,p1)
-    g.maslov = generators._I(g.perm,g.perm)
+    ipp = generators._I(p1, p1)
+    g.maslov = generators._I(g.perm, g.perm)
     return generators.maslovIndex2(g, tabMas, ipp)
 
 
@@ -57,7 +60,7 @@ def isSimplePermComp(p1, p2, trans1, trans2, startx):
     return (whitney, compSize)
 
 
-def detectSimple(n,gen1,gen2,ellDir):##1=accepted 0 don't know -1 refused
+def detectSimple(n,gen1,gen2,ellDir):# 1=accepted 0 don't know -1 refused
     nbMobile=0
     trans1=[-1]*n
     trans2=[-1]*n
@@ -73,23 +76,23 @@ def detectSimple(n,gen1,gen2,ellDir):##1=accepted 0 don't know -1 refused
                 if ellDir[0][i]==-1 or ellDir[1][gen1.perm[i]]==-1:
                     return 0
         if nbSMobile==1:
-            return 1 ## accepting because of bdMG verification only
+            return 1 #  accepting because of bdMG verification only
         else:
             return 0
-    if nbMobile==2:##rectangle, to elaborate for replacing version
+    if nbMobile==2:# rectangle, to elaborate for replacing version
         for i in range(n):
-            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):##hole
+            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):# hole
                 return 0
             trans1[gen1.perm[i]]=i
             trans2[gen2.perm[i]]=i
         for i in range(n):
             if trans1[i]==trans2[i] and ellDir[1][i]==-1:
                 return 0
-        ##at this point it is a possibly horny rectangle
-        return 1 ## accepting because of bdMG verification only
-    else:##nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # at this point it is a possibly horny rectangle
+        return 1 #  accepting because of bdMG verification only
+    else:# nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for i in range(n):
-            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):##hole
+            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):# hole
                 return 0
             trans1[gen1.perm[i]]=i
             trans2[gen2.perm[i]]=i
@@ -119,7 +122,7 @@ def decideOrdering(ell):
 def cPj(x,y,xs,ys,cx,cy):
     x=x+xs*0.3-cx
     y=y+ys*0.3-cy
-    return -atan2(x,y)##zero on top positiveness is ok
+    return -atan2(x,y)# zero on top positiveness is ok
 
 
 def isBetween(a1, a2, a3):
@@ -151,18 +154,18 @@ def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
     n=len(rect)
     if ext[0]==0:
         if ext[2]==1:
-            pairs=[(ext[1],ell[0][ext[1]][1],-1,1,1,1)]##x, y, xShift, y shift
+            pairs=[(ext[1],ell[0][ext[1]][1],-1,1,1,1)]# x, y, xShift, y shift
             for i in range(ell[0][ext[1]][1]+1,n):
                 for b in [-1,1]:
                     pairs.append((ext[1],i,-1,b,1,b))
         else:
-            pairs=[(ext[1],ell[0][ext[1]][0],-1,-1,1,-1)]##x, y, xShift, y shift
+            pairs=[(ext[1],ell[0][ext[1]][0],-1,-1,1,-1)]# x, y, xShift, y shift
             for i in range(0,ell[0][ext[1]][0]):
                 for b in [-1,1]:
                     pairs.append((ext[1],i,-1,b,1,b))
         res=[]
         for p in pairs:
-            ##premiere selection -any ellipse,-on the ellipse?
+            # premiere selection -any ellipse,-on the ellipse?
             if ell[1][p[1]]==-1 or p[0]<ell[1][p[1]][0] or p[0]>ell[1][p[1]][1]:
                 continue
             cx,cy=(ell[1][p[1]][0]+ell[1][p[1]][1])*0.5, p[1]
@@ -178,7 +181,7 @@ def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
                 res.append(p)
     else:
         if ext[2]==1:
-            pairs=[]##x, y, xShift, y shift
+            pairs=[]# x, y, xShift, y shift
             for i in range(ell[1][ext[1]][1]+1,n):
                 if ell[1][ext[1]]!=-1:
                     for b in [-1,1]:
@@ -235,7 +238,7 @@ def findObtuse(rect,gen1,gen2,ell,ellDir):
     return obt, flat
 
 
-def findAllInter(ell):##must be changeed if slow ovals
+def findAllInter(ell):# must be changeed if slow ovals
     res = {}
     n = len(ell[0])
     for i in range(n):
@@ -354,14 +357,14 @@ def nextOnCuts(p,cuts):#cut=(x,y,xs,ys,d,(x,y,xs,ys))
         if c[1][0] == p[0]:
             res.append((c[0][0],c[0][1],c[0][2],c[0][3],[c[1]],1))
     return res
-##n=0
+# n=0
 
 
 def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
-    ##I use the []=false trick
-##    global n
-##    if n>10: return 0
-##    n+=1
+    # I use the []=false trick
+#     global n
+#     if n>10: return 0
+#     n+=1
 
     if start[0]==goal[0] and start[1]==goal[1] and start[2]==goal[2] and start[3]==goal[3]:
         g1Acc[goal[0]]=goal
@@ -372,11 +375,11 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
 
     res=[]
     for p in next:
-##        if p[0]==goal[0] and p[1]==goal[1] and p[2]==goal[2] and p[3]==goal[3]:
-##            g1Acc[goal[0]]=goal
-##            for intermed in p[4]:
-##                g2Acc[intermed[0]]=intermed
-##            res.append((g1Acc,g2Acc))
+#         if p[0]==goal[0] and p[1]==goal[1] and p[2]==goal[2] and p[3]==goal[3]:
+#             g1Acc[goal[0]]=goal
+#             for intermed in p[4]:
+#                 g2Acc[intermed[0]]=intermed
+#             res.append((g1Acc,g2Acc))
         if g1Acc[p[0]]:
             continue
         tmp1=g1Acc[:]
@@ -388,7 +391,7 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
     return res
 
 
-def findAll(startx,p1,p2,trans1,trans2):##p1,p2are perms as arrays
+def findAll(startx,p1,p2,trans1,trans2):# p1,p2are perms as arrays
     x=startx
     y=p1[x]
     compSize=[startx]
@@ -431,7 +434,7 @@ def isIn(g2,path,x,y):
     return p
 
 
-def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):##g2Acc contains a point of bigon (the one of g2)
+def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):# g2Acc contains a point of bigon (the one of g2)
     newEllDir=deepcopy(ellDir)
     newEllDirp=deepcopy(ellDir)
     holes=findHoles(gen1,gen2,trans1,trans2,ellDir,bigon)
@@ -456,7 +459,7 @@ def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):##g2Acc contain
             g2.xShift.append(tmp2[2])
             g2.yShift.append(tmp2[3])
             g1p.perm.append(tmp2[1])
-            if bigon[1][0]==0 and i==bigon[1][1] or bigon[1][0]==1 and tmp2[1]==bigon[1][1]:###unfinished
+            if bigon[1][0]==0 and i==bigon[1][1] or bigon[1][0]==1 and tmp2[1]==bigon[1][1]:# #unfinished
                 g1p.xShift.append(tmp2[2]*(bigon[1][0]*2-1))
                 g1p.yShift.append(tmp2[3]*(1-bigon[1][0]*2))
             else:
@@ -478,10 +481,10 @@ def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):##g2Acc contain
             g1p.xShift.append(gg.xShift[i])
             g1p.yShift.append(gg.yShift[i])
 
-##    g1.show()
-##    g2.show()
-##    g1p.show()
-##    g2p.show()
+#     g1.show()
+#     g2.show()
+#     g1p.show()
+#     g2p.show()
 
     return ((g1,g2,newEllDir),(g1p,g2p,newEllDirp))
 
@@ -516,10 +519,10 @@ def splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,p):
     return pairs
 
 
-##debug
+# debug
 app = wx.PySimpleApp()
 totalG = 0
-##end debug
+# end debug
 
 
 def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
@@ -531,7 +534,7 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
     ell = deepcopy(ell)
     if ordering == 0:
         ordering = decideOrdering(ell)
-    ##determining the prolongations
+    # determining the prolongations
     nextGeneration = []
     trans1 = [-1] * n
     trans2 = [-1] * n
@@ -544,48 +547,47 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
             cx,cy=ext[1], (ell[0][ext[1]][0]+ell[0][ext[1]][1])*0.5
             if isBetween(cPj(ext[1],gen1.perm[ext[1]],gen1.xShift[ext[1]],gen1.yShift[ext[1]],cx,cy), ((ext[2]-1)/2)*3.1415926535897931,
                          cPj(ext[1],gen2.perm[ext[1]],gen2.xShift[ext[1]],gen2.yShift[ext[1]],cx,cy))==(ellDir[0][ext[1]]==-1):
-                ##finding the splitting
+                # finding the splitting
                 nextGeneration+=findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2)
                 ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
                 break
             ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
-        if ext[0]==1:##horizontal ellipse
+        if ext[0]==1:# horizontal ellipse
             cx,cy=(ell[1][ext[1]][0]+ell[1][ext[1]][1])*0.5, ext[1]
             tmp1=trans1[ext[1]]
             tmp2=trans2[ext[1]]
             if isBetween(cPj(tmp2,gen2.perm[tmp2],gen2.xShift[tmp2],gen2.yShift[tmp2],cx,cy), -ext[2]*1.5707963267948966,
                          cPj(tmp1,gen1.perm[tmp1],gen1.xShift[tmp1],gen1.yShift[tmp1],cx,cy))==(ellDir[1][ext[1]]==-1):
-                ##finding the splitting
+                # finding the splitting
                 nextGeneration+=findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2)
                 ell[1][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
                 break
             ell[1][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
 
-    ##operating the splitting
+    # operating the splitting
     pairs=[]
     for poss in nextGeneration:
         pairs+=splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,poss)
-    ##controlling the splitted (and returning when needed)
-##    print(pairs
-##    print("past split"
+    # controlling the splitted (and returning when needed)
+#     print(pairs
+#     print("past split"
     for p in pairs:
-##        print(maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)
-##        print(maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)
-##        print("pair!!"
-##        p[0][0].show()
-##        p[0][1].show()
-##        p[1][0].show()
-##        p[1][1].show()
+#         print(maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)
+#         print(maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)
+#         print("pair!!"
+#         p[0][0].show()
+#         p[0][1].show()
+#         p[1][0].show()
+#         p[1][1].show()
         if maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)!=-1 or maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)!=-1:
-            continue##to optimise
-##        print("esssi")
+            continue# to optimise
         if deepBdMap(rect,p[0][0],p[0][1],ell,p[0][2],ordering) and deepBdMap(rect,p[1][0],p[1][1],ell,p[1][2],ordering):
             return 1
 
     if 1:
         totalG += 1
         if totalG == 8:
-            print("##########################################################################################################")
+            print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
             print(rect,ell)
             gen1.show()
             gen2.show()
@@ -593,7 +595,8 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
             print("ordering=", ordering)
             print("ext:", ext)
             print("nextGen", nextGeneration)
-            print("splitting:", splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,nextGeneration[0]))
+            print("splitting:", splitting(rect, gen1, gen2, ell, ellDir,
+                                          trans1, trans2, nextGeneration[0]))
             print("obtuse")
             obtuse, flats = findObtuse(rect,gen1,gen2,ell,ellDir)
             print(obtuse, flats)
@@ -606,26 +609,23 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
     return 0
 
 
-##debug
+# debug
 app.MainLoop()
 print(totalG)
-##end debug
+# end debug
 
 
 if __name__ == "__main__":
-##    from genGen import gen
-##    import wx
-##    import  show_all
-##    app=wx.PySimpleApp()
-##    g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1],0)
-##    g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1],0)
-##    data=([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],[[0,5]]*6),[g1,g2])
-##    frm=show_all.floerDiagram(data)
-##    frm.Show()
-##    app.MainLoop()
+#     app=wx.PySimpleApp()
+#     g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1],0)
+#     g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1],0)
+#     data=([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],[[0,5]]*6),[g1,g2])
+#     frm=show_all.floerDiagram(data)
+#     frm.Show()
+#     app.MainLoop()
     gen1=gen([1, 0, 4, 2, 5, 6, 8, 7, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, -1, 1, -1, -1, 0],0)
     gen2=gen([6, 1, 4, 0, 2, 7, 8, 5, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [-1, 1, -1, 1, 1, -1, -1, 1, 0],0)
     rect=[[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]]
     ell=([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]])
     ellDir=([1, -1, -1, -1, -1, -1, 1, -1, 0], [1, -1, -1, 0, 1, -1, -1, -1, 1])
-    print(deepBdMap(rect,gen1,gen2,ell,ellDir))
+    print(deepBdMap(rect, gen1, gen2, ell, ellDir))

@@ -2,24 +2,27 @@ from six.moves import range
 
 import copy
 
-import combinatoric
+from combinatoric import matrixProduct  # AARRGH
 
 
 def transpose(mat):
+    """
+    Return the transpose of a matrix.
+    """
     return [[mat[j][i] for j in range(len(mat))] for i in range(len(mat[0]))]
 
 
 def makeSquare(mat):
-    x=len(mat)
-    if x==0:
+    x = len(mat)
+    if not x:
         return mat
     y = len(mat[0])
     if x > y:
         for i in range(x):
-            mat[i]+=[0]*(x-y)
+            mat[i] += [0] * (x - y)
     else:
-        for i in range(y-x):
-            mat.append([0]*(y))
+        for i in range(y - x):
+            mat.append([0] * (y))
     return mat
 
 
@@ -153,7 +156,7 @@ def calcZ2Hom(l1, l2, l3, bndFunc):  # only square mat?
     if len(l3) == 0:
         return len(l2) - imageDim(calcSqMat(l1,l2,bndFunc))
     print((len(l1),len(l2),len(l3)))
-    tmp=isZero(combinatoric.matrixProduct(calcMat(l2,l3,bndFunc),calcMat(l1,l2,bndFunc)))
+    tmp=isZero(matrixProduct(calcMat(l2,l3,bndFunc),calcMat(l1,l2,bndFunc)))
     if tmp:
         (a,b)=tmp
         print((l1[a].perm,l1[a].xShift,l1[a].yShift,l3[b].perm,l3[b].xShift,l3[b].yShift))
@@ -189,10 +192,10 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
     imageDimTab = [[0] * len(i) for i in chain]
 
 
-#     ttmp2=calcMat(chain[12][14],chain[13][14],bndFunc)
-#     ttmp=calcMat(chain[13][14],chain[14][14],bndFunc)
+#     ttmp2 = calcMat(chain[12][14],chain[13][14],bndFunc)
+#     ttmp = calcMat(chain[13][14],chain[14][14],bndFunc)
 #     print("product")
-#     ttt=combinatoric.matrixProduct(ttmp,ttmp2)
+#     ttt = matrixProduct(ttmp,ttmp2)
 #     print(isZero(ttt))
 #     print(bndFunc(chain[13][14][90],chain[14][14][115]))
 #     a=calcMat([chain[12][14][2]],chain[13][14],bndFunc)[0]
@@ -201,10 +204,10 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 #     print(b)
 #     return "r"
     for j in range(len(chain)):
-        if j>=index and j<index+n:
+        if index <= j < index + n:
             continue
         for i in range(len(chain[0])-1):
-            if len(chain[j][i])!=0 and len(chain[j][i+1])!=0:
+            if len(chain[j][i]) and len(chain[j][i+1]):
                 tmpMat=calcMat(chain[j][i],chain[j][i+1],bndFunc)
                 for a in tmpMat:
                     for b in a:

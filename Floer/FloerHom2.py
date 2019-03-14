@@ -1,8 +1,7 @@
 from six.moves import range
 
 from generators import classifiedGen
-import combinatoric
-import homology
+from homology import chain2DToHomv2
 
 
 ####################bnd map
@@ -101,7 +100,7 @@ if __name__ == "__main__":
 
     tmp = classifiedGen(rect, 0)[0]
     print("second phase")
-    tmp = homology.chain2DToHomv2(tmp, lambda x, y: isBndryLargeEll(rect, x, y))
+    tmp = chain2DToHomv2(tmp, lambda x, y: isBndryLargeEll(rect, x, y))
 
     def format(s, l):
         if len(s) < l:
