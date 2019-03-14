@@ -1,11 +1,18 @@
-def isSimplePermComp(p1,p2,trans1,trans2,startx):##compute the size and whitney nb of a cycle of a perm
+def isSimplePermComp(p1,p2,trans1,trans2,startx):
+    """
+    compute the size and whitney nb of a cycle of a perm
+
+    print(isSimplePermComp([2,1,0],[0,1,2],[2,1,0],[0,1,2],0))
+    """
     x=startx
     y=p1[x]
     whitney=0
     compSize=1
-    if trans2[y]<trans1[y]: dy=1
-    else: dy=-1
-    while(1):
+    if trans2[y]<trans1[y]:
+        dy=1
+    else:
+        dy=-1
+    while True:
         if p1[x]<p2[x]: dx=1
         else: dx=-1
         whitney-=dx*dy
@@ -19,8 +26,12 @@ def isSimplePermComp(p1,p2,trans1,trans2,startx):##compute the size and whitney 
         if x==startx:break
         compSize+=1
     return (whitney,compSize)
-##print isSimplePermComp([2,1,0],[0,1,2],[2,1,0],[0,1,2],0)
-def detectSimple(n,gen1,gen2,ellDir):##1=accepted 0 don't know -1 refused
+
+
+def detectSimple(n, gen1, gen2, ellDir):
+    """
+    ##1=accepted 0 don't know -1 refused
+    """
     nbMobile=0
     trans1=[-1]*n
     trans2=[-1]*n
@@ -66,12 +77,17 @@ def detectSimple(n,gen1,gen2,ellDir):##1=accepted 0 don't know -1 refused
             else: start=trans1[i]
         #is there only one component?
         tmp=isSimplePermComp(gen1.perm,gen2.perm,trans1,trans2,start)
-        if tmp[1]==nbMobile and tmp[0]==4: return 1
-        else: return 0
-##from genGen import gen
-##ellDir=([-1, -1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, 0, 1, -1, 1])
-##rect=[[5, 7], [3, 6], [2, 5], [1, 4], [0, 3], [2, 6], [1, 7], [0, 4]]
-##ell=([[5, 7], [3, 6], [2, 5], [1, 4], [0, 3], [2, 6], [1, 7], -1], [[4, 7], [3, 6], [2, 5], [1, 4], -1, [0, 2], [1, 5], [0, 6]])
-##gen1=gen([5, 6, 3, 1, 0, 2, 7, -1],[-1, -1, -1, -1, -1, 1, 1, 0],[1, -1, -1, 1, 1, 1, -1, 0],0)
-##gen2=gen([7, 5, 3, 2, 0, 6, 1, -1],[-1, -1, -1, 1, -1, 1, 1, 0],[-1, -1, -1, -1, 1, -1, 1, 0],0)
-##print detectSimple(len(rect),gen1,gen2,ellDir) 
+        if tmp[1]==nbMobile and tmp[0]==4:
+            return 1
+        else:
+            return 0
+
+"""
+from genGen import gen
+ellDir=([-1, -1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, 0, 1, -1, 1])
+rect=[[5, 7], [3, 6], [2, 5], [1, 4], [0, 3], [2, 6], [1, 7], [0, 4]]
+ell=([[5, 7], [3, 6], [2, 5], [1, 4], [0, 3], [2, 6], [1, 7], -1], [[4, 7], [3, 6], [2, 5], [1, 4], -1, [0, 2], [1, 5], [0, 6]])
+gen1=gen([5, 6, 3, 1, 0, 2, 7, -1],[-1, -1, -1, -1, -1, 1, 1, 0],[1, -1, -1, 1, 1, 1, -1, 0],0)
+gen2=gen([7, 5, 3, 2, 0, 6, 1, -1],[-1, -1, -1, 1, -1, 1, 1, 0],[-1, -1, -1, -1, 1, -1, 1, 0],0)
+print(detectSimple(len(rect),gen1,gen2,ellDir))
+"""

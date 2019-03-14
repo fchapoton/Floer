@@ -95,23 +95,20 @@ if __name__ == "__main__":
     
 ##    a=gen([-1, 4, 3, 0, 2], [0, -1, -1, 1, -1], [0, 1, 1, 1, -1])
 ##    b=gen([-1, 4, 3, 0, 2], [0, -1, 1, 1, -1], [0, 1, 1, 1, -1])
-##    print isBndryLargeEll(rect,a,b)
+##    print(isBndryLargeEll(rect,a,b))
 
 
-    tmp=classifiedGen(rect,0)[0]
+    tmp = classifiedGen(rect, 0)[0]
     print("second phase")
-    import profile
-    profile.run("tmp=homology.chain2DToHomv2(tmp,lambda x,y:isBndryLargeEll(rect,x,y))")
-##    tmp=homology.chain2DToHomv2(tmp,lambda x,y:isBndryLargeEll(rect,x,y))
-    
-    def format(s,l):
-        if len(s)<l:
+    tmp = homology.chain2DToHomv2(tmp, lambda x,y:isBndryLargeEll(rect,x,y))
+
+    def format(s, l):
+        if len(s) < l:
             return " "*(l-len(s))+s
         return s
-    for i in tmp:
-        s=""
-        for j in i:
-            s+=format(str(j),5)+" "
-        print s
-    
 
+    for i in tmp:
+        s = ""
+        for j in i:
+            s += format(str(j), 5) + " "
+        print(s)

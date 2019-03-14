@@ -1,6 +1,12 @@
-def setV(sys,var):
+from random import randint
+
+
+def setV(sys, var):
+    """
+    print(setV([[0,1,5,-1],[2,-1,0,-1],[2,1,5,1],[2,-1,2,-1]],[0,0,-1,0,0,0]))
+    """
     i=-1
-    while(len(sys)>i+1):
+    while len(sys) > i + 1:
         i+=1
         if sys[i][0]==sys[i][2]:
             if sys[i][1]==sys[i][3]:
@@ -43,14 +49,14 @@ def setV(sys,var):
 
 
 def check(sys, sol):
-    for e in sys:
-        if sol[e[0]]*e[1]+sol[e[2]]*e[3]==-2:
-            return 0
-    return 1
+    for e0, e1, e2, e3 in sys:
+        if sol[e0] * e1 + sol[e2] * e3 == -2:
+            return False
+    return True
 
 
 def bEqu(sys, var):
-    tmp=setV(sys,var)
+    tmp = setV(sys, var)
     if tmp==1:
         return var
     if tmp==0:
@@ -60,7 +66,7 @@ def bEqu(sys, var):
     v2[sys[0][0]]=1
     v1[sys[0][0]]=-1
     return bEqu(sys[:],v1) or bEqu(sys[:],v2)
-##print(setV([[0,1,5,-1],[2,-1,0,-1],[2,1,5,1],[2,-1,2,-1]],[0,0,-1,0,0,0]))
+
 
 
 def bEqu0(sys, var):
@@ -77,20 +83,18 @@ def bEqu0(sys, var):
                 f=1
                 break
         if f==0:
-            print nvar
+            print(nvar)
             return 1
     return 0
 
 
 def test(a, b):
-    from random import randint
-    res=[]
+    res = []
     for i in range(b):
         res.append((randint(0,a-1),randint(0,1)*2-1,randint(0,a-1),randint(0,1)*2-1))
-##    print 3res
     return res
 
-##print bEqu([(11, 1, 11, 1), (0, 1, 0, 1), (10, 1, 10, 1), (0, 1, 0, 1), (13, 1, 13, 1), (1, 1, 9, 1),
+##print(bEqu([(11, 1, 11, 1), (0, 1, 0, 1), (10, 1, 10, 1), (0, 1, 0, 1), (13, 1, 13, 1), (1, 1, 9, 1),
 ##            (9, -1, 1, -1), (1, 1, 12, 1), (12, -1, 1, -1), (2, 1, 8, 1), (8, -1, 2, -1), (2, 1, 2, 1),
 ##            (3, 1, 7, 1), (7, -1, 3, -1), (3, 1, 9, 1), (9, -1, 3, -1), (4, 1, 8, 1), (8, -1, 4, -1),
 ##            (4, 1, 4, 1), (13, 1, 13, 1), (5, 1, 5, 1), (7, 1, 7, 1), (5, 1, 5, 1), (11, 1, 11, 1),
@@ -103,9 +107,8 @@ def test(a, b):
 ##            (10, 1, 10, 1), (4, 1, 4, 1), (4, 1, 4, 1), (11, 1, 11, 1), (4, 1, 4, 1), (4, 1, 12, 1),
 ##            (4, 1, 4, 1), (4, 1, 4, 1), (13, 1, 13, 1), (10, 1, 10, 1), (11, 1, 11, 1), (12, 1, 12, 1),
 ##            (5, 1, 5, 1), (7, 1, 7, 1), (5, 1, 5, 1), (5, 1, 5, 1), (10, 1, 10, 1), (5, 1, 5, 1), (5, 1, 5, 1),
-##            (11, 1, 11, 1), (10, 1, 10, 1), (6, 1, 6, 1), (10, 1, 10, 1), (6, 1, 6, 1), (6, 1, 6, 1), (12, 1, 12, 1)],[0]*14)
+##            (11, 1, 11, 1), (10, 1, 10, 1), (6, 1, 6, 1), (10, 1, 10, 1), (6, 1, 6, 1), (6, 1, 6, 1), (12, 1, 12, 1)],[0]*14))
 ##for j in range(1000):
 ##    tmp=test(8,20)
 ##    
-##    if bEqu0(tmp[:],8*[0])!=bEqu(tmp[:],8*[0]):print tmp
-
+##    if bEqu0(tmp[:],8*[0])!=bEqu(tmp[:],8*[0]):print(tmp)

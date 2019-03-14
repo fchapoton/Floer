@@ -1,19 +1,31 @@
-def spaceRect(rect,y):
+import pickle
+
+
+def spaceRect(rect, y):
     for i in range(len(rect)):
-        for b in [0,1]:
+        for b in [0, 1]:
             if rect[i][b]>=y:
                 rect[i][b]+=1
+
+
 def spaceColumn(col,y):
     for i in range(len(col)):
         if col[i]>=y:
                 col[i]+=1
+
+
 def findMax(rect):
     mx=-1
     for i in range(len(rect)):
-        for b in [0,1]:
+        for b in [0, 1]:
             mx=max(rect[i][b],mx)
-    return mx    
+    return mx
+
+
 def braidToRect(br,n):
+    """
+    print(braidToRect([[0,0],[1,0]],2))
+    """
     start=range(n)
     end=range(n)
     rect=[]
@@ -33,12 +45,11 @@ def braidToRect(br,n):
             tmp=end[gen[1]+1]
             spaceColumn(end,tmp)
             end[gen[1]]=tmp
-##        print (start,end,rect)
     mx=findMax(rect)
     for i in range(len(start)):
         rect=[[start[len(start)-i-1],mx+i+1]]+rect+[[end[len(start)-i-1],mx+i+1]]
     return rect
-##print braidToRect([[0,0],[1,0]],2)
+
 
 def elim(tab):
     res=[]
@@ -63,7 +74,7 @@ def rdBraid(s):
 
 
 ###############application
-import pickle
+
 
 if __name__ == "__main__":
     pass
@@ -78,27 +89,26 @@ if __name__ == "__main__":
 ##        tmp=rdBraid(kn[2])
 ##        atlas[(int(kn[0]),int(kn[1]))]=simplify.diagSimplify.simplify(
 ##            braidToRect(tmp[0],tmp[1]),5000)
-##        if len(atlas)%100==0: print len(atlas)
+##        if len(atlas)%100==0: print(len(atlas))
 ##    ##the result is the knot dico called atlas!
 ##    sav=open("knotAtlas.pic","wb")
 ##    pickle.dump(atlas,sav)
 ##    sav.close()
-##    print "Atlas ready"
+##    print("Atlas ready")
 
-av=open("knotAtlas.pic","rb")
-atlas=pickle.load(av)
-av.close()
+with open("knotAtlas.pic", "rb") as av:
+    atlas = pickle.load(av)
+
+
 if __name__ == "__main__":
-    s=""
-    print atlas[(7,2)]
+    s = ""
+    print(atlas[(7, 2)])
     for i in range(13):
-        for j in range(1,len(atlas)+1):
-            if atlas.has_key((i,j)):
-                s+=str((i,j))+": "+str(atlas[(i,j)])+"\n"
+        for j in range(1, len(atlas) + 1):
+            if atlas.has_key((i, j)):
+                s += str((i,j))+": "+str(atlas[(i,j)])+"\n"
             else:
                 break
-        print "passage"
-    av=open("knotAtlasV1.txt","w")
-    av.write(s)
-    av.close()
-    ##print atlas
+        print("passage")
+    with open("knotAtlasV1.txt", "w") as av:
+        av.write(s)

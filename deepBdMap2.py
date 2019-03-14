@@ -139,8 +139,8 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
     age=findAge(genStart,rect,tr)
     if upDown==1 and age==0:##first condition: the steps on the path disappear
         return areGenEqual(genStart,genGoal)
-##    print "("+repr(rect)+","+"[gen("+genStart.toString()+",0),"+"gen("+genGoal.toString()+",0)])"
-##    print depth, "I"*(19-depth)+genStart.toString(),age,inherited
+##    print("("+repr(rect)+","+"[gen("+genStart.toString()+",0),"+"gen("+genGoal.toString()+",0)])")
+##    print(depth, "I"*(19-depth)+genStart.toString(),age,inherited)
     if age<=inherited or age==0:
         age=-1
     if upDown==1:##the second value!
@@ -149,7 +149,7 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
         if age<1:
             acc+=listRect(genStart,possRect,immobile)
         acc+=[b for b in listBigon(genStart,rect,tr,immobile) if b[1]>=age and (b[1]==-1 or b[1]!=inherited)]
-##    for i in acc: print i[0].toString(),i[1]
+##    for i in acc: print(i[0].toString(),i[1])
     parity=0
     for g in acc:
         ttt=(tuple(g[0].perm),tuple(g[0].xShift),tuple(g[0].yShift))

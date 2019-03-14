@@ -264,7 +264,6 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
         if gen1[i]==gen2[i]:# and insidePerm.count(i)==1:
             diff.append(i)
             hori.append((i,i,gen1[i]))
-##    print gen1,gen2,immobile
     return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)##if no problem from pseudogen diff is a "gift"
    
 
@@ -340,7 +339,7 @@ def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
     n=len(rect)
     (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)=firstPart
 ##    return deepBdMap2.deepBdMapRec(gen1,gen2,99,init,immobile)
-##    print "("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])"
+##    print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")
     ll=gen1.llGenRef[:]
     lenll=len(ll)
     for i in xrange(lenll):
@@ -369,10 +368,10 @@ def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
 ##    k1=ell[1].index(-1)+n-1
 ##    ellDir=(tmp[0:k0]+[0]+tmp[k0:n-1],tmp[n-1:k1]+[0]+tmp[k1:])
 ##    print(ellDir)
-##    print "("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])"
+##    print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")
 ##    return 1
 ##    print("fore")
 ##    if not insideWarning and fastPosi.detectSimple(n,gen1,gen2,ellDir)==1: return 1
     categ[4] += 1
-    tmp= deepBdMap2.deepBdMapRec(gen1,gen2,99,init,immobile)
+    tmp = deepBdMap2.deepBdMapRec(gen1, gen2, 99, init, immobile)
     return tmp % 2

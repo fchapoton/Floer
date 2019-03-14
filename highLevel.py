@@ -6,6 +6,7 @@
 import time
 
 import generators
+import braid2rect
 import homology
 import getOptiEllipses
 from homology import transpose
@@ -20,7 +21,7 @@ def getKnotFloerHomology(rect):
 
     a grid diagram ?
     """
-    ellCandidate=getOptiEllipses.simple(rect,1)
+    ellCandidate = getOptiEllipses.simple(rect, 1)
     print(ellCandidate)
     tmp=ellCandidate.pop()
     rect=tmp[3]
@@ -67,7 +68,7 @@ def getKnotFloerHomology(rect):
 ##                tot=len(tab[j][i])-tot
 ##            k[i]=tot
 ##        return k
-##    print eulerP(tmp)
+##    print(eulerP(tmp))
     cache=bdMapPsgenCache(rect,ell,pool)
     fillFValue(tmp,cache,ell,to0,toPlus,chEll,delta)##new#######################################################################
 ##        cache2=bdMapGolay.bdMapPsgenCache(rect,ell,pool)
@@ -103,7 +104,7 @@ def AllToString(rect):
 
 
 if __name__ == "__main__":
-##    print hdGetPath(0   ,2,3,102,103,  5,3,6,3,-1)
+##    print(hdGetPath(0   ,2,3,102,103,  5,3,6,3,-1))
 ##    rect=[[1,4],[0,2],[1,3],[2,4],[0,3]]#treefoil
     rect=[[3,6],[4,8],[0,2],[1,7],[0,5],[3,8],[2,6],[1,5],[4,7]]#16 crossings
 ##    rect=[[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]]
@@ -123,7 +124,7 @@ if __name__ == "__main__":
 ##    rect=[[1,6],[0,2],[1,4],[0,3],[2,5],[4,7],[6,8],[5,7],[3,8]]
 ##    rect=[[0,1],[0,1]]
 ##    rect=[[0,13],[9,11],[5,7],[6,10],[9,12],[11,13],[5,8],[7,10],[1,3],[2,6],[1,4],[3,8],[4,12],[0,2]]
-    import braid2rect
+
 ##    rect=braid2rect.atlas[(12,1291)]
 ##    rect=braid2rect.atlas[(11,370)]##90s about
     rect=braid2rect.atlas[(11,418)]##has a multi domain!
@@ -139,5 +140,5 @@ if __name__ == "__main__":
 
     print(AllToString(rect))
     print("categ:", categ)
-    print("dpM2:",deepBdMap2.debug)
-    print("Duration:",time.clock()-startTime)
+    print("dpM2:", deepBdMap2.debug)
+    print("Duration:", time.clock() - startTime)
