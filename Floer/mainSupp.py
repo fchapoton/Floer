@@ -1,28 +1,30 @@
-import braid2rect
-import rectDiagMisc
-import highLevel
+from braid2rect import atlas
+from rectDiagMisc import toStringNice
+from highLevel import AllToString
 
 import time
+
+"""
+This is not imported by anything. Maybe just a test file?
+"""
 
 print('time:', time.clock())
 for i in range(11, 12):
     for j in range(530, 550):
-        if (i, j) in braid2rect.atlas:
-            rect = braid2rect.atlas[(i, j)]
+        if (i, j) in atlas:
+            rect = atlas[(i, j)]
             print("KNOT:", i, "n", j)
             print(rect)
-            print(rectDiagMisc.toStringNice(rect))
-            print(highLevel.AllToString(rect))
+            print(txoStringNice(rect))
+            print(AllToString(rect))
 print('time:', time.clock())
 
-# i=7#int(input("knot nb of crossings"))
-# j=6#int(input("knot nb"))
-# if braid2rect.atlas.has_key((i,j)):
-#     rect=braid2rect.atlas[(i,j)]
-#       rect=rect[6:]+rect[:6]
-#     print("KNOT:",i,"n",j)
+# i=7  # int(input("knot nb of crossings"))
+# j=6  # int(input("knot nb"))
+# if (i, j) in atlas:
+#     rect = atlas[(i,j)]
+#       rect = rect[6:] + rect[:6]
+#     print("KNOT:", i, "n", j)
 #     print(rect)
 #     print(rectDiagMisc.toStringNice(rect))
 #     print(bdMapGeneral.AllToString(rect))
-#
-# input("w")

@@ -172,13 +172,13 @@ def hdCond(rect,ell):##here ell are hdEll!
 
 
 def hdCond2(rect,ell,to0,toPlus):
-    ll=[]
-    n=len(rect)
-    for i in to0+toPlus:
+    ll = []
+    n = len(rect)
+    for i in to0 + toPlus:
         ll.append((i[0],i[1]))
-    delta=dict()
+    delta = {}
     for i in range(n):
-        for dd in [0,1]:#0 vertical ell
+        for dd in [0, 1]:#0 vertical ell
             if ell[dd][i]==-1: continue
             coord=[]
             for y in range(n):

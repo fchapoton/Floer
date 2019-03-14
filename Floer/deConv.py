@@ -1,13 +1,6 @@
-def getBin(n):
-    """
-    print(getBin(4))
-    """
-    l=[0]*(n+1)
-    l[0]=1
-    for i in range(n):
-        for j in range(i+1,0,-1):
-            l[j]+=l[j-1]
-    return l
+from .homology import getBin
+
+# both function below are unused: duplicate of homology.deconv ?
 
 
 def deConv(tab, n, s):
@@ -17,11 +10,11 @@ def deConv(tab, n, s):
     x, y = len(tab), len(tab[0])
     for k in range(s):
         for i in range(y):
-            mul=tab[k][i]
-            if mul!=0:
+            mul = tab[k][i]
+            if mul != 0:
                 for j in range(n+1):
-                    a=k+j
-                    b=i+j
+                    a = k + j
+                    b = i + j
                     if a>=0 and b>=0 and a<x and b<y:
                         tab[a][b]-=ex[j]*mul
     return tab
@@ -29,19 +22,19 @@ def deConv(tab, n, s):
 
 def deConvSimp(tab, n):
     """
-    print(deConvSimp([[0,1,0,0,0],[0,0,3,0,0],[0,0,0,3,0],[0,0,0,0,1]],3))
-    print(deConv([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],3,3))
+    >>> print(deConvSimp([[0,1,0,0,0],[0,0,3,0,0],[0,0,0,3,0],[0,0,0,0,1]],3))
+    >>> print(deConv([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],3,3))
     """
     ex = getBin(n)
     ex[0] = 0
-    (x,y)=(len(tab),len(tab[0]))
+    x, y = len(tab), len(tab[0])
     for k in range(len(tab)):
         for i in range(y):
-            mul=tab[k][i]
-            if mul!=0:
-                for j in range(n+1):
-                    a=k+j
-                    b=i+j
+            mul = tab[k][i]
+            if mul != 0:
+                for j in range(n + 1):
+                    a = k + j
+                    b = i + j
                     if a>=0 and b>=0 and a<x and b<y:
-                        tab[a][b]-=ex[j]*mul
+                        tab[a][b] -= ex[j] * mul
     return tab

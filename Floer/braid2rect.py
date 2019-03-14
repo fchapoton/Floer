@@ -22,30 +22,30 @@ def findMax(rect):
 
 def braidToRect(br, n):
     """
-    print(braidToRect([[0,0],[1,0]],2))
+    >>> print(braidToRect([[0,0],[1,0]],2))
     """
     start = list(range(n))
     end = list(range(n))
     rect = []
     for gen in br:
-        if gen[0]==0:
+        if gen[0] == 0:
             height=end[gen[1]]
             height2=end[gen[1]+1]
-            spaceColumn(start,height)
-            spaceRect(rect,height)
+            spaceColumn(start, height)
+            spaceRect(rect, height)
             rect.append([height,height2+1])
             end[gen[1]+1]=height+1
             spaceColumn(end,height+2)
         else:
-            spaceColumn(start,end[gen[1]+1]+1)
-            spaceRect(rect,end[gen[1]+1]+1)
+            spaceColumn(start, end[gen[1]+1]+1)
+            spaceRect(rect, end[gen[1]+1]+1)
             rect.append([end[gen[1]],end[gen[1]+1]+1])
             tmp=end[gen[1]+1]
-            spaceColumn(end,tmp)
-            end[gen[1]]=tmp
-    mx=findMax(rect)
+            spaceColumn(end, tmp)
+            end[gen[1]] = tmp
+    mx = findMax(rect)
     for i in range(len(start)):
-        rect=[[start[len(start)-i-1],mx+i+1]]+rect+[[end[len(start)-i-1],mx+i+1]]
+        rect = [[start[len(start)-i-1],mx+i+1]]+rect+[[end[len(start)-i-1],mx+i+1]]
     return rect
 
 
@@ -68,28 +68,27 @@ def rdBraid(s):
             mx=max(mx,k)
     return (res, mx + 1)
 
-###############application
+# # # # # # # #application
 
 
 if __name__ == "__main__":
     pass
-##
-##    br=open("braidList.txt","r")
-##    rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
-##    br.close()
-##    atlas=dict()
-##    import simplify.diagSimplify
-##
-##    for kn in rawList:
-##        tmp=rdBraid(kn[2])
-##        atlas[(int(kn[0]),int(kn[1]))]=simplify.diagSimplify.simplify(
-##            braidToRect(tmp[0],tmp[1]),5000)
-##        if len(atlas)%100==0: print(len(atlas))
-##    ##the result is the knot dico called atlas!
-##    sav=open("knotAtlas.pic","wb")
-##    pickle.dump(atlas,sav)
-##    sav.close()
-##    print("Atlas ready")
+# 
+#     with open("braidList.txt","r") as br:
+#         rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
+#     atlas = {}
+#     import simplify.diagSimplify
+# 
+#     for kn in rawList:
+#         tmp = rdBraid(kn[2])
+#         atlas[(int(kn[0]),int(kn[1]))]=simplify.diagSimplify.simplify(
+#             braidToRect(tmp[0],tmp[1]),5000)
+#         if len(atlas)%100==0:
+#             print(len(atlas))
+#     # the result is the knot dico called atlas!
+#     with open("knotAtlas.pic","wb") as sav:
+#         pickle.dump(atlas, sav)
+#     print("Atlas ready")
 
 with open("knotAtlas.pic", "rb") as av:
     atlas = pickle.load(av)
@@ -101,7 +100,7 @@ if __name__ == "__main__":
     for i in range(13):
         for j in range(1, len(atlas) + 1):
             if (i, j) in atlas:
-                s += str((i,j))+": "+str(atlas[(i,j)])+"\n"
+                s += str((i, j))+": "+str(atlas[(i, j)])+"\n"
             else:
                 break
         print("passage")

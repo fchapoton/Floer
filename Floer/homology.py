@@ -255,6 +255,8 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 def getBin(n):
     """
     calcule une suite de nombres
+
+    >>> print(getBin(4))
     """
     l = [1] + [0] * n
     for i in range(n):
@@ -264,6 +266,9 @@ def getBin(n):
 
 
 def deconv(res, index, n):
+    """
+    res: a matrix
+    """
     ex = getBin(n)
     print(ex)
     ex[0] = 0

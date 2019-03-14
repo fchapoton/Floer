@@ -2,7 +2,7 @@ import six
 
 from highLevel import AllToString
 from rectDiagMisc import toStringNice
-import braid2rect
+from braid2rect import atlas
 import simplify.diagSimplify
 
 
@@ -20,8 +20,8 @@ Please answer (y/n): """)
 if s == "n":
     i = int(input("knot number of crossings: "))
     j = int(input("knot number: "))
-    if (i, j) in braid2rect.atlas:
-        rect = braid2rect.atlas[(i, j)]
+    if (i, j) in atlas:
+        rect = atlas[(i, j)]
         print("KNOT: ", i, "n", j)
         print(rect)
         print(toStringNice(rect))
