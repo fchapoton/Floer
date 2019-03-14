@@ -24,10 +24,9 @@ def genPermElem(elem):
         return [[]]
     tot=[]
     for i in range(len(elem)):
-        tmp=genPermElem(elem[:i]+elem[i+1:])        
+        tmp=genPermElem(elem[:i]+elem[i+1:])
         tot+=[[elem[i]]+x for x in tmp]
     return tot
-
 
 
 def fact(n):
@@ -42,34 +41,33 @@ def fact(n):
     return res
 
 
-
 def tpSort(gr):
     """
+    ##print(topologicalSorting([[0,1,0],[0,0,1],[0,0,0]]))
     ##only for DAG
     """
-    n=len(gr)
-    bb=[0]*n
-    g=-1
+    n = len(gr)
+    bb = [0] * n
+    g = -1
     for rien in range(n):
-        g=0
+        g = 0
         for j in range(n):
-            m=5+n## 5 is arbitrary!!
+            m = 5 + n   # 5 is arbitrary!!
             for i in range(n):
-                if gr[i][j]!=0:
-                    if bb[i]<m:
-                        m=bb[i]
-            if m!=5+n:
-                bb[j]=m+1
-                g=1
-        if g==-1: break
+                if gr[i][j] != 0:
+                    if bb[i] < m:
+                        m = bb[i]
+            if m != 5 + n:
+                bb[j] = m + 1
+                g = 1
+        if g == -1:
+            break
     return bb
-##print(topologicalSorting([[0,1,0],[0,0,1],[0,0,0]]))
 
 
-def matrixProduct(a,b):
-##    print(a)
-##    print(b)
-    return [[sum([a[j][i]*column[j] for j in range(len(a))]) for i in range(len(a[0]))] for column in b]
+def matrixProduct(a, b):
+    return [[sum([a[j][i]*column[j] for j in range(len(a))])
+             for i in range(len(a[0]))] for column in b]
 ##    res=[]
 ##    a1=len(a[0])
 ##    a2=len(a)
@@ -150,11 +148,12 @@ def golaySign(l):
         rot[tmp]*=-1
 
 
-golayCache=[golayCode(i) for i in range(2)]+[-1]*30
+golayCache = [golayCode(i) for i in range(2)] + [-1] * 30
 
 
 for l in golayCache:
-    if l!=-1: golaySign(l)
+    if l != -1:
+        golaySign(l)
 
 
 ##print(golayCache[4])

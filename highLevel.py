@@ -1,8 +1,8 @@
+# psyco is obsolete (try cython?)
 # import psyco
 # psyco.log()
 # psyco.full()
-# import bdMapGeneral
-# reload(bdMapGeneral)
+
 import time
 
 import generators
@@ -23,32 +23,31 @@ def getKnotFloerHomology(rect):
     """
     ellCandidate = getOptiEllipses.simple(rect, 1)
     print(ellCandidate)
-    tmp=ellCandidate.pop()
-    rect=tmp[3]
+    tmp = ellCandidate.pop()
+    rect = tmp[3]
     print(rect)
-    ell=(tmp[1],tmp[2])
+    ell = (tmp[1], tmp[2])
     print("ellipses:")
     print(ell)
     print("score:", tmp[0])
     print("new Diagram:")
     print(rectDiagMisc.toStringNice(rect))
-    (tmp,b,pool,index)=generators.classifiedGen(rect,ell,1)##INDEX
-##    index-=1
+    tmp, b, pool, index = generators.classifiedGen(rect, ell, 1)
     print("index", index)
     print("Scale:A and M: ",b)
     print("Generators, tabulated by Maslov and Alexander grading:")
 
-    transposed=transpose(tmp)
+    transposed = transpose(tmp)
 
-    def format(s,l):
-        if len(s)<l:
-            return " "*(l-len(s))+s
+    def format(s, l):
+        if len(s) < l:
+            return " " * (l - len(s)) + s
         return s
 
     for i in transposed:
-        s=""
+        s = ""
         for j in i:
-            s+=format(str(len(j)),6)+" "
+            s += format(str(len(j)),6)+" "
         print(s)
     ##the bdMap stuff
     HDEll=hdEllipsesGen(ell[0],ell[1])
@@ -58,7 +57,7 @@ def getKnotFloerHomology(rect):
     print("path", path)
     ##the deepBd stuff
     init=deepBdMap2.initWith(rect,ell)
-    
+
 
 ##    def eulerP(tab):
 ##        k=[0]*(len(tab[0]))
@@ -74,7 +73,7 @@ def getKnotFloerHomology(rect):
 ##        cache2=bdMapGolay.bdMapPsgenCache(rect,ell,pool)
 ##    a=raw_input("w")
     tmp2=homology.chain2DToHomv3(tmp,lambda x,y:bdMap(rect,x,y,cache,ell,to0,toPlus,chEll,delta,path,init),len(rect)-1,index)
-    
+
     return transpose(tmp2)
 
 

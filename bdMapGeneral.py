@@ -87,7 +87,7 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
 
 
 def sortVert(vert,n):
-    tab=[[] for i in range(n)]    
+    tab=[[] for i in range(n)]
     for v in vert:
         tab[v[2]].append(v)
     return tab
@@ -103,7 +103,7 @@ def getTable(x,y,vert):
             if j[0]>j[1]:
                 for k in range(j[1],j[0]):
                     tab[i+1][k]-=1
-            else: 
+            else:
                 for k in range(j[0],j[1]):
                     tab[i+1][k]+=1
     return tab[1:]
@@ -118,28 +118,31 @@ def hdCond(rect,ell):##here ell are hdEll!
     toPlus=connComp(ell[0],ell[1])
     ##new#########
     for j in range(len(toPlus)):
-        toPlus[j]=(toPlus[j][0],toPlus[j][1],[])
+        toPlus[j] = (toPlus[j][0],toPlus[j][1],[])
     ##eliminate useless toPlus
-    tmp=[]
+    tmp = []
     for c in toPlus:
-        b=0
+        b = 0
         for e in ell[0]:
-            if e==-1:continue
+            if e == -1:
+                continue
             if e[0]<=c[0] and e[1]<=c[1] and e[2]>c[0] and e[3]>c[1]:
-                b=1
+                b = 1
                 break
         for e in ell[1]:
-            if e==-1:continue
+            if e == -1:
+                continue
             if e[0]<=c[0] and e[1]<=c[1] and e[2]>c[0] and e[3]>c[1]:
-                b=1
+                b = 1
                 break
-        if b :tmp.append(c)
-    toPlus=tmp 
-    chEllx=[]
-    chElly=[]
-    iiii=-1
+        if b:
+            tmp.append(c)
+    toPlus = tmp
+    chEllx = []
+    chElly = []
+    iiii = -1
     for i in range(len(ell[0])):
-        if ell[0][i]!=-1:
+        if ell[0][i] != -1:
             iiii+=1
             e=ell[0][i]
             tmp=[]
@@ -165,7 +168,7 @@ def hdCond(rect,ell):##here ell are hdEll!
     for t in range(len(toPlus)):
         toPlus[t]=(toPlus[t][0],toPlus[t][1],toPlus[t][2],len(toPlus[t][2]))
     return (to0,toPlus,(chEllx,chElly))
-    ##to0,toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll 
+    ##to0,toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll
 
 
 def hdCond2(rect,ell,to0,toPlus):
@@ -202,21 +205,23 @@ def hdCond2(rect,ell,to0,toPlus):
                                     ssum-=1
                         if ssum!=0: deltap.append((cc,ssum))
                         cc+=1
-                    if (x[3]*3+x[5],x[4]*3+x[6])==(y[3]*3+y[5],y[4]*3+y[6]): deltap=[]#################################
-                    delta[(x[2],x[3]*3+x[5],x[4]*3+x[6] ,y[3]*3+y[5],y[4]*3+y[6])]=deltap
+                    if (x[3]*3+x[5],x[4]*3+x[6])==(y[3]*3+y[5],y[4]*3+y[6]):
+                        deltap = []
+                    delta[(x[2],x[3]*3+x[5],x[4]*3+x[6],
+                           y[3]*3+y[5],y[4]*3+y[6])] = deltap
     print("hdCond2Ready")
     return delta
 
 
-def bdMapFirstPart(rect,gen1,gen2,ell):
-    diff=[]
-    n=len(rect)
-    immobile=[]
-    diffY=[0]*n
+def bdMapFirstPart(rect, gen1, gen2, ell):
+    diff = []
+    n = len(rect)
+    immobile = []
+    diffY = [0] * n
     for i in range(n):
-        if gen1[i]!=gen2[i]:
+        if gen1[i] != gen2[i]:
             diff.append(i)
-            diffY[gen1[i]]=1
+            diffY[gen1[i]] = 1
     ##permutation points in the domain? obvious negativity?
     tab=[0]*(2*n)##is 2* necessary??
     insidePerm=[]
@@ -260,7 +265,7 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
             diff.append(i)
             hori.append((i,i,gen1[i]))
     return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)##if no problem from pseudogen diff is a "gift"
-   
+
 
 def bdMapPsgenCache(rect, ell, pool):
     res=[[0]*len(pool) for i in range(len(pool))]
@@ -286,26 +291,30 @@ def preparePath(rect,ell):  # we need a knot!!
         side=0 if rect[x][0]==y else 1
     path.append((x*2+side,y))##the last comp of path is additionall
     return path
-def fillLl(gen1,gen2,cache,to0,toPlus,chEll,delta,diff,hori):
-    lTp=len(toPlus)
-    lT0=len(to0)
-    ll=[0]*(lT0+lTp)
+
+
+def fillLl(gen1, gen2, cache, to0, toPlus, chEll, delta, diff, hori):
+    lTp = len(toPlus)
+    lT0 = len(to0)
+    ll = [0] * (lT0 + lTp)
     for i in diff:
-        tmp=delta[(0,i*3+gen1.xShift[i],gen1.perm[i]*3+gen1.yShift[i],  i*3+gen2.xShift[i],gen2.perm[i]*3+gen2.yShift[i])]
+        tmp = delta[(0,i*3+gen1.xShift[i],gen1.perm[i]*3+gen1.yShift[i],
+                     i*3+gen2.xShift[i],gen2.perm[i]*3+gen2.yShift[i])]
         for j in tmp:
-            ll[j[0]]+=j[1]
+            ll[j[0]] += j[1]
     for k in hori:
-        h0=gen1.perm.index(k)
-        h1=gen2.perm.index(k)
-        tmp=delta[(1,h0*3+gen1.xShift[h0],gen1.perm[h0]*3+gen1.yShift[h0],  h1*3+gen2.xShift[h1],gen2.perm[h1]*3+gen2.yShift[h1])]
+        h0 = gen1.perm.index(k)
+        h1 = gen2.perm.index(k)
+        tmp=delta[(1,h0*3+gen1.xShift[h0],gen1.perm[h0]*3+gen1.yShift[h0],
+                   h1*3+gen2.xShift[h1],gen2.perm[h1]*3+gen2.yShift[h1])]
         for j in tmp:
-            ll[j[0]]+=j[1]
+            ll[j[0]] += j[1]
     return ll
 
 
 def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
-    ref=-1
-    for i in genPool:##find a reference Element
+    ref = -1
+    for i in genPool:  # find a reference Element
         for j in i:
             if j:
                 ref=j[0]
@@ -322,16 +331,18 @@ def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
             for gen in j:
                 gen.llRefGen=fillLl(ref,gen,cache,to0,toPlus,chEll,delta,diff,hori)
                 gen.llGenRef=fillLl(gen,ref,cache,to0,toPlus,chEll,delta,diff,hori)
-categ=[0]*20
 
 
-def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
+categ = [0] * 20
+
+
+def bdMap(rect, gen1, gen2, cache, ell, to0, toPlus, chEll, delta, path, init):
     global categ
     firstPart=cache[gen1.psNb][gen2.psNb]
-    if firstPart==0:
-        categ[0]+=1
+    if firstPart == 0:
+        categ[0] += 1
         return 0
-    n=len(rect)
+    n = len(rect)
     (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)=firstPart
 ##    return deepBdMap2.deepBdMapRec(gen1,gen2,99,init,immobile)
 ##    print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")

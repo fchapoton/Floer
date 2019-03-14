@@ -6,13 +6,14 @@ def transpose(rD):
     """
     xshorted pairs of y coord. to vice-versa
     """
-    res=[[-1,-1] for i in range(len(rD))]
+    res = [[-1, -1] for i in range(len(rD))]
     for i in range(len(rD)):
-        for j in [0,1]:
-            tmp=(rD[i][j],i)
-            if res[tmp[0]][0]==-1: res[tmp[0]][0]=tmp[1]
+        for j in [0, 1]:
+            tmp = (rD[i][j], i)
+            if res[tmp[0]][0] == -1:
+                res[tmp[0]][0] = tmp[1]
             else:
-                res[tmp[0]][1]=tmp[1]
+                res[tmp[0]][1] = tmp[1]
     return res
 
 
@@ -37,18 +38,18 @@ def recToPermAndComp(rect):
             dec[xy // 2][xy % 2] = par
             c += 1
             if par > 0:
-                xy += 1-2*(xy%2)
+                xy += 1 - 2 * (xy % 2)
             else:
-                if tr[rect[xy // 2][xy%2]][0]==xy//2:
+                if tr[rect[xy // 2][xy % 2]][0] == xy // 2:
                     tmp = tr[rect[xy // 2][xy % 2]][1]
                 else:
                     tmp = tr[rect[xy // 2][xy % 2]][0]
                 if rect[tmp][0]==rect[xy // 2][xy % 2]:
-                    xy = 2*tmp
+                    xy = 2 * tmp
                 else:
-                    xy = 2*tmp+1
-            par=-par
-            if xy==coord:
+                    xy = 2 * tmp + 1
+            par = -par
+            if xy == coord:
                 break
     p1 = [0] * n
     p2 = [0] * n
@@ -65,16 +66,16 @@ def getWindingNbTable(p1, p2):
     ###########unsure!! check for shifts
     """
     n = len(p1)
-    tab=[[0]*(n+1) for i in range(n+1)]
+    tab = [[0] * (n + 1) for i in range(n + 1)]
     for i in range(n):
-        for j in range(1,n+1):
-                tab[i+1][j]=tab[i][j]
+        for j in range(1, n + 1):
+            tab[i+1][j] = tab[i][j]
         if p1[i]<p2[i]:
             for j in range(p1[i]+1,p2[i]+1):
-                tab[i+1][j]=tab[i+1][j]+1
+                tab[i+1][j] = tab[i+1][j]+1
         else:
             for j in range(p2[i]+1,p1[i]+1):
-                tab[i+1][j]=tab[i+1][j]-1
+                tab[i+1][j] = tab[i+1][j]-1
     return tab
 
 

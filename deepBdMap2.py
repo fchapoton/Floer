@@ -4,33 +4,35 @@ from genGen import gen
 
 
 def areGenEqual(gen1, gen2):
-    if gen1.perm==gen2.perm and gen1.xShift==gen2.xShift and gen1.yShift==gen2.yShift:
-        return 1
-    else: return 0
+    return (gen1.perm == gen2.perm and gen1.xShift == gen2.xShift
+            and gen1.yShift == gen2.yShift)
+
 
 def copyGen(g):
-    return gen(g.perm[:],g.xShift[:],g.yShift[:],0)
+    return gen(g.perm[:], g.xShift[:], g.yShift[:], 0)
 
-def findAge(gen,rect,tr):##next in line!
-    n=len(gen.perm)
-    age=0
-    for i in range(n):##opti:loop in reverse directions with returns
-        if gen.perm[i]!=-1:
-            tmp=i
-            if tmp<tr[gen.perm[i]][0]:
+
+def findAge(gen, rect, tr):##next in line!
+    n = len(gen.perm)
+    age = 0
+    for i in range(n):  # opti:loop in reverse directions with returns
+        if gen.perm[i] != -1:
+            tmp = i
+            if tmp < tr[gen.perm[i]][0]:
                 age=max(age,2*(n+gen.perm[i])+2)
-            if tmp>tr[gen.perm[i]][1]:
+            if tmp > tr[gen.perm[i]][1]:
                 age=max(age,2*(n+gen.perm[i])+1)
-    if age>0:
+    if age > 0:
         return age
     for i in range(n):
-        if gen.perm[i]!=-1:        
+        if gen.perm[i]!=-1:
             tmp = gen.perm[i]+(gen.yShift[i]+1) // 2
             if tmp<=rect[i][0]:
                 age=max(age,2*i+2)
             if tmp>rect[i][1]:
                 age=max(age,2*i+1)
     return age
+
 
 def findIsPoss(perm1,perm2):
     res=0
@@ -39,7 +41,7 @@ def findIsPoss(perm1,perm2):
         for i in range(j):
             if i!=-1:
                 if perm1[i]<h: res+=2
-                if perm2[i]<perm2[j]: res-=2 
+                if perm2[i]<perm2[j]: res-=2
     return res>=0
 
 
@@ -172,7 +174,7 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
             tmp = deepBdMapRec(g[0],genGoal,depth-1,init,
                                immobile,1-upDown,g[1],hmap)
             if tmp == 0:
-                 hmap[ttt]=g[1]
+                hmap[ttt] = g[1]
             parity += tmp
     global debug
     debug[parity] += 1
@@ -196,12 +198,11 @@ if __name__ == "__main__":
            gen([6, 2, 4, -1, 1, 3, 0, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, -1, -1, 1, -1, 1, 1],0)])
     init=initWith(data[0],data[1])
 ##    print(findAge(gen1,rect,init[2]))
-    gen1=data[2][0]
-    gen2=data[2][1]
-    immo=[1,1,1,1,0,0,0,1,1,1]
+    gen1 = data[2][0]
+    gen2 = data[2][1]
+    immo = [1,1,1,1,0,0,0,1,1,1]
 ##    for j in listRect(gen1,init[0]):j[0].show()
 ##    deepBdMapRec(gen1,gen1,19,init)
-##    import profile
-##    profile.run("tmp=deepBdMapRec(gen1,gen2,99,init,immo)")
-    tmp=deepBdMapRec(gen1,gen2,99,init,immo)
+
+    tmp = deepBdMapRec(gen1, gen2,99, init, immo)
     print(tmp)

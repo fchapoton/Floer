@@ -1,3 +1,5 @@
+from six.moves import range
+
 from random import randint
 
 
@@ -68,21 +70,20 @@ def bEqu(sys, var):
     return bEqu(sys[:],v1) or bEqu(sys[:],v2)
 
 
-
 def bEqu0(sys, var):
-    for i in xrange(pow(2,len(var)-var.count(1)-var.count(-1))):
-        tmp=i
-        nvar=var[:]
-        for k in xrange(len(var)):
-            if var[k]==0:
-                nvar[k]=(tmp%2)*2-1
-                tmp/=2
-        f=0
+    for i in range(pow(2, len(var)-var.count(1)-var.count(-1))):
+        tmp = i
+        nvar = var[:]
+        for k in range(len(var)):
+            if var[k] == 0:
+                nvar[k] = (tmp % 2) * 2 - 1
+                tmp /= 2
+        f = 0
         for e in sys:
-            if nvar[e[0]]*e[1]+nvar[e[2]]*e[3]<-1:
-                f=1
+            if nvar[e[0]]*e[1]+nvar[e[2]]*e[3] < -1:
+                f = 1
                 break
-        if f==0:
+        if f == 0:
             print(nvar)
             return 1
     return 0
@@ -110,5 +111,5 @@ def test(a, b):
 ##            (11, 1, 11, 1), (10, 1, 10, 1), (6, 1, 6, 1), (10, 1, 10, 1), (6, 1, 6, 1), (6, 1, 6, 1), (12, 1, 12, 1)],[0]*14))
 ##for j in range(1000):
 ##    tmp=test(8,20)
-##    
+##
 ##    if bEqu0(tmp[:],8*[0])!=bEqu(tmp[:],8*[0]):print(tmp)

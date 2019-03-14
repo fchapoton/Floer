@@ -10,7 +10,8 @@ def connComp(ellx, elly):
     my = 4*n+10
     tab = [[0]*(2*my) for i in range(mx*2)]
     for e in ellx+elly:
-        if e==-1: continue
+        if e==-1:
+            continue
         for i in range(e[0]*2,e[2]*2+1):
             tab[i][e[1]*2]=-1
             tab[i][e[3]*2]=-1

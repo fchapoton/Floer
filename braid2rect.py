@@ -1,34 +1,32 @@
+from six.moves import range
+
 import pickle
 
 
 def spaceRect(rect, y):
     for i in range(len(rect)):
         for b in [0, 1]:
-            if rect[i][b]>=y:
-                rect[i][b]+=1
+            if rect[i][b] >= y:
+                rect[i][b] += 1
 
 
-def spaceColumn(col,y):
-    for i in range(len(col)):
-        if col[i]>=y:
-                col[i]+=1
+def spaceColumn(col, y):
+    for i, coli in enumerate(col):
+        if coli >= y:
+            col[i] += 1
 
 
 def findMax(rect):
-    mx=-1
-    for i in range(len(rect)):
-        for b in [0, 1]:
-            mx=max(rect[i][b],mx)
-    return mx
+    return max(recti[b] for recti in rect for b in [0, 1])
 
 
-def braidToRect(br,n):
+def braidToRect(br, n):
     """
     print(braidToRect([[0,0],[1,0]],2))
     """
-    start=range(n)
-    end=range(n)
-    rect=[]
+    start = list(range(n))
+    end = list(range(n))
+    rect = []
     for gen in br:
         if gen[0]==0:
             height=end[gen[1]]
@@ -52,15 +50,14 @@ def braidToRect(br,n):
 
 
 def elim(tab):
-    res=[]
-    for e in tab:
-        if e: res.append(e)
-    return res
+    return [e for e in tab if e]
+
+
 def rdBraid(s):
-    tmp=s[1:-1]
-    tmp=tmp.split(",")
+    tmp = s[1:-1]
+    tmp = tmp.split(",")
     mx=-1
-    res=[]
+    res = []
     for kk in tmp:
         k=int(kk)
         if k<0:
@@ -69,9 +66,7 @@ def rdBraid(s):
         else:
             res.append((1,k-1))
             mx=max(mx,k)
-    return (res,mx+1)
-
-
+    return (res, mx + 1)
 
 ###############application
 

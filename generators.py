@@ -57,10 +57,13 @@ def maslovIndex(gen,p):##to check!
     res=0
     for i in range(len(p)):
         for j in range(len(p)):
-            if p[j]==-1 or gen.perm[i]==-1: continue
+            if p[j]==-1 or gen.perm[i]==-1:
+                continue
             (x,y)=(2*i+gen.xShift[i],2*gen.perm[i]+gen.yShift[i])##new
-            if x<j*2 and y<p[j]*2: res+=1
-            if x>j*2 and y>p[j]*2: res+=1
+            if x<j*2 and y<p[j]*2:
+                res+=1
+            if x>j*2 and y>p[j]*2:
+                res+=1
     return -(_I(gen.perm,gen.perm)-res+_I(p,p))
 
 
@@ -88,8 +91,8 @@ def classifiedGen(rect, ell, strat=0):
     print("alexander table:", tabAl)
     AShift=alexIndexShift(rect,tabAl,ell)
     print("alexander Index Shift", AShift)
-##    
-    
+##
+
     tabMas=maslovTab(p1)
     ipp=_I(p1,p1)
 
@@ -110,13 +113,14 @@ def classifiedGen(rect, ell, strat=0):
         right,left=0,0
         line=[0]*(aimr-aiml+1)
         d=-1
-        pool="no"
+        pool = "no"
         while True:
             gc.collect()
-            if d==-1:
-                aim=aiml
-                aimForIndex=aiml+1
-            else:aim=aimr
+            if d == -1:
+                aim = aiml
+                aimForIndex = aiml + 1
+            else:
+                aim = aimr
             (gen,pool)=genGen(ell[0],ell[1],0,(aim,tabAl),pool)
             line[aim-minimum]=gen
             print("raw generators:", aim, len(gen))
@@ -137,7 +141,7 @@ def classifiedGen(rect, ell, strat=0):
         for i in range(len(line)):
             if line[i]==0:
                 continue
-            tmp=len(line[i])
+            tmp = len(line[i])
             if tmp:
                 miniA = min(minimum+i,miniA)
                 maxiA = max(minimum+i,maxiA)
@@ -148,7 +152,7 @@ def classifiedGen(rect, ell, strat=0):
                         d[mas].append(e)
                     else:
                         d[mas]=[e]
-                        
+
                 keys = list(d)
                 if keys:
                     miniM = min(min(keys), miniM)
@@ -168,6 +172,5 @@ def classifiedGen(rect, ell, strat=0):
 
 if __name__ == "__main__":
     # rect = [[0,2],[1,3],[0,2],[1,3]]
-    ##########For the trefoil
     rect_trefoil = [[1, 4], [0, 2], [1, 3], [2, 4], [0, 3]]
     classifiedGen(rect_trefoil, 1)

@@ -1,14 +1,15 @@
 def setV(sys, next):
     while next:
-        i=0
-        (var,val)=next.pop()
+        i = 0
+        var, val = next.pop()
         while i < len(sys):
-            for j in [0,1]:
-                if sys[i][j*2]==var:
-                    if sys[i][j*2+1]==val:
+            for j in [0, 1]:
+                if sys[i][j*2] == var:
+                    if sys[i][j*2+1] == val:
                         del sys[i:i+1]
-                        if not sys: return 1
-                        i-=1
+                        if not sys:
+                            return 1
+                        i -= 1
                         break
                     else:
                         if sys[i][(1-j)*2]==var and sys[i][(1-j)*2+1]!=val:
@@ -18,14 +19,14 @@ def setV(sys, next):
                             del sys[i:i+1]
                             if not sys:
                                 return 1
-                            i-=1
+                            i -= 1
                             break
-                    
-            i+=1
+
+            i += 1
 
 
 def bEqu(sys, equ):
-    i=0
+    i = 0
     while i < len(sys):
         if sys[i][0]==equ[0] and sys[i][1]!=equ[1]:
             sys[i][0]=equ[2]

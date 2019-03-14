@@ -15,14 +15,14 @@ for i in range(11, 12):
             print(highLevel.AllToString(rect))
 print('time:', time.clock())
 
-##i=7#int(raw_input("knot nb of crossings"))
-##j=6#int(raw_input("knot nb"))
-##if braid2rect.atlas.has_key((i,j)):
-##    rect=braid2rect.atlas[(i,j)]
-####    rect=rect[6:]+rect[:6]
-##    print("KNOT:",i,"n",j)
-##    print(rect)
-##    print(rectDiagMisc.toStringNice(rect))
-##    print(bdMapGeneral.AllToString(rect))
-####
-##raw_input("w")
+# i=7#int(input("knot nb of crossings"))
+# j=6#int(input("knot nb"))
+# if braid2rect.atlas.has_key((i,j)):
+#     rect=braid2rect.atlas[(i,j)]
+#       rect=rect[6:]+rect[:6]
+#     print("KNOT:",i,"n",j)
+#     print(rect)
+#     print(rectDiagMisc.toStringNice(rect))
+#     print(bdMapGeneral.AllToString(rect))
+#
+# input("w")

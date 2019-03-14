@@ -11,9 +11,10 @@ def transpose(mat):
 
 def makeSquare(mat):
     x=len(mat)
-    if x==0: return mat
-    y=len(mat[0])
-    if x>y:
+    if x==0:
+        return mat
+    y = len(mat[0])
+    if x > y:
         for i in range(x):
             mat[i]+=[0]*(x-y)
     else:
@@ -22,7 +23,10 @@ def makeSquare(mat):
     return mat
 
 
-def exch(a,b,mat):#exch second coord
+def exch(a, b, mat):
+    """
+    #exch second coord
+    """
     for i in range(len(mat)):
         (mat[i][a],mat[i][b])=(mat[i][b],mat[i][a])
 
@@ -70,10 +74,10 @@ def z2GElimHorizontal(mat):
     for i in range(n):
         if ensure(i, mat, perm) == -1:
             return (perm, mat)
-        for j in range(i+1, nn):
+        for j in range(i + 1, nn):
             if mat[i][j] == 1:
                 for ii in range(i,n):
-                    mat[ii][j] = (mat[ii][j]+mat[ii][i])%2
+                    mat[ii][j] = (mat[ii][j] + mat[ii][i]) % 2
     return (perm, mat)
 
 
@@ -105,7 +109,7 @@ def findKerBase(mat):##rectangleMat???
     for i in range(trace(mat),len(mat)):
         sol=[0]*n
         sol[i]=1
-        sol=completeSolution(mat,sol)   
+        sol=completeSolution(mat,sol)
         ll.append(sol)
     for l in ll:
         lp=[0]*len(mat)
@@ -185,7 +189,7 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
     tot0=0
     imageDimTab=[[0]*len(i) for i in chain]
 
-    
+
 ##    ttmp2=calcMat(chain[12][14],chain[13][14],bndFunc)
 ##    ttmp=calcMat(chain[13][14],chain[14][14],bndFunc)
 ##    print("product")
@@ -198,14 +202,16 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 ##    print(b)
 ##    return "r"
     for j in range(len(chain)):
-        if j>=index and j<index+n: continue
+        if j>=index and j<index+n:
+            continue
         for i in range(len(chain[0])-1):
             if len(chain[j][i])!=0 and len(chain[j][i+1])!=0:
                 tmpMat=calcMat(chain[j][i],chain[j][i+1],bndFunc)
                 for a in tmpMat:
                     for b in a:
                         tot1+=b
-                        if b==0:tot0+=1
+                        if b == 0:
+                            tot0+=1
 ##                makeSquare(tmpMat)
 ##                if i==12 and j==12:
 ####                    print(bndFunc(chain[i][j][3],chain[i+1][j][7]))
@@ -216,7 +222,7 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 ##                        b=0
 ##                        print(k)
 ##                        chain[i][j][k].show()
-##                        
+##
 ##                    print("to")
 ##                    for k in range(len(chain[i+1][j])):
 ##                        b=0
@@ -231,22 +237,27 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
     res=[[0]*len(chain[0]) for i in range(len(chain))]
     for i in range(1,len(chain[0])):
         for j in range(len(chain)):
-            if j>=index and j<index+n: continue
+            if index <= j < index + n:
+                continue
             res[j][i]=len(chain[j][i])-imageDimTab[j][i-1]-imageDimTab[j][i]
     for j in range(len(chain)):
-        if j>=index and j<index+n: continue
+        if index <= j < index + n:
+            continue
         res[j][0]=len(chain[j][0])-imageDimTab[j][0]
-    if index!="no":
-        deconv(res,index,n)
+    if index != "no":
+        deconv(res, index, n)
     print(tot1, "/", tot0 + tot1)
     return res
 
+
 def getBin(n):
-    l=[0]*(n+1)
-    l[0]=1
+    """
+    calcule une suite de nombres
+    """
+    l = [1] + [0] * n
     for i in range(n):
-        for j in range(i+1,0,-1):
-            l[j]+=l[j-1]
+        for j in range(i + 1, 0, -1):
+            l[j] += l[j - 1]
     return l
 
 
