@@ -1,5 +1,10 @@
 import Tkinter
 import tkMessageBox
+import fastUnknot
+import RectDia
+import inputLink
+
+
 class mainWindow:
     def __init__(self):
         self.root=Tkinter.Tk()
@@ -19,34 +24,35 @@ class mainWindow:
         self.history=-1
         self.currentLink=-1
         self.root.mainloop()
+
     def close(self):
         self.root.quit()
         self.root.destroy()
+
     def drawKnot(self):
-        import inputLink
         self.root.quit()
         if self.currentInputWindows!=0:
             self.currentInputWindows.destroy()
         self.currentInputWindows=inputLink.inputWindow(self.root)
-##        self.currentInputWindows.grid(column=0,columnspan=2,row=1)
         self.currentInputWindows.bind("<<loadLink>>",self.loadLink)
         self.root.mainloop()
+
     def unKnot(self):
         if self.currentLink==-1:
             tkMessageBox.showinfo(title="Error!",message="No link loaded")
             return
-        import RectDia
+
         dd=RectDia.RectDia([])
         dd.fromOlink(self.currentLink)
-        import unknot
-        import fastUnknot
-        print dd.toString()
+        print(dd.toString())
         tmpResult=fastUnknot.unknot(dd)
         tkMessageBox.showinfo(title="Result",message=tmpResult[0])
         self.history=tmpResult
+
     def loadLink(self,event):
         self.currentLink=self.currentInputWindows.result
         self.currentInputWindows.destroy()
+
     def viewHistory(self):
         if self.history==-1:
             tkMessageBox.showinfo(title="Error!",message="No history loaded")
@@ -57,8 +63,7 @@ class mainWindow:
         self.root.quit()
         self.currentInputWindows=diapoUnknotting.diapoUnknotting(self.history,self.root)
         self.root.mainloop()
+
+
 if __name__ == "__main__":
-    import profile
-##    profile.run("
     mainWindow()
-##    ")

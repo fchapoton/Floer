@@ -1,16 +1,21 @@
-import FastRectDiag
 import fastUnknot2
-def tangleToRect(tangle):##takes a pseudo braid return a coll a point forming the recDiag
-##    print tangle
+
+
+def tangleToRect(tangle):
+    """
+    Takes a pseudo braid return a coll a point forming the recDiag
+    """
     points=[]
     section=[-1,1]
     forbidden=[-1,1]
+
     def findFree(s,e):
         x=(s+e)/2.0
         while(1):
             x=(s+x)/2.0
             if forbidden.count(x)==0:
                 return x
+
     levelCounter=0
     for level in tangle:
         if level[0]==3:
@@ -46,8 +51,12 @@ def tangleToRect(tangle):##takes a pseudo braid return a coll a point forming th
             if(p[0]==forbidden[x]):
                 coll.append([x-1,p[1]])
     return coll
-def fromCollToRectDiag(coll):##organize a coll. of points diag to a ordered diag
-##    print coll
+
+
+def fromCollToRectDiag(coll):
+    """
+    organize a coll. of points diag to a ordered diag
+    """
     d=[0]*(len(coll)/2)
     for i in coll:
         x=i[0]
@@ -59,13 +68,23 @@ def fromCollToRectDiag(coll):##organize a coll. of points diag to a ordered diag
             else:
                 d[x]=[d[x][0],i[1]]
     return d
+
+
 def fromBraidToTangle(word,width):
     return [[2,i] for i in range(width)]+word+[[3,width-i-1] for i in range(width)]
+
+
 def fromWordToRectDiag(word,width):
     return tangleToRect(fromBraidToTangle(word,width))
+
+
 def forAnna(word,width):
+    """
+    print(forAnna([[1,0],[1,0],[1,0]],)2)
+    """
     return (fastUnknot2.unknot(fromWordToRectDiag(word,width),20000)[1]).toRectDia().toStringNice()
-##print forAnna([[1,0],[1,0],[1,0]],2)
+
+
 def readLetterBraid(s):
     b=[]
     mm=0
@@ -78,6 +97,8 @@ def readLetterBraid(s):
             b.append([1,n-65])
             if n-65>mm: mm=n-65
     return (b,mm+2)
+
+
 def knot_source():
     tab=[]
     s=""
@@ -87,18 +108,21 @@ def knot_source():
     tab=sub.split("\n")
     tab=[[x.split(" ")[0],x.split(" ")[2]] for x in tab]
     for i in tab:
-        print i[0]
-        print ""
+        print(i[0])
+        print("")
         bbb=readLetterBraid(i[1])
         tmp= forAnna(bbb[0],bbb[1])
-        print tmp
-        print ""
+        print(tmp)
+        print("")
         s+=i[0]+"\n"+tmp+"\n"
-    f=open("c://knot.txt",'w')
-    f.write(s)
-    f.close()
+    with open("c://knot.txt",'w') as f:
+        f.write(s)
+
+
 ##knot_source()
 ##########################3from DTcode now
+
+
 def FromDT(s):
     tab=s.split("\n")
     for i in tab:
@@ -109,7 +133,8 @@ def FromDT(s):
                 r+=str((n-96)*2)+","
             else:
                 r+="-"+str((n-64)*2)+","
-        print r[:len(r)-1]+"]]"
+        print(r[:len(r)-1]+"]]")
+
 
 def extractBraid(s):
     res=""
@@ -135,12 +160,12 @@ def extractBraid(s):
                 if -j>mm:mm=-j-1
         print b
         tmp= forAnna(b,mm)
-        print tmp
-        print ""
+        print(tmp)
+        print("")
         s+="\n"+tmp+"\n"
-    f=open("c://temp//knot16cr.txt",'w')
-    f.write(s)
-    f.close()
+    with open("c://temp//knot16cr.txt",'w') as f:
+        f.write(s)
+
 ##extractBraid("""
 ##Out[9]=
 ##BR[7,{1,2,3,-4,5,6,5,-4,5,-4,-3,-2,-1,-4,-3,-2,-4,-3,-4,5,-4,3,2,5,-4,3,5,-4,-6,5}]
