@@ -337,18 +337,27 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
             tmp2[intermed[0]]=intermed
         res+=followUntil(p,goal,gen1,gen2,cuts,trans1,trans2,tmp1,tmp2)
     return res
+
+
 def findAll(startx,p1,p2,trans1,trans2):##p1,p2are perms as arrays
     x=startx
     y=p1[x]
     compSize=[startx]
-    while(1):
-        if p1[x]==y: y=p2[x]
-        else: y=p1[x]
-        if trans1[y]==x: x=trans2[y]
-        else: x=trans1[y]
-        if x==startx:break
+    while True:
+        if p1[x]==y:
+            y=p2[x]
+        else:
+            y=p1[x]
+        if trans1[y]==x:
+            x=trans2[y]
+        else:
+            x=trans1[y]
+        if x==startx:
+            break
         compSize.append(x)
     return compSize
+
+
 def findHoles(gen1,gen2,trans1,trans2,ellDir,bigon):
     acc=findAll(bigon[0][0],gen1.perm,gen2.perm,trans1,trans2)
     acc+=findAll(trans1[bigon[0][1]],gen1.perm,gen2.perm,trans1,trans2)
@@ -361,6 +370,8 @@ def findHoles(gen1,gen2,trans1,trans2,ellDir,bigon):
             m=findAll(i,gen1.perm,gen2.perm,trans1,trans2)
             res.append((i,m))
     return res
+
+
 def isIn(g2,path,x,y):
     p=0
     for k in xrange(x):
@@ -368,6 +379,8 @@ def isIn(g2,path,x,y):
             if g2[k]>=y:p+=1
             if path[k][1]>=y:p-=1
     return p
+
+
 def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):##g2Acc contains a point of bigon (the one of g2)
     newEllDir=deepcopy(ellDir)
     newEllDirp=deepcopy(ellDir)
@@ -422,6 +435,7 @@ def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):##g2Acc contain
 
     return ((g1,g2,newEllDir),(g1p,g2p,newEllDirp))
 
+
 def splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,p):
     n=len(rect)
     print("split", p)
@@ -454,8 +468,8 @@ def splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,p):
 ##debug
 import wx
 import show_all
-app=wx.PySimpleApp()
-totalG=0
+app = wx.PySimpleApp()
+totalG = 0
 ##end debug
 
 
@@ -466,7 +480,7 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
     global totalG
 
     ell=deepcopy(ell)
-    if ordering==0:
+    if ordering == 0:
         ordering=decideOrdering(ell)
     ##determining the prolongations
     nextGeneration=[]
@@ -475,8 +489,8 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
     for i in xrange(n):##opti :cut that out
         trans1[gen1.perm[i]]=i
         trans2[gen2.perm[i]]=i
-    while(ordering):
-        ext=ordering.pop()
+    while ordering:
+        ext = ordering.pop()
         if ext[0]==0:
             cx,cy=ext[1], (ell[0][ext[1]][0]+ell[0][ext[1]][1])*0.5
             if isBetween(cPj(ext[1],gen1.perm[ext[1]],gen1.xShift[ext[1]],gen1.yShift[ext[1]],cx,cy), ((ext[2]-1)/2)*3.1415926535897931,

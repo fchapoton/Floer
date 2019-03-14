@@ -51,17 +51,17 @@ def drawBraidElem(x1,y1,x2,y2,entry,elem,pos,width,fill,fig):
         drawEnd(x1+d2*(pos+1),x1+d2*(pos+2),y2,-(y2-y1)/3,width,fill,fig)
     if elem==3:
         drawEnd(x1+d1*(pos+1),x1+d1*(pos+2),y1,(y2-y1)/3,width,fill,fig)
-    while(high<entry):
-        if high==pos:
-            if elem==2 or elem<2:
-                low+=2
-            if elem==3 or elem<2:
-                high+=2
-            pos=-1
+    while high < entry:
+        if high == pos:
+            if elem == 2 or elem < 2:
+                low += 2
+            if elem == 3 or elem < 2:
+                high += 2
+            pos = -1
             continue
         drawRibbon(x1+d1*(high+1),y1,x1+d2*(low+1),y2,width,fill,fig)
-        high+=1
-        low+=1
+        high += 1
+        low += 1
 
 
 def drawBraid(x1,y1,x2,y2,braid,entry,width,fig):

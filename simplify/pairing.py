@@ -29,20 +29,20 @@ def cheapestPath(states, transitionCost):
 
 
 def minPairing(matrix):
-    pairing=range(len(matrix))
-    while(improve(pairing,matrix)):
+    pairing = range(len(matrix))
+    while improve(pairing, matrix):
         pass
     return pairing
 
 
-def weight(pairing,matrix):
-    s=0
+def weight(pairing, matrix):
+    s = 0
     for i in range(len(pairing)):
-        s+=matrix[i][pairing[i]]
+        s += matrix[i][pairing[i]]
     return s
 
 
-def improve(pairing,matrix):
+def improve(pairing, matrix):
     l=len(matrix)
     for start in range(l):
         states=[]

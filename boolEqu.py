@@ -1,8 +1,8 @@
-def setV(sys,next):
-    while(next):
+def setV(sys, next):
+    while next:
         i=0
         (var,val)=next.pop()
-        while(i<len(sys)):
+        while i < len(sys):
             for j in [0,1]:
                 if sys[i][j*2]==var:
                     if sys[i][j*2+1]==val:
@@ -26,7 +26,7 @@ def setV(sys,next):
 
 def bEqu(sys, equ):
     i=0
-    while(i<len(sys)):
+    while i < len(sys):
         if sys[i][0]==equ[0] and sys[i][1]!=equ[1]:
             sys[i][0]=equ[2]
             sys[i][1]=equ[3]

@@ -399,9 +399,10 @@ class RectDia:
         points=[]
         section=[-1,1]
         forbidden=[-1,1]
+
         def findFree(s,e):
             x=(s+e)/2.0
-            while(1):
+            while True:
                 x=(s+x)/2.0
                 if forbidden.count(x)==0:
                     return x

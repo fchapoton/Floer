@@ -12,20 +12,21 @@ class diapoUnknotting(Tkinter.Frame):
         self.previousButton.pack()
         self.diapo=[]
         tmp=history[1]
-        while(tmp!=0):
-            self.diapo=[tmp]+self.diapo
-            tmp=tmp.predecessor
-        self.diapoIndex=0
-        visu2.drawRectDia2(self.diapo[self.diapoIndex],self.board)
+        while tmp != 0:
+            self.diapo = [tmp] + self.diapo
+            tmp = tmp.predecessor
+        self.diapoIndex = 0
+        visu2.drawRectDia2(self.diapo[self.diapoIndex], self.board)
+
     def next(self):
         if self.diapoIndex+1==len(self.diapo):
             self.quit()
             self.destroy()
             return
-        self.diapoIndex+=1
-        visu2.drawRectDia2(self.diapo[self.diapoIndex],self.board)
+        self.diapoIndex += 1
+        visu2.drawRectDia2(self.diapo[self.diapoIndex], self.board)
+
     def previous(self):
-        if self.diapoIndex!=0:
-            self.diapoIndex-=1
-            visu2.drawRectDia2(self.diapo[self.diapoIndex],self.board)
-            
+        if self.diapoIndex != 0:
+            self.diapoIndex -= 1
+            visu2.drawRectDia2(self.diapo[self.diapoIndex], self.board)

@@ -178,12 +178,12 @@ class FastRectDiag:
         for d in (0,1):
             for i in xrange(self.complexity):
                 n=1
-                while(self.__areUnlinked3(i,(i+n)%self.complexity,d)):
-                    n+=1
+                while self.__areUnlinked3(i,(i+n)%self.complexity, d):
+                    n += 1
                 fw[i]=n-1
                 n=1
-                while(self.__areUnlinked3(i,(i-n)%self.complexity,d)):
-                    n+=1
+                while self.__areUnlinked3(i,(i-n)%self.complexity, d):
+                    n += 1
                 bw[i]=n-1
             for i in xrange(self.complexity):
                 if d==0:
