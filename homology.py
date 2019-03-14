@@ -25,7 +25,7 @@ def makeSquare(mat):
 
 def exch(a, b, mat):
     """
-    #exch second coord
+    exch second coord
     """
     for i in range(len(mat)):
         (mat[i][a],mat[i][b])=(mat[i][b],mat[i][a])
@@ -101,58 +101,57 @@ def completeSolution(mat, sol):
     return sol
 
 
-def findKerBase(mat):##rectangleMat???
-    n=len(mat)
-    (perm,mat)=z2GElimHorizontal(copy.deepcopy(mat))
-    ll=[]
-    ll2=[]
-    for i in range(trace(mat),len(mat)):
-        sol=[0]*n
-        sol[i]=1
-        sol=completeSolution(mat,sol)
+def findKerBase(mat):  # rectangleMat???
+    n = len(mat)
+    perm, mat = z2GElimHorizontal(copy.deepcopy(mat))
+    ll = []
+    ll2 = []
+    for i in range(trace(mat), len(mat)):
+        sol = [0] * n
+        sol[i] = 1
+        sol = completeSolution(mat, sol)
         ll.append(sol)
     for l in ll:
-        lp=[0]*len(mat)
+        lp = [0] * len(mat)
         for j in range(len(mat)):
-            lp[perm[j]]=l[j]
+            lp[perm[j]] = l[j]
         ll2.append(lp)
     return ll2
 
 
 def imageDim(mat):
-    mat=z2GElimHorizontal(mat)[1]
-    return trace(mat)
+    return trace(z2GElimHorizontal(mat)[1])
 
 
-def calcMat(l1,l2,bndFunc):
-    mat=[]
+def calcMat(l1, l2, bndFunc):
+    mat = []
     for x in range(len(l1)):
-        row=[]
+        row = []
         for y in range(len(l2)):
-            row.append(bndFunc(l1[x],l2[y]))
+            row.append(bndFunc(l1[x], l2[y]))
         mat.append(row)
     return mat
 
 
-def calcSqMat(l1,l2,bndFunc):
-    mat=[]
+def calcSqMat(l1, l2, bndFunc):
+    mat = []
     for x in range(len(l1)):
-        row=[]
+        row = []
         for y in range(len(l2)):
-            row.append(bndFunc(l1[x],l2[y]))
+            row.append(bndFunc(l1[x], l2[y]))
         mat.append(row)
     return makeSquare(mat)
 
 
-def calcZ2Hom(l1,l2,l3,bndFunc):####only square mat?
-    if len(l2)==0:
+def calcZ2Hom(l1, l2, l3, bndFunc):  # only square mat?
+    if len(l2) == 0:
         return 0
-    if len(l1)==0:
-        if len(l3)==0:
+    if len(l1) == 0:
+        if len(l3) == 0:
             return len(l2)
-        return len(l2)-imageDim(calcSqMat(l2,l3,bndFunc))###fkb
-    if len(l3)==0:
-        return len(l2)-imageDim(calcSqMat(l1,l2,bndFunc))
+        return len(l2) - imageDim(calcSqMat(l2,l3,bndFunc))  # fkb
+    if len(l3) == 0:
+        return len(l2) - imageDim(calcSqMat(l1,l2,bndFunc))
     print((len(l1),len(l2),len(l3)))
     tmp=isZero(combinatoric.matrixProduct(calcMat(l2,l3,bndFunc),calcMat(l1,l2,bndFunc)))
     if tmp:
@@ -170,12 +169,12 @@ def decideIndex(chain, n):
     col = [0] * len(chain[0])
     mx = -1
     for j in range(len(chain[0])):
-        for i in range(len(chain)-1):
-            col[j] += len(chain[i][j])*len(chain[i+1][j])
+        for i in range(len(chain) - 1):
+            col[j] += len(chain[i][j]) * len(chain[i + 1][j])
         if col[j] > mx:
             mx = col[j]
             index = j
-    index -= n//2
+    index -= n // 2
     if index < 0:
         index = 0
     return index
@@ -185,22 +184,22 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
     print(index)
     if index == "no":
         index = decideIndex(chain, n)
-    tot1=0
-    tot0=0
-    imageDimTab=[[0]*len(i) for i in chain]
+    tot1 = 0
+    tot0 = 0
+    imageDimTab = [[0] * len(i) for i in chain]
 
 
-##    ttmp2=calcMat(chain[12][14],chain[13][14],bndFunc)
-##    ttmp=calcMat(chain[13][14],chain[14][14],bndFunc)
-##    print("product")
-##    ttt=combinatoric.matrixProduct(ttmp,ttmp2)
-##    print(isZero(ttt))
-##    print(bndFunc(chain[13][14][90],chain[14][14][115]))
-##    a=calcMat([chain[12][14][2]],chain[13][14],bndFunc)[0]
-##    print(a)
-##    b=[x[0] for x in calcMat(chain[13][14],[chain[14][14][115]],bndFunc)]
-##    print(b)
-##    return "r"
+#     ttmp2=calcMat(chain[12][14],chain[13][14],bndFunc)
+#     ttmp=calcMat(chain[13][14],chain[14][14],bndFunc)
+#     print("product")
+#     ttt=combinatoric.matrixProduct(ttmp,ttmp2)
+#     print(isZero(ttt))
+#     print(bndFunc(chain[13][14][90],chain[14][14][115]))
+#     a=calcMat([chain[12][14][2]],chain[13][14],bndFunc)[0]
+#     print(a)
+#     b=[x[0] for x in calcMat(chain[13][14],[chain[14][14][115]],bndFunc)]
+#     print(b)
+#     return "r"
     for j in range(len(chain)):
         if j>=index and j<index+n:
             continue
@@ -212,28 +211,28 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
                         tot1+=b
                         if b == 0:
                             tot0+=1
-##                makeSquare(tmpMat)
-##                if i==12 and j==12:
-####                    print(bndFunc(chain[i][j][3],chain[i+1][j][7]))
-####                    print(tmpMat)
-##                    print(len(chain[i][j]),len(chain[i+1][j]))
-##
-##                    for k in range(len(chain[i][j])):
-##                        b=0
-##                        print(k)
-##                        chain[i][j][k].show()
-##
-##                    print("to")
-##                    for k in range(len(chain[i+1][j])):
-##                        b=0
-##                        print(k)
-##                        chain[i+1][j][k].show()
+#                 makeSquare(tmpMat)
+#                 if i==12 and j==12:
+# #                     print(bndFunc(chain[i][j][3],chain[i+1][j][7]))
+# #                     print(tmpMat)
+#                     print(len(chain[i][j]),len(chain[i+1][j]))
+#
+#                     for k in range(len(chain[i][j])):
+#                         b=0
+#                         print(k)
+#                         chain[i][j][k].show()
+#
+#                     print("to")
+#                     for k in range(len(chain[i+1][j])):
+#                         b=0
+#                         print(k)
+#                         chain[i+1][j][k].show()
                 imageDimTab[j][i]=imageDim(tmpMat)
             if len(chain[j][i])>0 or len(chain[j][i+1])>0:
                 print("Image",i,j,":",len(chain[j][i]),len(chain[j][i+1]),imageDimTab[j][i])
-##            f=open("C:\Program Files\python5\pyprog\Floer\s.txt","a")
-##            f.write(str(("Image",i,j,":",imageDimTab[i][j])))
-##            f.close()
+#             f=open("C:\Program Files\python5\pyprog\Floer\s.txt","a")
+#             f.write(str(("Image",i,j,":",imageDimTab[i][j])))
+#             f.close()
     res=[[0]*len(chain[0]) for i in range(len(chain))]
     for i in range(1,len(chain[0])):
         for j in range(len(chain)):
@@ -261,35 +260,35 @@ def getBin(n):
     return l
 
 
-def deconv(res,index,n):
-    ex=getBin(n)
+def deconv(res, index, n):
+    ex = getBin(n)
     print(ex)
-    ex[0]=0
-    (x,y)=(len(res[0]),len(res))
+    ex[0] = 0
+    x, y = len(res[0]), len(res)
     for i in range(index):
         for k in range(len(res[0])):
-            mul=res[i][k]
-            if mul!=0:
+            mul = res[i][k]
+            if mul != 0:
                 for j in range(n+1):
-                    a=k+j
-                    b=i+j
-                    if a>=0 and b>=0 and a<x and b<y:
-                        if b>=index and b<index+n:
+                    a = k + j
+                    b = i + j
+                    if a >= 0 and b >= 0 and a < x and b < y:
+                        if b >= index and b < index + n:
                             pass
                         else:
-                            res[b][a]-=ex[j]*mul
-    ex[0]=1
-    for k in range(len(res[0])-1,-1,-1):
-        for i in range(y-1,index+n-1,-1):
-            mul=res[i][k]
-            if mul!=0:
-                for j in range(n+1):
-                    a=k-j
-                    b=i-j
-                    if a>=0 and b>=0 and a<x and b<y:
-                        if b>=index and b<index+n:
-                            if ex[j]==1:
-                                res[b][a]+=mul
+                            res[b][a] -= ex[j] * mul
+    ex[0] = 1
+    for k in range(len(res[0]) - 1, -1, -1):
+        for i in range(y - 1, index + n - 1, -1):
+            mul = res[i][k]
+            if mul != 0:
+                for j in range(n + 1):
+                    a = k - j
+                    b = i - j
+                    if a >= 0 and b >= 0 and a < x and b < y:
+                        if index <= b < index + n:
+                            if ex[j] == 1:
+                                res[b][a] += mul
                         else:
-                            res[b][a]-=ex[j]*mul
+                            res[b][a] -= ex[j] * mul
     return res

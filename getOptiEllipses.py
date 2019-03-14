@@ -24,18 +24,6 @@ def genCycles(rect):
     return res
 
 
-def __areUnlinked2(self, i, j, k, l):
-    return (k-i) * (j-k) * (l-i) * (j-l) > 0
-
-
-def caIfpo(rect, i, d):
-    pass
-
-
-def gen1Ca(rect):
-    pass
-
-
 def genEll(rect):
     top = []
     bottom = []
@@ -65,18 +53,18 @@ def genEll(rect):
     return (score, sellx, selly)
 
 
-def evalEll(ellx,elly):
-    return genGen(ellx,elly,1)
+def evalEll(ellx, elly):
+    return genGen(ellx, elly, 1)
 
 
-def main(rect,retry):
+def main(rect, retry):
     print("opti, Ell")
-    ellCandidate=[]
-    l=genCycles(rect)
+    ellCandidate = []
+    l = genCycles(rect)
     score = 1000000000
     for r in l:
         tmp = genEll(r)
-        tmp = (tmp[0],tmp[1],tmp[2],r)
+        tmp = (tmp[0], tmp[1], tmp[2], r)
         ellCandidate.append(tmp)
         if tmp[0] < score:
             score = tmp[0]

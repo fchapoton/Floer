@@ -1,7 +1,14 @@
-import highLevel
+import six
+
+from highLevel import AllToString
+from rectDiagMisc import toStringNice
 import braid2rect
-import rectDiagMisc
 import simplify.diagSimplify
+
+
+if six.PY2:
+    input = raw_input
+
 
 s = ""
 while s != "y" and s != "n":
@@ -15,12 +22,12 @@ if s == "n":
     j = int(input("knot number: "))
     if (i, j) in braid2rect.atlas:
         rect = braid2rect.atlas[(i, j)]
-        print("KNOT:", i, "n", j)
+        print("KNOT: ", i, "n", j)
         print(rect)
-        print(rectDiagMisc.toStringNice(rect))
-        print(highLevel.AllToString(rect))
+        print(toStringNice(rect))
+        print(AllToString(rect))
     else:
-        print("Not in the table!")
+        raise ValueError("not in the knot table")
 else:
     print("Please enter the rectangular diagram as a list of pairs of coordinates:")
     print("(example: [[0,0],[0,1],[1,0],[1,1]] is the trivial knot (the 4 corners of a rectangle))")
@@ -32,5 +39,5 @@ else:
 
     if br != 0:
         rect = simplify.diagSimplify.simplifyPoints(rect, br)
-    print(rectDiagMisc.toStringNice(rect))
-    print(highLevel.AllToString(rect))
+    print(toStringNice(rect))
+    print(AllToString(rect))
