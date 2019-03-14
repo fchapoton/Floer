@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-################################## rectangularDiagram related
+"""
+Code related to `rectangularDiagram`
+"""
 
 
 def transpose(rD):
@@ -44,7 +46,7 @@ def recToPermAndComp(rect):
                     tmp = tr[rect[xy // 2][xy % 2]][1]
                 else:
                     tmp = tr[rect[xy // 2][xy % 2]][0]
-                if rect[tmp][0]==rect[xy // 2][xy % 2]:
+                if rect[tmp][0] == rect[xy // 2][xy % 2]:
                     xy = 2 * tmp
                 else:
                     xy = 2 * tmp + 1
@@ -55,33 +57,38 @@ def recToPermAndComp(rect):
     p2 = [0] * n
     for i in range(n):
         if dec[i][0] > 0:
-            (p1[i],p2[i])=(rect[i][0],rect[i][1])
+            p1[i], p2[i] = rect[i][0], rect[i][1]
         else:
-            (p1[i],p2[i])=(rect[i][1],rect[i][0])
+            p1[i], p2[i] = rect[i][1], rect[i][0]
     return ((p1, p2), dec)
 
 
 def getWindingNbTable(p1, p2):
     """
-    ###########unsure!! check for shifts
+    .. WARNING::
+
+        unsure!! check for shifts
     """
     n = len(p1)
     tab = [[0] * (n + 1) for i in range(n + 1)]
     for i in range(n):
         for j in range(1, n + 1):
-            tab[i+1][j] = tab[i][j]
-        if p1[i]<p2[i]:
-            for j in range(p1[i]+1,p2[i]+1):
-                tab[i+1][j] = tab[i+1][j]+1
+            tab[i + 1][j] = tab[i][j]
+        if p1[i] < p2[i]:
+            for j in range(p1[i] + 1, p2[i] + 1):
+                tab[i + 1][j] += 1
         else:
-            for j in range(p2[i]+1,p1[i]+1):
-                tab[i+1][j] = tab[i+1][j]-1
+            for j in range(p2[i] + 1, p1[i] + 1):
+                tab[i + 1][j] -= 1
     return tab
 
 
 def toStringNice(rect):
     """
-    print(toStringNice([[0, 4], [3, 6], [2, 5], [1, 3], [4, 7], [2, 6], [0, 5], [1, 7]]))
+    Print a nice diagram.
+
+    >>> r = [[0, 4], [3, 6], [2, 5], [1, 3], [4, 7], [2, 6], [0, 5], [1, 7]]
+    >>> print(toStringNice(r))
     """
     n = len(rect)
     tab = [[" "] * n for i in range(n)]
