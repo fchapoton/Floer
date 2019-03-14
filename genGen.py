@@ -1,6 +1,9 @@
-import gc
-def genPseudogen(ellx,elly):#ell is a list of pairs representing
+
+def genPseudogen(ellx, elly):
+    """
+    #ell is a list of pairs representing
     #width of ellipses,in ellx [a,b] means a<y<b, not a<y<=b!!!
+    """
     pool=[[]]
     for i in xrange(len(ellx)):
         if ellx[i]==-1:
@@ -13,10 +16,7 @@ def genPseudogen(ellx,elly):#ell is a list of pairs representing
                 for g in pool:
                     if g.count(j)==0: tmp.append(g+[j])
         pool=tmp
-##    print "raw perms:", len(pool)
     return pool
-##print genPseudogen([-1,[1,2],[0,2]],[[0,2],-1,[1,2]])
-##print genPseudogen([[0,2],[0,2],[0,2]],[[0,2],[0,2],[0,2]])
 
 #second I gen "shifts of permutation
 class gen:##
@@ -26,8 +26,9 @@ class gen:##
         s=""
         for k in range(len(self.perm)):
             s+=str((self.perm[k],self.xShift[k],self.yShift[k]))
-        print s
-        print self.perm,self.xShift,self.yShift
+        print(s)
+        print(self.perm, self.xShift, self.yShift)
+
     def toString(self):
         return str(self.perm)+","+str(self.xShift)+","+str(self.yShift)
 
@@ -55,7 +56,7 @@ def _genShifts2(g,poss,i,premas,tab,alex):
                 i>>=1
             else: yShift[k]=v[1][0]
             k+=1
-##        print (g,xShift,yShift,premas)
+
         val=0
         for i in xrange(le):
             if g[i]==-1: continue
@@ -72,12 +73,15 @@ def _I(p1,p2):
                 res+=1
     return res
 
-def genGen(ellx,elly,counting=0,alex="no",pool="no"):##
-    if pool=="no": pool=genPseudogen(ellx,elly)
-    fpool=[]
+
+def genGen(ellx,elly,counting=0,alex="no",pool="no"):
+    if pool == "no":
+        pool = genPseudogen(ellx,elly)
     n=len(ellx)
-    if alex=="no":alex,tab=0,[[0]*(n+1)]*(n+1)
-    else: alex,tab=alex[0], alex[1]
+    if alex=="no":
+        alex,tab=0,[[0]*(n+1)]*(n+1)
+    else:
+        alex,tab=alex[0], alex[1]
     res=[]
     count=0
     for c in xrange(len(pool)):
@@ -109,7 +113,6 @@ def genGen(ellx,elly,counting=0,alex="no",pool="no"):##
             for j in i:
                 if len(j)==2:
                     nn*=2
-##        print nn
         count+=nn
 ##        gc.collect()
         if counting==0:
@@ -117,13 +120,9 @@ def genGen(ellx,elly,counting=0,alex="no",pool="no"):##
             for i in xrange(len(update)):
                 update[i].psNb=c
             res.extend(update)
-##            print len(res)
-        
-##    print "r"
-##    print pool
-    if counting==1: return count
+
+    if counting==1:
+        return count
     return (res,pool)
 ##tmp=genGen([[2, 8], [0, 3], [6, 10], [5, 7], [6, 9], [1, 8], [2, 9], [1, 4], [5, 10], [3, 7], -1],
 ##           [[1, 10], [5, 7], [0, 6], [1, 9], -1, [3, 8], [2, 4], [3, 9], [0, 5], [4, 6], [2, 8]],0)
-##print len(tmp)
-    

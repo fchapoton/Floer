@@ -1,62 +1,63 @@
 # import psyco
 # psyco.log()
 # psyco.full()
-import bdMapGeneral
-reload(bdMapGeneral)
-from bdMapGeneral import *
+# import bdMapGeneral
+# reload(bdMapGeneral)
+import time
+
+import generators
+import homology
+import getOptiEllipses
+from homology import transpose
+import rectDiagMisc
+from bdMapGeneral import (hdEllipsesGen, hdCond, hdCond2, preparePath,
+                          deepBdMap2, bdMapPsgenCache, fillFValue, bdMap, categ)
+
 
 def getKnotFloerHomology(rect):
-    from genGen import gen
-    import generators
-    import homology
-    import getOptiEllipses
+    """
+    INPUT:
 
-    reload(homology)
-    reload(generators)
-    
+    a grid diagram ?
+    """
     ellCandidate=getOptiEllipses.simple(rect,1)
-    print ellCandidate
+    print(ellCandidate)
     tmp=ellCandidate.pop()
     rect=tmp[3]
-    print rect
+    print(rect)
     ell=(tmp[1],tmp[2])
-    print "ellipses:"
-    print ell
-    print "score:",tmp[0]
-    print "new Diagram:"
-    print rectDiagMisc.toStringNice(rect)
+    print("ellipses:")
+    print(ell)
+    print("score:", tmp[0])
+    print("new Diagram:")
+    print(rectDiagMisc.toStringNice(rect))
     (tmp,b,pool,index)=generators.classifiedGen(rect,ell,1)##INDEX
 ##    index-=1
-    print "index",index
-    print "Scale:A and M: ",b
-    print "Generators, tabulated by Maslov and Alexander grading:"
-    from homology import transpose
+    print("index", index)
+    print("Scale:A and M: ",b)
+    print("Generators, tabulated by Maslov and Alexander grading:")
+
     transposed=transpose(tmp)
+
     def format(s,l):
         if len(s)<l:
             return " "*(l-len(s))+s
         return s
+
     for i in transposed:
         s=""
         for j in i:
             s+=format(str(len(j)),6)+" "
-        print s
+        print(s)
     ##the bdMap stuff
     HDEll=hdEllipsesGen(ell[0],ell[1])
     (to0,toPlus,chEll)=hdCond(rect,HDEll)
-##    print "to0,toPlus,chell"
-##    print to0
-##    print toPlus
-##    print chEll
     delta=hdCond2(rect,HDEll,to0,toPlus)
     path=preparePath(rect,ell)
-    print "path",path
+    print("path", path)
     ##the deepBd stuff
     init=deepBdMap2.initWith(rect,ell)
     
-##    print "deep2!"
-##        print "hdEllipses"
-##        print HDEll
 
 ##    def eulerP(tab):
 ##        k=[0]*(len(tab[0]))
@@ -74,6 +75,8 @@ def getKnotFloerHomology(rect):
     tmp2=homology.chain2DToHomv3(tmp,lambda x,y:bdMap(rect,x,y,cache,ell,to0,toPlus,chEll,delta,path,init),len(rect)-1,index)
     
     return transpose(tmp2)
+
+
 def AllToString(rect):
 ##    import profile
 ##    profile.run("tmp2=getKnotFloerHomology(rect)")
@@ -83,7 +86,8 @@ def AllToString(rect):
 ##    r = tracer.results()
 ##    r.write_results()
     tmp2=getKnotFloerHomology(rect)
-    print "HFK:"
+    print("HFK:")
+
     def format(s,l):
         if len(s)<l:
             return " "*(l-len(s))+s
@@ -95,7 +99,9 @@ def AllToString(rect):
             s+=format(str(j),5)+" "
         st+=s+"\n"
     return st
-#######################################  debug ####################################################################
+#######################################  debug ########################
+
+
 if __name__ == "__main__":
 ##    print hdGetPath(0   ,2,3,102,103,  5,3,6,3,-1)
 ##    rect=[[1,4],[0,2],[1,3],[2,4],[0,3]]#treefoil
@@ -124,16 +130,14 @@ if __name__ == "__main__":
 ##    rect=braid2rect.atlas[(9,15)]
 
 ##    rect=rect[6:]+rect[:6]
-    import rectDiagMisc
-    print rectDiagMisc.toStringNice(rect)
-    print rect
-    print 11
-    import time
-    startTime=time.clock()
-##    print "second phase"
-    print AllToString(rect)
-    print "categ:",categ
-    print "dpM2:",deepBdMap2.debug
-    print "Duration:",time.clock()-startTime
-##    raw_input("")
-##    print deepBdMap.totalG
+
+    print(rectDiagMisc.toStringNice(rect))
+    print(rect)
+    print(11)
+
+    startTime = time.clock()
+
+    print(AllToString(rect))
+    print("categ:", categ)
+    print("dpM2:",deepBdMap2.debug)
+    print("Duration:",time.clock()-startTime)

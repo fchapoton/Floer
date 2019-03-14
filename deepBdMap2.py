@@ -1,13 +1,14 @@
 from genGen import gen
-import wx
-import  show_all
 
-def areGenEqual(gen1,gen2):
+
+def areGenEqual(gen1, gen2):
     if gen1.perm==gen2.perm and gen1.xShift==gen2.xShift and gen1.yShift==gen2.yShift:
         return 1
     else: return 0
+
 def copyGen(g):
     return gen(g.perm[:],g.xShift[:],g.yShift[:],0)
+
 def findAge(gen,rect,tr):##next in line!
     n=len(gen.perm)
     age=0
@@ -28,6 +29,7 @@ def findAge(gen,rect,tr):##next in line!
             if tmp>rect[i][1]:
                 age=max(age,2*i+1)
     return age
+
 def findIsPoss(perm1,perm2):
     res=0
     for j,h in enumerate(perm1):
@@ -58,6 +60,8 @@ def listPossRectMp(rect,ell):##ell is only there to avoid where there is no oval
                         break
                 if b==0: possRect[(ll,ur)]=((ll[0],ur[1],ll[2],ur[3]),(ur[0],ll[1],ur[2],ll[3]))
     return possRect
+
+
 def listRect(gen,possRect,immobile):
     n=len(gen.perm)
     res=[]
@@ -80,6 +84,8 @@ def listRect(gen,possRect,immobile):
                 ng.yShift[i],ng.yShift[j[0]]=ng.yShift[j[0]],ng.yShift[i]
                 res.append((ng,-1))
     return res
+
+
 def listBigon(gen,rect,tr,immobile):
     n=len(gen.perm)
     res=[]
@@ -100,6 +106,8 @@ def listBigon(gen,rect,tr,immobile):
                 age=2*i+2-(ng.xShift[i]+1)/2
                 res.append((ng,age))
     return res
+
+
 def listReverseBigon(gen,rect,tr,immobile):
     n=len(gen.perm)
     res=[]
@@ -118,7 +126,11 @@ def listReverseBigon(gen,rect,tr,immobile):
                 age=2*i+1+(ng.xShift[i]+1)/2##carefull!!!!!!!!! changed
                 res.append((ng,age))
     return res
+
+
 debug=[0]*128
+
+
 def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap=-1):##init should contains what doesn't change without the diag changing
     if not findIsPoss(genStart.perm,genGoal.perm): return 0
     possRect,rect,tr=init
@@ -154,12 +166,16 @@ def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap
     global debug
     debug[parity]+=1
     return parity
+
+
 def initWith(rect,ell):
     tr=[[] for i in xrange(len(rect))]
     for i,p in enumerate(rect):
         tr[p[0]].append(i)
         tr[p[1]].append(i)
     return (listPossRectMp(rect,ell),rect,tr)  ##0 in init is possRect#1 in init is transposed rect
+
+
 if __name__ == "__main__":
     data=([[2, 6], [1, 5], [4, 7], [2, 9], [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
           ([[2, 6], [1, 5], [4, 7], -1, [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
@@ -167,7 +183,7 @@ if __name__ == "__main__":
           [gen([6, 2, 4, -1, 0, 1, 3, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, 1, 1, -1, -1, 1, 1],0),
            gen([6, 2, 4, -1, 1, 3, 0, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, -1, -1, 1, -1, 1, 1],0)])
     init=initWith(data[0],data[1])
-##    print findAge(gen1,rect,init[2])
+##    print(findAge(gen1,rect,init[2]))
     gen1=data[2][0]
     gen2=data[2][1]
     immo=[1,1,1,1,0,0,0,1,1,1]
@@ -176,5 +192,4 @@ if __name__ == "__main__":
 ##    import profile
 ##    profile.run("tmp=deepBdMapRec(gen1,gen2,99,init,immo)")
     tmp=deepBdMapRec(gen1,gen2,99,init,immo)
-    print tmp
-    
+    print(tmp)

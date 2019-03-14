@@ -22,6 +22,7 @@ def setV(sys,next):
                             break
                     
             i+=1
+
 def bEqu(sys,equ):
     i=0
     while(i<len(sys)):
@@ -32,6 +33,6 @@ def bEqu(sys,equ):
             sys[i][2]=equ[2]
             sys[i][3]=equ[3]
         if sys[i][0]==sys[i][2]:
-            
-        i+=1
-print setV([[2,0,0,0],[2,1,5,3],[2,0,2,0]],[(2,1)])
+            i+=1
+
+print(setV([[2,0,0,0],[2,1,5,3],[2,0,2,0]],[(2,1)]))

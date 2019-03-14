@@ -1,8 +1,8 @@
-from genGen import genGen
-from genGen import gen
+# from genGen import genGen
+# from genGen import gen
 from generators import classifiedGen
 import combinatoric
-import rectDiagMisc
+# import rectDiagMisc
 import homology
 
 reload(homology)
@@ -16,6 +16,8 @@ def isRectPunc(diag,ax,ay,bx,by):
         if diag[i][1]<by and diag[i][1]>=ay:
             return 1
     return 0
+
+
 def isRectGen(gen,a,b):##gen is is before the map! a<b
     y1=gen.perm[a]
     y2=gen.perm[b]
@@ -25,7 +27,8 @@ def isRectGen(gen,a,b):##gen is is before the map! a<b
             return 1
     return 0
 
-def isBndryLargeEll(rect,gen1,gen2):
+
+def isBndryLargeEll(rect, gen1, gen2):
     n=len(gen1.perm)
     diff=[]
     for i in xrange(n):
@@ -77,8 +80,9 @@ def isBndryLargeEll(rect,gen1,gen2):
             return 0
         return 1
     if l==1:
-        raise Error,"1 of diff"
-    raise Error,"error in boundary"
+        raise RuntimeError("1 of diff")
+    raise RuntimeError("error in boundary")
+
 
 if __name__ == "__main__":
     ##rect=[[0,2],[1,3],[0,2],[1,3]]
@@ -95,7 +99,7 @@ if __name__ == "__main__":
 
 
     tmp=classifiedGen(rect,0)[0]
-    print "second phase"
+    print("second phase")
     import profile
     profile.run("tmp=homology.chain2DToHomv2(tmp,lambda x,y:isBndryLargeEll(rect,x,y))")
 ##    tmp=homology.chain2DToHomv2(tmp,lambda x,y:isBndryLargeEll(rect,x,y))

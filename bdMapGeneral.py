@@ -1,12 +1,13 @@
 ##opti eliminer de toP ce qui est dans to0
-import combinatoric
+# import combinatoric
 import deepBdMap2
 reload(deepBdMap2)
-import fastPosi
-##import bdMapGolay
-import rectDiagMisc
+# import fastPosi
+# import bdMapGolay
+# import rectDiagMisc
 
-def hdEllipsesGen(ellx,elly):
+
+def hdEllipsesGen(ellx, elly):
     resx=[]
     for i in xrange(len(ellx)):
         if ellx[i]==-1:
@@ -26,8 +27,12 @@ def hdEllipsesGen(ellx,elly):
             ury+=elly[i][1]*5
             resy.append((dlx,0+i*4,ury,3+i*4))
     return (resx,resy)##the ell parameter of bdMap
+
+
 def convert(x,y,xs,ys):
     return (x*5+((xs+1)/2)*3+1,y*4+((ys+1)/2)*3)
+
+
 def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
     vert=[]
     if HV==0:##(horizontal)
@@ -84,11 +89,15 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
                 vert.append((srcy,dly,srcx))
                 vert.append((dly,dsty,dstx))
     return vert
+
+
 def sortVert(vert,n):
     tab=[[] for i in xrange(n)]    
     for v in vert:
         tab[v[2]].append(v)
     return tab
+
+
 def getTable(x,y,vert):
     tab=[[0]*y for i in xrange(x+1)]
     sortedVert=sortVert(vert,x+1)
@@ -103,6 +112,8 @@ def getTable(x,y,vert):
                 for k in xrange(j[0],j[1]):
                     tab[i+1][k]+=1
     return tab[1:]
+
+
 def hdCond(rect,ell):##here ell are hdEll!
     to0=[]
     for i in xrange(len(rect)):
@@ -160,6 +171,8 @@ def hdCond(rect,ell):##here ell are hdEll!
         toPlus[t]=(toPlus[t][0],toPlus[t][1],toPlus[t][2],len(toPlus[t][2]))
     return (to0,toPlus,(chEllx,chElly))
     ##to0,toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll 
+
+
 def hdCond2(rect,ell,to0,toPlus):
     ll=[]
     n=len(rect)
@@ -196,8 +209,10 @@ def hdCond2(rect,ell,to0,toPlus):
                         cc+=1
                     if (x[3]*3+x[5],x[4]*3+x[6])==(y[3]*3+y[5],y[4]*3+y[6]): deltap=[]#################################
                     delta[(x[2],x[3]*3+x[5],x[4]*3+x[6] ,y[3]*3+y[5],y[4]*3+y[6])]=deltap
-    print "hdCond2Ready"
+    print("hdCond2Ready")
     return delta
+
+
 def bdMapFirstPart(rect,gen1,gen2,ell):
     diff=[]
     n=len(rect)
@@ -252,15 +267,17 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
 ##    print gen1,gen2,immobile
     return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)##if no problem from pseudogen diff is a "gift"
    
-def bdMapPsgenCache(rect,ell,pool):
+
+def bdMapPsgenCache(rect, ell, pool):
     res=[[0]*len(pool) for i in xrange(len(pool))]
     for iii in xrange(len(pool)):
         for jjj in xrange(len(pool)):
             res[iii][jjj]=bdMapFirstPart(rect,pool[iii],pool[jjj],ell)
     return res
-def preparePath(rect,ell):##we need a knot!!
-    x=ell[0].index(-1)
-    hole=x
+
+
+def preparePath(rect,ell):  # we need a knot!!
+    x = ell[0].index(-1)
     y=rect[x][1] if ell[1][rect[x][0]]==-1 else rect[x][0]
     side=0 if rect[x][0]==y else 1
     path=[]
@@ -290,6 +307,8 @@ def fillLl(gen1,gen2,cache,to0,toPlus,chEll,delta,diff,hori):
         for j in tmp:
             ll[j[0]]+=j[1]
     return ll
+
+
 def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
     ref=-1
     for i in genPool:##find a reference Element
@@ -310,6 +329,8 @@ def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
                 gen.llRefGen=fillLl(ref,gen,cache,to0,toPlus,chEll,delta,diff,hori)
                 gen.llGenRef=fillLl(gen,ref,cache,to0,toPlus,chEll,delta,diff,hori)
 categ=[0]*20
+
+
 def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
     global categ
     firstPart=cache[gen1.psNb][gen2.psNb]
@@ -320,7 +341,6 @@ def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
     (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)=firstPart
 ##    return deepBdMap2.deepBdMapRec(gen1,gen2,99,init,immobile)
 ##    print "("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])"
-    total=0
     ll=gen1.llGenRef[:]
     lenll=len(ll)
     for i in xrange(lenll):
@@ -348,11 +368,11 @@ def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
 ##    k0=ell[0].index(-1)##optimisable cachable
 ##    k1=ell[1].index(-1)+n-1
 ##    ellDir=(tmp[0:k0]+[0]+tmp[k0:n-1],tmp[n-1:k1]+[0]+tmp[k1:])
-##    print ellDir
+##    print(ellDir)
 ##    print "("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])"
 ##    return 1
-##    print "fore"
+##    print("fore")
 ##    if not insideWarning and fastPosi.detectSimple(n,gen1,gen2,ellDir)==1: return 1
-    categ[4]+=1
+    categ[4] += 1
     tmp= deepBdMap2.deepBdMapRec(gen1,gen2,99,init,immobile)
-    return tmp%2
+    return tmp % 2

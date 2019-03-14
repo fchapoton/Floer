@@ -1,5 +1,6 @@
 import wx
 
+
 class floerDiagram(wx.Frame):
     def __init__(self,data):
         wx.Frame.__init__(self,None,title="Diagram")
@@ -7,16 +8,20 @@ class floerDiagram(wx.Frame):
         self.__draw()
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
+
     def OnSize(self,evt):
         self.__draw()
         self.Refresh()
+
     def OnPaint(self,evt):
         wx.BufferedPaintDC(self, self.buffer)
+
     def __draw(self):
         w, h = self.GetClientSize()
         self.buffer = wx.EmptyBitmap(w, h)
         dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
         self.__show(dc,self.data[0],self.data[1],self.data[2])
+
     def __show(self,dc,diag,ell,genList):
         w, h = dc.GetSize()
         size=6
@@ -61,32 +66,29 @@ class floerDiagram(wx.Frame):
                 dc.SetPen(wx.Pen("yellow",size*3,wx.BDIAGONAL_HATCH))
                 dc.DrawLine(incx*(i+1),incy*(n-dp[0])-size,incx*(i+1),incy*(n-dp[1])+size)
         if genList!=[]:
-            for col,gen in enumerate(genList):
+            for col,gene in enumerate(genList):
                 dc.SetPen(wx.Pen(["red","yellow","pink","brown","blue","black","dark gray"][col],1))
                 dc.SetBrush(wx.Brush(["red","yellow","pink","brown","blue","black","dark gray"][col]))
                 for i in range(n):
-                    if gen.perm[i]==-1:continue
-                    dc.DrawCircle(incx*(i+1)+gen.xShift[i]*size, incy*(n-gen.perm[i])-gen.yShift[i]*size,4)
+                    if gene.perm[i]==-1:
+                        continue
+                    dc.DrawCircle(incx*(i+1)+gene.xShift[i]*size, incy*(n-gene.perm[i])-gene.yShift[i]*size,4)
+
+
 def show(*data):
-    app=wx.PySimpleApp()
-    frm=floerDiagram(data)
-##    frm2=floerDiagram(data)
+    app = wx.PySimpleApp()
+    frm = floerDiagram(data)
     frm.Show()
-##    frm2.Show()
     app.MainLoop()
+
+
 if __name__ == "__main__":
-    app=wx.PySimpleApp()
+    app = wx.PySimpleApp()
     app.MainLoop()
-    from genGen import gen
-    while(1):
-        data=eval(raw_input("?"))
-        frm=floerDiagram(data)
+    while True:
+        data = eval(raw_input("?"))
+        frm = floerDiagram(data)
         frm.Show()
         
 
 ##([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]],([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]]),[gen([1, 0, 4, 2, 5, 6, 8, 7, -1],[1, -1, 1, 1, -1, 1, -1, -1, 0],[1, 1, -1, 1, -1, 1, -1, -1, 0],0),    gen([6, 1, 4, 0, 2, 5, 8, 7, -1],[-1, -1, 1, 1, -1, 1, -1, -1, 0],[-1, 1, -1, 1, 1, 1, -1, -1, 0],0)])
-
-
-
-
-        
