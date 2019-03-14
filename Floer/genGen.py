@@ -68,6 +68,7 @@ def _genShifts2(g,poss,i,premas,tab,alex):
             k += 1
 
         val = 0
+        # WRONG TO USE i AGAIN!
         for i in range(le):
             if g[i]==-1:
                 continue

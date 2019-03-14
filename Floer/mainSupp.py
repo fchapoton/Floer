@@ -15,7 +15,7 @@ for i in range(11, 12):
             rect = atlas[(i, j)]
             print("KNOT:", i, "n", j)
             print(rect)
-            print(txoStringNice(rect))
+            print(toStringNice(rect))
             print(AllToString(rect))
 print('time:', time.clock())
 
