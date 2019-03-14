@@ -17,17 +17,17 @@ def unknot(diag, bound):
     counter=0
     stack=[diag]
     hmap=dict({diag.hashInt():0})
-    while(counter<bound):
-        if len(stack)==0:
-##            printHistory(diag)
-            return ("not an unknot",diag)
-        else: diag=stack.pop()
-##        diag.draw()##debug!!
+    while counter < bound:
+        if len(stack) == 0:
+            return ("not an unknot", diag)
+        else:
+            diag=stack.pop()
+
         if diag.complexity<3:
-##            printHistory(diag)
-            return ("not knotted",diag)
+            return ("not knotted", diag)
+
         if diag.isdestabilisable():
-            print "reduction!"+str(len(stack))
+            print("reduction!" + str(len(stack)))
             counter=0
             des=diag.isdestabilisable()
             tmp=diag.copy()

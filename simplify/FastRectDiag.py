@@ -193,24 +193,19 @@ class FastRectDiag:
                     x1=self.xSorted[2*i]
                     x2=self.xSorted[2*i+1]
                 if fw[x1]+bw[x2]+1>=x2-x1:
-##                    print (x1,x2)
-##                    print i
-##                    print self.toRectDia().toStringNice()
                     return self.chainCastle(x1,x2,d)
                 if fw[x2]+bw[x1]+1>=x1+self.complexity-x2:
-##                    print (x2,x1)
-##                    print i
-##                    print self.toRectDia().toStringNice()
                     return self.chainCastle(x2,x1,d)
         return 0
 
-    def cycle(self,d):
+    def cycle(self, d):
         if d==0:
             self.xSorted=self.xSorted[len(self.xSorted)-2:]+self.xSorted[:len(self.xSorted)-2]
             self.ySorted=self.xySorted(self.xSorted)
         else:
             self.ySorted=self.ySorted[len(self.ySorted)-2:]+self.ySorted[:len(self.ySorted)-2]
             self.xSorted=self.xySorted(self.ySorted)
+
     def m_destabilisation(self,direction,row):
         self.complexity-=1
         xS=[]
@@ -269,7 +264,10 @@ class FastRectDiag:
         return res
 
     def toRectDia(self):
-        return RectDia.RectDia([(i,self.xSorted[2*i]) for i in range(len(self.xSorted)/2)]+[(i,self.xSorted[2*i+1])for i in range(len(self.xSorted)/2)])
+        return RectDia.RectDia([(i, self.xSorted[2*i])
+                                for i in range(len(self.xSorted)/2)]
+                               +[(i, self.xSorted[2*i+1])
+                                 for i in range(len(self.xSorted)/2)])
 
 
 if __name__ == "__main__":

@@ -139,13 +139,14 @@ def FromDT(s):
 def extractBraid(s):
     res=""
     for i in s:
-        if i!="\n": res+=i
+        if i!="\n":
+            res+=i
     s=res
     tab=s.split("{")
     tab=[(i.split("}"))[0] for i in tab]
     del tab[0:1]
     tab=[i.split(",") for i in tab]
-    print tab
+    print(tab)
     s=""
     for i in tab:
         b=[]
@@ -154,11 +155,13 @@ def extractBraid(s):
             j=int(jj)
             if j>0:
                 b.append([0,j-1])
-                if j>mm:mm=j-1
+                if j>mm:
+                    mm=j-1
             else:
                 b.append([1,-j-1])
-                if -j>mm:mm=-j-1
-        print b
+                if -j>mm:
+                    mm=-j-1
+        print(b)
         tmp= forAnna(b,mm)
         print(tmp)
         print("")

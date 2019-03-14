@@ -27,29 +27,30 @@ def unknot(diag):
 
             hmap=dict({diag.hashInt():0})
         succ=diag.succCa()
-        print len(succ)
+        print(len(succ))
         for k in succ:
             if not hmap.has_key(k.hashInt()):
                 stack=[(k,depth+1)]+stack
                 hmap[k.hashInt()]=0
         if len(hmap)>=500+counter or len(hmap)<=-500+counter:
             counter=len(hmap)
-            print "Please wait!"
-            print len(hmap)
-            print depth
+            print("Please wait!")
+            print(len(hmap))
+            print(depth)
 
 
 def unknotByFlipe(diag):
-    while 1:
-        n=diag.getSize()
-        succ=diag.succfl()
+    while True:
+        n = diag.getSize()
+        succ = diag.succfl()
         for k in succ:
-            if k.getSize()<n:
-                print "reduction"
-                diag=k
+            if k.getSize() < n:
+                print("reduction")
+                diag = k
                 break
-        if n==diag.getSize():break
-    print "finished"
+        if n == diag.getSize():
+            break
+    print("finished")
     diag.draw()
 
 

@@ -1,6 +1,12 @@
-infty=1000000
-def cheapestPath(states,transitionCost):
-    #states is of the form [[0,0,0],[0,0],[0,0,0],[(0,0),(0,0)]] with (0,0)'s in the last column
+from random import randint
+
+infty = 1000000
+
+
+def cheapestPath(states, transitionCost):
+    """
+    states is of the form [[0,0,0],[0,0],[0,0,0],[(0,0),(0,0)]] with (0,0)'s in the last column
+    """
     for n in range(1,len(states)):
         for s in range(len(states[len(states)-n-1])):
             cost=infty+1
@@ -20,16 +26,22 @@ def cheapestPath(states,transitionCost):
         start=states[n][start][0]
         path.append(start)
     return (path,cost)
+
+
 def minPairing(matrix):
     pairing=range(len(matrix))
     while(improve(pairing,matrix)):
         pass
     return pairing
+
+
 def weight(pairing,matrix):
     s=0
     for i in range(len(pairing)):
         s+=matrix[i][pairing[i]]
     return s
+
+
 def improve(pairing,matrix):
     l=len(matrix)
     for start in range(l):
@@ -43,9 +55,8 @@ def improve(pairing,matrix):
             if x==y: return 0
             return matrix[x][pairing[y]]-matrix[x][pairing[x]]
         path=cheapestPath(states,transitionCost)
-##        print path
-##        print pairing
-        if path[1]>=0: continue
+        if path[1]>=0:
+            continue
         path=path[0]
         visit=l*[-1]
         for i in range(len(path)):
@@ -60,7 +71,8 @@ def improve(pairing,matrix):
         pairing[path[end-1]]=tmp
         return 1
     return 0
-from random import randint
+
+
 def rMatrix(l):
     states=[]
     for i in range(l):
@@ -70,16 +82,19 @@ def rMatrix(l):
             states[i][j]=randint(1,1000)
     return states
     
-def trtr(n,x,y):
-    if x==0 and y==1 and n==0:
+
+def trtr(n, x, y):
+    if x == 0 and y == 1 and n == 0:
         return 2
-    if x==1 and y==0 and n==2:
+    if x == 1 and y == 0 and n == 2:
         return 0
     return 5
+
+
 if __name__ == "__main__":
-    matrix=[[10,2,3,5],[2,10,1,3],[3,1,10,2],[5,3,2,10]]
+    matrix = [[10,2,3,5],[2,10,1,3],[3,1,10,2],[5,3,2,10]]
     for i in range(1):
-        matrix=rMatrix(60)
-        print matrix
-        print minPairing(matrix)
+        matrix = rMatrix(60)
+        print(matrix)
+        print(minPairing(matrix))
 ## 20:3s 40:18s 60: 61 s
