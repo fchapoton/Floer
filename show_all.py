@@ -60,7 +60,7 @@ class floerDiagram(wx.Frame):
                     if not ell[0][dp[1]]==-1 and (ell[0][dp[1]][0]==i or ell[0][dp[1]][1]==i):s1=1
                     else:s1=0
                 dc.DrawLine(incx*(dp[0]+1)-size*s0,incy*(n-i),incx*(dp[1]+1)+size*s1,incy*(n-i))
-                
+
             for i,dp in enumerate(ell[0]):
                 if dp==-1:continue
                 dc.SetPen(wx.Pen("yellow",size*3,wx.BDIAGONAL_HATCH))
@@ -89,6 +89,6 @@ if __name__ == "__main__":
         data = eval(raw_input("?"))
         frm = floerDiagram(data)
         frm.Show()
-        
+
 
 ##([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]],([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]]),[gen([1, 0, 4, 2, 5, 6, 8, 7, -1],[1, -1, 1, 1, -1, 1, -1, -1, 0],[1, 1, -1, 1, -1, 1, -1, -1, 0],0),    gen([6, 1, 4, 0, 2, 5, 8, 7, -1],[-1, -1, 1, 1, -1, 1, -1, -1, 0],[-1, 1, -1, 1, 1, 1, -1, -1, 0],0)])

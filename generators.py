@@ -1,29 +1,31 @@
+from __future__ import print_function
+from six.moves import range
+
 from genGen import genGen
 from combinatoric import putInTable2d
 import rectDiagMisc
-##reload(rectDiagMisc)
 
 
-def getShortEllipses(rect):########
-    ellx=rect[:]
-    ellx[0]=-1
-    elly=rectDiagMisc.transpose(rect)
-    elly[rect[0][0]]=-1
-    return (ellx,elly)
+def getShortEllipses(rect):
+    ellx = rect[:]
+    ellx[0] = -1
+    elly = rectDiagMisc.transpose(rect)
+    elly[rect[0][0]] = -1
+    return (ellx, elly)
 
 
 def getLargeEllipses(rect):
-    n=len(rect)
-    ellx=[[0,n-1]]*n
-    elly=[[0,n-1]]*n
-    ellx[0]=-1
+    n = len(rect)
+    ellx = [[0,n-1]]*n
+    elly = [[0,n-1]]*n
+    ellx[0] = -1
     elly[rect[0][0]]=-1
-    return (ellx,elly)
+    return (ellx, elly)
 
 
 def alexIndexRaw(gen,tab):
     res=0
-    for i in xrange(len(gen.perm)):
+    for i in range(len(gen.perm)):
         if gen.perm[i]==-1:
             continue
         res+=tab[i+(gen.xShift[i]+1)/2][gen.perm[i]+(gen.yShift[i]+1)/2]
@@ -44,8 +46,8 @@ def alexIndexShift(rect,tab,ell):
 
 def _I(p1,p2):
     res=0
-    for j in xrange(len(p1)):
-        for i in xrange(j):
+    for j in range(len(p1)):
+        for i in range(j):
             if p1[i]!=-1 and p1[i]<p2[j]:
                 res+=1
     return res
@@ -53,8 +55,8 @@ def _I(p1,p2):
 
 def maslovIndex(gen,p):##to check!
     res=0
-    for i in xrange(len(p)):
-        for j in xrange(len(p)):
+    for i in range(len(p)):
+        for j in range(len(p)):
             if p[j]==-1 or gen.perm[i]==-1: continue
             (x,y)=(2*i+gen.xShift[i],2*gen.perm[i]+gen.yShift[i])##new
             if x<j*2 and y<p[j]*2: res+=1
@@ -65,23 +67,24 @@ def maslovIndex(gen,p):##to check!
 def maslovTab(p):
     def _M(p,x,y):
         res=0
-        for i in xrange(len(p)):
+        for i in range(len(p)):
             if (i<x)==(p[i]<y):
                 res+=1
         return res
-    return [[_M(p,i,j) for j in xrange(len(p)+1)] for i in xrange(len(p)+1)]
-    
-def maslovIndex2(gen,tab,ipp):
-    res=0
-    for i in xrange(len(gen.perm)):
-        if gen.perm[i]!=-1:
-            res+=tab[i+(gen.xShift[i]+1)/2][gen.perm[i]+(gen.yShift[i]+1)/2]
-    return -(gen.maslov+ipp-res)
+    return [[_M(p,i,j) for j in range(len(p)+1)] for i in range(len(p)+1)]
 
 
-def classifiedGen(rect,ell,strat=0):
-    (p1,p2)=rectDiagMisc.recToPermAndComp(rect)[0]
-    tabAl=rectDiagMisc.getWindingNbTable(p1,p2)
+def maslovIndex2(gen, tab, ipp):
+    res = 0
+    for i in range(len(gen.perm)):
+        if gen.perm[i] != -1:
+            res += tab[i+(gen.xShift[i]+1)//2][gen.perm[i]+(gen.yShift[i]+1)//2]
+    return -(gen.maslov + ipp - res)
+
+
+def classifiedGen(rect, ell, strat=0):
+    p1,p2 = rectDiagMisc.recToPermAndComp(rect)[0]
+    tabAl = rectDiagMisc.getWindingNbTable(p1, p2)
     print("alexander table:", tabAl)
     AShift=alexIndexShift(rect,tabAl,ell)
     print("alexander Index Shift", AShift)
@@ -100,7 +103,7 @@ def classifiedGen(rect,ell,strat=0):
         import gc
         n=len(rect)
         aiml,aimr=0,0
-        for i in xrange(len(tabAl)):
+        for i in range(len(tabAl)):
             aiml+=min(tabAl[i])
             aimr+=max(tabAl[i])
         minimum=aiml
@@ -131,7 +134,7 @@ def classifiedGen(rect,ell,strat=0):
                 d = 1
         miniA,maxiA=100000,-100000
         miniM,maxiM=100000,-100000
-        for i in xrange(len(line)):
+        for i in range(len(line)):
             if line[i]==0:
                 continue
             tmp=len(line[i])
@@ -152,25 +155,19 @@ def classifiedGen(rect,ell,strat=0):
                     maxiM = max(max(keys), maxiM)
                 line[i] = d
 
-        bounds=(miniA+AShift,maxiA+AShift,miniM,maxiM)
-        gen=[[[] for j in xrange(miniM,maxiM+1)] for i in xrange(miniA,maxiA+1)]
+        bounds = (miniA + AShift, maxiA + AShift, miniM, maxiM)
+        gen = [[[] for j in range(miniM, maxiM + 1)]
+               for i in range(miniA, maxiA + 1)]
         for i, a in enumerate(line):
             if a:
                 for b in a:
-                    gen[i+minimum-miniA][b-miniM]=a[b]
-        index = aimForIndex-miniA
+                    gen[i + minimum - miniA][b - miniM] = a[b]
+        index = aimForIndex - miniA
     return (gen, bounds, pool, index)
 
 
 if __name__ == "__main__":
-    ##debug
-    ##rect=[[0,2],[1,3],[0,2],[1,3]]
-    ##rect=[[0,2],[1,3],[0,2],[1,3]]
-
+    # rect = [[0,2],[1,3],[0,2],[1,3]]
     ##########For the trefoil
-    rect=[[1,4],[0,2],[1,3],[2,4],[0,3]]
-    classifiedGen(rect,1)
-    
-    ##import profile
-    ##profile.run("classifiedGen(rect)")
-
+    rect_trefoil = [[1, 4], [0, 2], [1, 3], [2, 4], [0, 3]]
+    classifiedGen(rect_trefoil, 1)

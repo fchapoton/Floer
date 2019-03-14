@@ -1,4 +1,7 @@
+from six.moves import range
+
 import copy
+
 import combinatoric
 
 
@@ -20,18 +23,21 @@ def makeSquare(mat):
 
 
 def exch(a,b,mat):#exch second coord
-    for i in xrange(len(mat)):
+    for i in range(len(mat)):
         (mat[i][a],mat[i][b])=(mat[i][b],mat[i][a])
 
 
-def invPerm(p):#permutations with 0!
-    k=[0]*len(p)
-    for i in range(len(p)):
-        k[p[i]]=i
+def invPerm(p):
+    """
+    inverse d'une permutation (indices = {0,..n})
+    """
+    k = [0] * len(p)
+    for i, pi in enumerate(p):
+        k[pi] = i
     return k
 
 
-def ensure(i,mat,perm):
+def ensure(i, mat, perm):
     """
     print(ensure(0,[[0,0,1],[0,1,1],[1,1,0]],[0,1,2]))
     """
@@ -45,45 +51,49 @@ def ensure(i,mat,perm):
     return -1
 
 
-
 def z2GElimHorizontal(mat):
-    n=len(mat)
-    nn=len(mat[0])
-    perm=range(n)
+    """
+    z2GElimHorizontal([[0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+                         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                         [0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    """
+    n = len(mat)
+    nn = len(mat[0])
+    perm = list(range(n))
     for i in range(n):
-        if ensure(i,mat,perm)==-1:
-            return (perm,mat)
-        for j in range(i+1,nn):
-            if mat[i][j]==1:
-                for ii in xrange(i,n):
-                    mat[ii][j]=(mat[ii][j]+mat[ii][i])%2
-    return (perm,mat)
-##z2GElimHorizontal([[0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-##                         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-##                         [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-##                         [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-##                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-##                         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-##                         [0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
-##                         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-##                         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-##                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+        if ensure(i, mat, perm) == -1:
+            return (perm, mat)
+        for j in range(i+1, nn):
+            if mat[i][j] == 1:
+                for ii in range(i,n):
+                    mat[ii][j] = (mat[ii][j]+mat[ii][i])%2
+    return (perm, mat)
 
 
 def trace(mat):
-    n=0
+    """
+    trace d'une matrice
+    """
+    n = 0
     for i in range(min(len(mat),len(mat[0]))):
-        n+=mat[i][i]
+        n += mat[i][i]
     return n
 
 
-def completeSolution(mat,sol):
+def completeSolution(mat, sol):
     for i in range(len(mat[0])-1,-1,-1):
         sp=0
         for j in range(len(mat)):
             sp+=mat[j][i]*sol[j]
         sol[i]+=sp
-        sol[i]%=2
+        sol[i] %= 2
     return sol
 
 
@@ -114,7 +124,7 @@ def calcMat(l1,l2,bndFunc):
     mat=[]
     for x in range(len(l1)):
         row=[]
-        for y in xrange(len(l2)):
+        for y in range(len(l2)):
             row.append(bndFunc(l1[x],l2[y]))
         mat.append(row)
     return mat
@@ -124,7 +134,7 @@ def calcSqMat(l1,l2,bndFunc):
     mat=[]
     for x in range(len(l1)):
         row=[]
-        for y in xrange(len(l2)):
+        for y in range(len(l2)):
             row.append(bndFunc(l1[x],l2[y]))
         mat.append(row)
     return makeSquare(mat)
@@ -148,31 +158,26 @@ def calcZ2Hom(l1,l2,l3,bndFunc):####only square mat?
 
 
 def isZero(mat):
-    res=0
-    for i in xrange(len(mat)):
-        for j in xrange(len(mat[0])):
-            if mat[i][j] % 2:
-                print("nonZ")
-                print((i, j))
-                res+=1
-    return 0
+    return any(mati[j] % 2 for mati in mat
+               for j in range(len(mat[0])))
 
 
-def decideIndex(chain,n):
-    col=[0]*len(chain[0])
-    mx=-1
+def decideIndex(chain, n):
+    col = [0] * len(chain[0])
+    mx = -1
     for j in range(len(chain[0])):
         for i in range(len(chain)-1):
-            col[j]+=len(chain[i][j])*len(chain[i+1][j])
-        if col[j]>mx:
-            mx=col[j]
-            index=j
-    index=index-(n/2)
-    if index<0:index=0
+            col[j] += len(chain[i][j])*len(chain[i+1][j])
+        if col[j] > mx:
+            mx = col[j]
+            index = j
+    index -= n//2
+    if index < 0:
+        index = 0
     return index
 
 
-def chain2DToHomv3(chain,bndFunc,n,index="no"):
+def chain2DToHomv3(chain, bndFunc, n, index="no"):
     print(index)
     if index == "no":
         index = decideIndex(chain, n)

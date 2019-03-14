@@ -1,21 +1,16 @@
 ##opti eliminer de toP ce qui est dans to0
-# import combinatoric
 import deepBdMap2
-reload(deepBdMap2)
-# import fastPosi
-# import bdMapGolay
-# import rectDiagMisc
 
 
 def hdEllipsesGen(ellx, elly):
     resx=[]
-    for i in xrange(len(ellx)):
+    for i in range(len(ellx)):
         if ellx[i]==-1:
             resx.append(-1)
         else:
             resx.append((1+5*i,1+4*ellx[i][0],4+5*i,2+4*ellx[i][1]))
     resy=[]
-    for i in xrange(len(elly)):
+    for i in range(len(elly)):
         if elly[i]==-1:
             resy.append(-1)
         else:
@@ -92,37 +87,37 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
 
 
 def sortVert(vert,n):
-    tab=[[] for i in xrange(n)]    
+    tab=[[] for i in range(n)]    
     for v in vert:
         tab[v[2]].append(v)
     return tab
 
 
 def getTable(x,y,vert):
-    tab=[[0]*y for i in xrange(x+1)]
+    tab=[[0]*y for i in range(x+1)]
     sortedVert=sortVert(vert,x+1)
-    for i in xrange(x):
-        for j in xrange(y):
+    for i in range(x):
+        for j in range(y):
             tab[i+1][j]=tab[i][j]
         for j in sortedVert[i]:
             if j[0]>j[1]:
-                for k in xrange(j[1],j[0]):
+                for k in range(j[1],j[0]):
                     tab[i+1][k]-=1
             else: 
-                for k in xrange(j[0],j[1]):
+                for k in range(j[0],j[1]):
                     tab[i+1][k]+=1
     return tab[1:]
 
 
 def hdCond(rect,ell):##here ell are hdEll!
     to0=[]
-    for i in xrange(len(rect)):
+    for i in range(len(rect)):
         for j in [0,1]:
             to0.append((i*5+2,rect[i][j]*4+1,[]))
     from findDom import connComp
     toPlus=connComp(ell[0],ell[1])
     ##new#########
-    for j in xrange(len(toPlus)):
+    for j in range(len(toPlus)):
         toPlus[j]=(toPlus[j][0],toPlus[j][1],[])
     ##eliminate useless toPlus
     tmp=[]
@@ -143,7 +138,7 @@ def hdCond(rect,ell):##here ell are hdEll!
     chEllx=[]
     chElly=[]
     iiii=-1
-    for i in xrange(len(ell[0])):
+    for i in range(len(ell[0])):
         if ell[0][i]!=-1:
             iiii+=1
             e=ell[0][i]
@@ -154,7 +149,7 @@ def hdCond(rect,ell):##here ell are hdEll!
                     c[2].append(iiii)
             chEllx.append(tmp)
         else:chEllx.append(-1)
-    for i in xrange(len(ell[0])):
+    for i in range(len(ell[0])):
         if ell[1][i]!=-1:
             iiii+=1
             e=ell[1][i]
@@ -165,9 +160,9 @@ def hdCond(rect,ell):##here ell are hdEll!
                     c[2].append(iiii)
             chElly.append(tmp)
         else:chElly.append(-1)
-    for t in xrange(len(to0)):
+    for t in range(len(to0)):
         to0[t]=(to0[t][0],to0[t][1],to0[t][2],len(to0[t][2]))
-    for t in xrange(len(toPlus)):
+    for t in range(len(toPlus)):
         toPlus[t]=(toPlus[t][0],toPlus[t][1],toPlus[t][2],len(toPlus[t][2]))
     return (to0,toPlus,(chEllx,chElly))
     ##to0,toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll 
@@ -218,7 +213,7 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
     n=len(rect)
     immobile=[]
     diffY=[0]*n
-    for i in xrange(n):
+    for i in range(n):
         if gen1[i]!=gen2[i]:
             diff.append(i)
             diffY[gen1[i]]=1
@@ -226,39 +221,39 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
     tab=[0]*(2*n)##is 2* necessary??
     insidePerm=[]
     insideWarning=0
-    for i in xrange(n):
+    for i in range(n):
         if gen1[i]==gen2[i] and tab[2*gen1[i]]==0: immobile.append(1)
         else: immobile.append(0)
         if gen1[i]==-1: continue
         if gen1[i]<gen2[i]:
-            for k in xrange(2*gen1[i],2*gen2[i]):
+            for k in range(2*gen1[i],2*gen2[i]):
                 tab[k]+=2
             tab[2*gen1[i]]-=1
             tab[2*gen2[i]]+=1
         if gen1[i]>gen2[i]:
-            for k in xrange(2*gen2[i],2*gen1[i]):
+            for k in range(2*gen2[i],2*gen1[i]):
                 tab[k]-=2
             tab[2*gen1[i]]-=1
             tab[2*gen2[i]]+=1
         if tab[2*gen1[i]]>2 or tab[2*gen2[i]]>2:
             insideWarning=1##perm point inside
-        for k in xrange(n):###############    dangerous
+        for k in range(n):###############    dangerous
             if tab[2*k+1]<0:
                 return 0 ##obvious(outside ellipse) negativity
     lenDiff=len(diff)
     vert=[]
     for i in diff:
         vert.append((gen1[i],gen2[i],i))
-    tmp=[[] for i in xrange(n)]
-    for i in xrange(n):
+    tmp=[[] for i in range(n)]
+    for i in range(n):
         if gen1[i]!=-1 and gen2[i]!=gen1[i]:
             tmp[gen1[i]]=[i]+tmp[gen1[i]]
             tmp[gen2[i]].append(i)
     hori=[]
-    for i in xrange(n):
+    for i in range(n):
         if tmp[i]!=[]:
             hori.append((tmp[i][0],tmp[i][1],i))
-    for i in xrange(n):
+    for i in range(n):
         if gen1[i]==-1:continue
         if ell[1][gen1[i]]==-1 or ell[0][i]==-1: continue
         if gen1[i]==gen2[i]:# and insidePerm.count(i)==1:
@@ -268,9 +263,9 @@ def bdMapFirstPart(rect,gen1,gen2,ell):
    
 
 def bdMapPsgenCache(rect, ell, pool):
-    res=[[0]*len(pool) for i in xrange(len(pool))]
-    for iii in xrange(len(pool)):
-        for jjj in xrange(len(pool)):
+    res=[[0]*len(pool) for i in range(len(pool))]
+    for iii in range(len(pool)):
+        for jjj in range(len(pool)):
             res[iii][jjj]=bdMapFirstPart(rect,pool[iii],pool[jjj],ell)
     return res
 
@@ -280,7 +275,7 @@ def preparePath(rect,ell):  # we need a knot!!
     y=rect[x][1] if ell[1][rect[x][0]]==-1 else rect[x][0]
     side=0 if rect[x][0]==y else 1
     path=[]
-    for i in xrange(len(rect)-1):
+    for i in range(len(rect)-1):
         path.append((x*2+side,y))##le premier est de type y!
         tmp=ell[1][y]
         x= tmp[1] if tmp[0]==x else tmp[0]
@@ -317,7 +312,7 @@ def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
                 break
         if ref!=-1:break
     diff,hori=[],[]
-    for i in xrange(len(ell[0])):
+    for i in range(len(ell[0])):
         if ell[0][i]!=-1:
             diff.append(i)
         if ell[1][i]!=-1:
@@ -342,25 +337,25 @@ def bdMap(rect,gen1,gen2,cache,ell,to0,toPlus,chEll,delta,path,init):
 ##    print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")
     ll=gen1.llGenRef[:]
     lenll=len(ll)
-    for i in xrange(lenll):
+    for i in range(lenll):
         ll[i]+=gen2.llRefGen[i]
     height=0
-    for i in xrange(0,n-1):
+    for i in range(0,n-1):
         height=-ll[path[i*2][0]]
         for j in chEll[1][path[i*2][1]]:##lr premier est de type y
             ll[j]+=height
         height=-ll[path[i*2+1][0]]
         for j in chEll[0][path[i*2+1][1]]:
             ll[j]+=height
-##    for i in xrange(0,2*(n-1)):
+##    for i in range(0,2*(n-1)):
 ##        height=-ll[path[i][0]]
 ##        for j in path[i][1]:##lr premier est de type y
 ##            ll[j]+=height
     categ[1]+=1
     if ll[path[2*(n-1)][0]]!=0:
         return 0
-    categ[2]+=1
-    for i in xrange((n-1)*2,lenll):
+    categ[2] += 1
+    for i in range((n-1)*2, lenll):
         if ll[i]<0:
             return 0
     categ[3]+=1

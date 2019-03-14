@@ -1,4 +1,9 @@
-import RectDia
+from __future__ import absolute_import
+
+from six.moves import range
+
+from . import RectDia
+
 import copy
 
 
@@ -6,11 +11,11 @@ import copy
 class FastRectDiag:
     def __init__(self,tab):
         if isinstance(tab, RectDia.RectDia):
-            tab=[(p.x,p.y) for p in tab.points]
-        self.predecessor=0
-        self.complexity=len(tab)/2
-        self.xSorted=[]
-        self.ySorted=[]
+            tab = [(p.x, p.y) for p in tab.points]
+        self.predecessor = 0
+        self.complexity = len(tab) // 2
+        self.xSorted = []
+        self.ySorted = []
         for i in range(self.complexity):
             self.xSorted+=[-1,-1]
             self.ySorted+=[-1,-1]
@@ -36,7 +41,7 @@ class FastRectDiag:
         return h
 
     def order(self):
-        for i in xrange(self.complexity):
+        for i in range(self.complexity):
             if self.xSorted[2*i]>self.xSorted[2*i+1]:
                 (self.xSorted[2*i],self.xSorted[2*i+1])=(self.xSorted[2*i+1],self.xSorted[2*i])
             if self.ySorted[2*i]>self.ySorted[2*i+1]:
@@ -44,7 +49,7 @@ class FastRectDiag:
 
     def xySorted(self,tab):
         a=[-1]*(2*self.complexity)
-        for i in xrange(2*self.complexity):
+        for i in range(2*self.complexity):
             o=tab[i]
             if a[2*o]==-1:
                 a[2*o]=i/2
@@ -176,7 +181,7 @@ class FastRectDiag:
         fw=[0]*self.complexity
         bw=[0]*self.complexity
         for d in (0,1):
-            for i in xrange(self.complexity):
+            for i in range(self.complexity):
                 n=1
                 while self.__areUnlinked3(i,(i+n)%self.complexity, d):
                     n += 1
@@ -185,7 +190,7 @@ class FastRectDiag:
                 while self.__areUnlinked3(i,(i-n)%self.complexity, d):
                     n += 1
                 bw[i]=n-1
-            for i in xrange(self.complexity):
+            for i in range(self.complexity):
                 if d==0:
                     x1=self.ySorted[2*i]
                     x2=self.ySorted[2*i+1]
@@ -211,7 +216,7 @@ class FastRectDiag:
         xS=[]
         yS=[]
         if direction==0:
-            for i in xrange(self.complexity+1):
+            for i in range(self.complexity+1):
                 if i!=row:
                     a=self.xSorted[2*i]
                     b=self.xSorted[2*i+1]
@@ -221,7 +226,7 @@ class FastRectDiag:
             self.xSorted=xS
             self.ySorted=self.xySorted(xS)
         else:
-            for i in xrange(self.complexity+1):
+            for i in range(self.complexity+1):
                 if i!=row:
                     a=self.ySorted[2*i]
                     b=self.ySorted[2*i+1]
@@ -240,7 +245,7 @@ class FastRectDiag:
 
     def fastsuccCa(self,dico):
         acc=[]
-        for i in xrange(self.complexity):
+        for i in range(self.complexity):
             if self.isCastle(i,0):
                 if not dico.has_key(self.hashCastle(i,0)): acc.append(self.copy().castle(i,0))
             if self.isCastle(i,1):
@@ -256,7 +261,7 @@ class FastRectDiag:
     def hashInt(self):
         n=self.complexity
         res=0
-        for i in xrange(n):
+        for i in range(n):
             res*=n
             res+=self.xSorted[i*2+0]
             res*=n

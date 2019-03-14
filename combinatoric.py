@@ -1,4 +1,4 @@
-####################################################### some combinatoric first
+# some combinatorics first
 
 
 def genPerm(n):
@@ -37,7 +37,7 @@ def fact(n):
     print(fact(3))
     """
     res = 1
-    for i in xrange(n):
+    for i in range(n):
         res *= i + 1
     return res
 
@@ -52,9 +52,9 @@ def tpSort(gr):
     g=-1
     for rien in range(n):
         g=0
-        for j in xrange(n):
+        for j in range(n):
             m=5+n## 5 is arbitrary!!
-            for i in xrange(n):
+            for i in range(n):
                 if gr[i][j]!=0:
                     if bb[i]<m:
                         m=bb[i]
@@ -69,15 +69,15 @@ def tpSort(gr):
 def matrixProduct(a,b):
 ##    print(a)
 ##    print(b)
-    return [[sum([a[j][i]*column[j] for j in xrange(len(a))]) for i in range(len(a[0]))] for column in b]
+    return [[sum([a[j][i]*column[j] for j in range(len(a))]) for i in range(len(a[0]))] for column in b]
 ##    res=[]
 ##    a1=len(a[0])
 ##    a2=len(a)
 ##    for column in b:
 ##        cc=[]
-##        for i in xrange(a1):
+##        for i in range(a1):
 ##            ss=0
-##            for j in xrange(a2):
+##            for j in range(a2):
 ##                if column[j]:
 ##                    ss+=a[j][i]
 ##            cc.append(ss)
@@ -127,8 +127,8 @@ def putInTable2d(l,func):
             mn=min(r[d],mn)
         bounds.append((mn,mx))
 ##    print(bounds)
-    res=[[[] for j in xrange(bounds[1][1]-bounds[1][0]+1)] for i in range(bounds[0][1]-bounds[0][0]+1)]
-    for i in xrange(len(l)):
+    res=[[[] for j in range(bounds[1][1]-bounds[1][0]+1)] for i in range(bounds[0][1]-bounds[0][0]+1)]
+    for i in range(len(l)):
         (res[tmp[i][0]-bounds[0][0]][tmp[i][1]-bounds[1][0]]).append(l[i])
     return (res,bounds)
 
@@ -144,7 +144,7 @@ def golayCode(n):
 
 def golaySign(l):
     rot=[1]*40
-    for e in xrange(len(l)):
+    for e in range(len(l)):
         tmp=l[e]-1
         l[e]*=rot[tmp]
         rot[tmp]*=-1
@@ -161,7 +161,7 @@ for l in golayCache:
 ##def multiDim(dim):##incorrect not zero but []!!
 ##    if len(dim)==1: return [0]*dim[0]
 ##    tmp=dim[1:]
-##    return [multiDim(tmp) for i in xrange(dim[0])]
+##    return [multiDim(tmp) for i in range(dim[0])]
 ##def putInTable(l,func):##incorrect not zero but []!!
 ##    if len(l)==0: return ([],[])
 ##    tmp=[func(i) for i in l]

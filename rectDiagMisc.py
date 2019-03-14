@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ################################## rectangularDiagram related
 
 
@@ -16,48 +17,54 @@ def transpose(rD):
 
 
 def recToPermAndComp(rect):
-    tr=transpose(rect)
-    n=len(rect)
-    dec=[[0,0] for i in range(n)]
-    c=0
-    k=0
+    tr = transpose(rect)
+    n = len(rect)
+    dec = [[0, 0] for i in range(n)]
+    c = 0
+    k = 0
     while True:
-        coord=-1
-        for i in range(2*n): 
-            if dec[i/2][i%2]==0:
-                coord=i
+        coord = -1
+        for i in range(2 * n):
+            if dec[i // 2][i % 2] == 0:
+                coord = i
                 break
-        if coord==-1:
+        if coord == -1:
             break
-        xy=coord
-        k+=1
-        par=k
+        xy = coord
+        k += 1
+        par = k
         while True:
-            dec[xy/2][xy%2]=par
-            c+=1
-            if par>0:
-                xy+=1-2*(xy%2)
+            dec[xy // 2][xy % 2] = par
+            c += 1
+            if par > 0:
+                xy += 1-2*(xy%2)
             else:
-                if tr[rect[xy/2][xy%2]][0]==xy/2: tmp=tr[rect[xy/2][xy%2]][1]
-                else: tmp=tr[rect[xy/2][xy%2]][0]
-                if rect[tmp][0]==rect[xy/2][xy%2]: xy=2*tmp
-                else: xy=2*tmp+1
+                if tr[rect[xy // 2][xy%2]][0]==xy//2:
+                    tmp = tr[rect[xy // 2][xy % 2]][1]
+                else:
+                    tmp = tr[rect[xy // 2][xy % 2]][0]
+                if rect[tmp][0]==rect[xy // 2][xy % 2]:
+                    xy = 2*tmp
+                else:
+                    xy = 2*tmp+1
             par=-par
             if xy==coord:
                 break
-    p1=[0]*n
-    p2=[0]*n
+    p1 = [0] * n
+    p2 = [0] * n
     for i in range(n):
-        if dec[i][0]>0:
+        if dec[i][0] > 0:
             (p1[i],p2[i])=(rect[i][0],rect[i][1])
         else:
             (p1[i],p2[i])=(rect[i][1],rect[i][0])
-    return ((p1,p2),dec)
+    return ((p1, p2), dec)
 
 
-
-def getWindingNbTable(p1,p2):###########unsure!! check for shifts
-    n=len(p1)
+def getWindingNbTable(p1, p2):
+    """
+    ###########unsure!! check for shifts
+    """
+    n = len(p1)
     tab=[[0]*(n+1) for i in range(n+1)]
     for i in range(n):
         for j in range(1,n+1):
@@ -77,24 +84,23 @@ def toStringNice(rect):
     """
     s = ''
 
-    n=len(rect)
-    tab=[[" "]*n for i in range(n)]
+    n = len(rect)
+    tab = [[" "] * n for i in range(n)]
     for i in range(n):
         for j in [0,1]:
-            tab[i][rect[i][j]]="o"
+            tab[i][rect[i][j]] = "o"
     for i in range(n):
-        for j in range(rect[i][0]+1,rect[i][1]):
-            tab[i][j]="|"
+        for j in range(rect[i][0]+1, rect[i][1]):
+            tab[i][j] = u"│"
     rr = transpose(rect)
     for i in range(n):
-        for j in range(rr[i][0]+1,rr[i][1]):
-            if tab[j][i]=="|":
-                tab[j][i]="+"
+        for j in range(rr[i][0]+1, rr[i][1]):
+            if tab[j][i] == u"│":
+                tab[j][i] = u"┼"
             else:
-                tab[j][i]="-"
-    for i in range(n-1,-1,-1):
+                tab[j][i] = u"─"
+    for i in range(n-1, -1, -1):
         for j in range(n):
-            s+=tab[j][i]
-        s+="""
-"""
+            s += tab[j][i]
+        s += "\n"
     return s

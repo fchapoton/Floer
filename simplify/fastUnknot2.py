@@ -1,5 +1,7 @@
-from RectDia import RectDia
-from FastRectDiag import FastRectDiag
+from __future__ import absolute_import
+
+from .RectDia import RectDia
+from .FastRectDiag import FastRectDiag
 
 
 def printHistory(diag):

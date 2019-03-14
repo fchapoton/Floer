@@ -1,4 +1,6 @@
-import fastUnknot2
+from __future__ import absolute_import
+
+from . import fastUnknot2
 
 
 def toPoints(rDiag):
@@ -10,10 +12,7 @@ def toPoints(rDiag):
 
 
 def makePairs(r):
-    res = []
-    for i in range(len(r)/2):
-        res.append([r[2*i], r[2*i+1]])
-    return res
+    return [[r[2 * i], r[2 * i + 1]] for i in range(len(r) // 2)]
 
 
 def simplify(rect, bd):

@@ -1,3 +1,5 @@
+from six.moves import range
+
 from genGen import genGen
 import rectDiagMisc
 
@@ -33,12 +35,14 @@ def gen1Ca(rect):
 
 
 def genEll(rect):
-    top=[]
-    bottom=[]
-    for i in xrange(len(rect)):
-        if rect[i][1]==len(rect)-1: top.append(i)
-        if rect[i][0]==0: bottom.append(i)
-    score=1000000000
+    top = []
+    bottom = []
+    for i in range(len(rect)):
+        if rect[i][1] == len(rect)-1:
+            top.append(i)
+        if rect[i][0] == 0:
+            bottom.append(i)
+    score = 1000000000
     for a,b in [(0,rect[0][0]),(0,rect[0][1]),(len(rect)-1,rect[len(rect)-1][0])
                 ,(len(rect)-1,rect[len(rect)-1][1]), (top[0],len(rect)-1),
                 (top[1],len(rect)-1),(bottom[0],0),(bottom[1],0)]:
@@ -46,8 +50,8 @@ def genEll(rect):
         elly=rectDiagMisc.transpose(rect)
         ellx[a]=-1
         elly[b]=-1
-        tmp=evalEll(ellx,elly)
-        if tmp<score:
+        tmp = evalEll(ellx,elly)
+        if tmp < score:
             sellx=ellx
             selly=elly
             score=tmp
