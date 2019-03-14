@@ -4,7 +4,7 @@ from generators import classifiedGen
 from homology import chain2DToHomv2
 
 
-####################bnd map
+# boundary map
 def isRectPunc(diag, ax, ay, bx, by):
     for i in range(ax, bx):
         if ay <= diag[i][0] < by:
@@ -16,7 +16,8 @@ def isRectPunc(diag, ax, ay, bx, by):
 
 def isRectGen(gen, a, b):
     """
-    gen is is before the map! a<b
+    gen is is before the map!
+    a < b
     """
     y1 = gen.perm[a]
     y2 = gen.perm[b]
@@ -27,19 +28,26 @@ def isRectGen(gen, a, b):
 
 
 def isBndryLargeEll(rect, gen1, gen2):
-    n=len(gen1.perm)
-    diff=[]
+    """
+    rect = [[0,1],[0,2],[1,2]]
+
+    a = gen([-1, 4, 3, 0, 2], [0, -1, -1, 1, -1], [0, 1, 1, 1, -1])
+    b = gen([-1, 4, 3, 0, 2], [0, -1, 1, 1, -1], [0, 1, 1, 1, -1])
+    print(isBndryLargeEll(rect, a, b))
+    """
+    n = len(gen1.perm)
+    diff = []
     for i in range(n):
-        if gen1.perm[i]!=gen2.perm[i]:
+        if gen1.perm[i] != gen2.perm[i]:
             diff.append(i)
-    l=len(diff)
-    if l>2:
+    l = len(diff)
+    if l > 2:
         return 0
-    if l==0:
-        diffxs=[]
-        diffys=[]
+    if l == 0:
+        diffxs = []
+        diffys = []
         for i in range(n):
-            if gen1.xShift[i]!=gen2.xShift[i]:
+            if gen1.xShift[i] != gen2.xShift[i]:
                 diffxs.append(i)
             if gen1.yShift[i]!=gen2.yShift[i]:
                 diffys.append(i)
@@ -72,7 +80,7 @@ def isBndryLargeEll(rect, gen1, gen2):
             if gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]:
                 if i!=diff[0] and i!=diff[1]:
                     return 0
-        (a,b)=diff
+        a, b = diff
         if gen1.xShift[a]!=gen2.xShift[a] or gen1.xShift[b]!=gen2.xShift[b] or gen1.yShift[a]!=gen2.yShift[b] or gen2.yShift[a]!=gen1.yShift[b]:
             return 0
         if isRectGen(gen1,a,b) or isRectPunc(rect,a+(gen1.xShift[a]+1)/2,
@@ -81,22 +89,17 @@ def isBndryLargeEll(rect, gen1, gen2):
                                              gen1.perm[b]+(gen1.yShift[b]+1)/2):
             return 0
         return 1
-    if l==1:
+    if l == 1:
         raise RuntimeError("1 of diff")
     raise RuntimeError("error in boundary")
 
 
 if __name__ == "__main__":
-    # rect=[[0,2],[1,3],[0,2],[1,3]]
-    # rect=[[0,2],[1,3],[0,2],[1,3]]
-    rect = [[0,1],[0,1]]
+    rect0 = [[0,2],[1,3],[0,2],[1,3]]
+    rect1 = [[0,2],[1,3],[0,2],[1,3]]
+    rect2 = [[0,1],[0,1]]
 
     rect = [[1,4],[0,2],[1,3],[2,4],[0,3]]
-#     rect=[[0,1],[0,2],[1,2]]
-
-#     a=gen([-1, 4, 3, 0, 2], [0, -1, -1, 1, -1], [0, 1, 1, 1, -1])
-#     b=gen([-1, 4, 3, 0, 2], [0, -1, 1, 1, -1], [0, 1, 1, 1, -1])
-#     print(isBndryLargeEll(rect,a,b))
 
     tmp = classifiedGen(rect, 0)[0]
     print("second phase")

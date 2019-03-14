@@ -24,27 +24,27 @@ def getLargeEllipses(rect):
 
 
 def alexIndexRaw(gen,tab):
-    res=0
+    res = 0
     for i in range(len(gen.perm)):
-        if gen.perm[i]==-1:
+        if gen.perm[i] == -1:
             continue
-        res+=tab[i+(gen.xShift[i]+1)/2][gen.perm[i]+(gen.yShift[i]+1)/2]
+        res += tab[i+(gen.xShift[i]+1)/2][gen.perm[i]+(gen.yShift[i]+1)/2]
     return res
 
 
-def alexIndexShift(rect,tab,ell):
-    ##first the corners
-    res=0
+def alexIndexShift(rect, tab, ell):
+    # first the corners
+    res = 0
     for x in range(len(rect)):
         for h in rect[x]:
             for d in [[0,0],[0,1],[1,0],[1,1]]:
                 res+=tab[x+d[0]][h+d[1]]
-    res=res/8.0
-    res+=(len(rect)-1)/2.0
-    return -res+len(rect)-1
+    res = res/8.0
+    res += (len(rect)-1)/2.0
+    return -res + len(rect)-1
 
 
-def _I(p1,p2):
+def _I(p1, p2):
     res=0
     for j in range(len(p1)):
         for i in range(j):
@@ -53,13 +53,13 @@ def _I(p1,p2):
     return res
 
 
-def maslovIndex(gen,p):##to check!
+def maslovIndex(gen,p):  # to check!
     res=0
     for i in range(len(p)):
         for j in range(len(p)):
             if p[j]==-1 or gen.perm[i]==-1:
                 continue
-            (x,y)=(2*i+gen.xShift[i],2*gen.perm[i]+gen.yShift[i])##new
+            (x,y)=(2*i+gen.xShift[i],2*gen.perm[i]+gen.yShift[i])  # new
             if x<j*2 and y<p[j]*2:
                 res+=1
             if x>j*2 and y>p[j]*2:
@@ -89,9 +89,8 @@ def classifiedGen(rect, ell, strat=0):
     p1,p2 = rectDiagMisc.recToPermAndComp(rect)[0]
     tabAl = rectDiagMisc.getWindingNbTable(p1, p2)
     print("alexander table:", tabAl)
-    AShift=alexIndexShift(rect,tabAl,ell)
+    AShift = alexIndexShift(rect, tabAl, ell)
     print("alexander Index Shift", AShift)
-##
 
     tabMas=maslovTab(p1)
     ipp=_I(p1,p1)

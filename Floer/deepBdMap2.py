@@ -4,8 +4,8 @@ from genGen import gen
 
 
 def areGenEqual(gen1, gen2):
-    return (gen1.perm == gen2.perm and gen1.xShift == gen2.xShift
-            and gen1.yShift == gen2.yShift)
+    return (gen1.perm == gen2.perm and gen1.xShift == gen2.xShift and
+            gen1.yShift == gen2.yShift)
 
 
 def copyGen(g):
@@ -74,34 +74,35 @@ def listPossRectMp(rect, ell):##ell is only there to avoid where there is no ova
 def listRect(gen, possRect, immobile):
     n = len(gen.perm)
     res = []
-    pts = [(i,gen.perm[i],gen.xShift[i],gen.yShift[i]) for i in range(n)]
+    pts = [(i, gen.perm[i],gen.xShift[i], gen.yShift[i]) for i in range(n)]
     for j in pts:
-        if gen.perm[j[0]]==-1:
+        if gen.perm[j[0]] == -1:
             continue
         if immobile[j[0]]:
             continue
         for i in range(j[0]):
-            if gen.perm[i]==-1:
+            if gen.perm[i] == -1:
                 continue
             if immobile[i]:
                 continue
             if (pts[i], j) in possRect:
                 b = 0
-                for k in range(i+1,j[0]):
-                    if gen.perm[i]<gen.perm[k]<gen.perm[j[0]]:
-                        b=1
+                for k in range(i + 1, j[0]):
+                    if gen.perm[i] < gen.perm[k] < gen.perm[j[0]]:
+                        b = 1
                         break
-                if b: continue
-                ng=copyGen(gen)
-                ng.perm[i],ng.perm[j[0]]=ng.perm[j[0]],ng.perm[i]
-                ng.yShift[i],ng.yShift[j[0]]=ng.yShift[j[0]],ng.yShift[i]
+                if b:
+                    continue
+                ng = copyGen(gen)
+                ng.perm[i], ng.perm[j[0]] = ng.perm[j[0]], ng.perm[i]
+                ng.yShift[i], ng.yShift[j[0]] = ng.yShift[j[0]], ng.yShift[i]
                 res.append((ng,-1))
     return res
 
 
-def listBigon(gen,rect,tr,immobile):
-    n=len(gen.perm)
-    res=[]
+def listBigon(gen, rect, tr, immobile):
+    n = len(gen.perm)
+    res = []
     for i in range(n):
         if gen.perm[i]!=-1 and not immobile[i]:
             tmp=i+(gen.xShift[i]+1)//2
@@ -145,27 +146,27 @@ def listReverseBigon(gen, rect, tr, immobile):
 debug = [0] * 128
 
 
-def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap=-1):##init should contains what doesn't change without the diag changing
+def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap=-1):  # init should contains what doesn't change without the diag changing
     if not findIsPoss(genStart.perm,genGoal.perm):
         return 0
-    possRect,rect,tr=init
+    possRect, rect, tr = init
     if hmap==-1:
         hmap = {}
     acc = []
     age = findAge(genStart,rect,tr)
-    if upDown==1 and age==0:##first condition: the steps on the path disappear
+    if upDown==1 and age==0:  # first condition: the steps on the path disappear
         return areGenEqual(genStart,genGoal)
-##    print("("+repr(rect)+","+"[gen("+genStart.toString()+",0),"+"gen("+genGoal.toString()+",0)])")
-##    print(depth, "I"*(19-depth)+genStart.toString(),age,inherited)
+#    print("("+repr(rect)+","+"[gen("+genStart.toString()+",0),"+"gen("+genGoal.toString()+",0)])")
+#    print(depth, "I"*(19-depth)+genStart.toString(),age,inherited)
     if age<=inherited or age==0:
         age=-1
-    if upDown==1:##the second value!
+    if upDown == 1:  # the second value!
         acc+=[b for b in listReverseBigon(genStart,rect,tr,immobile) if b[1]>=age]
     else:
         if age<1:
             acc+=listRect(genStart,possRect,immobile)
         acc+=[b for b in listBigon(genStart,rect,tr,immobile) if b[1]>=age and (b[1]==-1 or b[1]!=inherited)]
-##    for i in acc: print(i[0].toString(),i[1])
+#    for i in acc: print(i[0].toString(),i[1])
     parity = 0
     for g in acc:
         ttt=(tuple(g[0].perm),tuple(g[0].xShift),tuple(g[0].yShift))
@@ -192,22 +193,23 @@ def initWith(rect, ell):
         tr[p[0]].append(i)
         tr[p[1]].append(i)
     return (listPossRectMp(rect, ell), rect, tr)
-##0 in init is possRect#1 in init is transposed rect
+# 0 in init is possRect
+# 1 in init is transposed rect
 
 
 if __name__ == "__main__":
-    data=([[2, 6], [1, 5], [4, 7], [2, 9], [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
-          ([[2, 6], [1, 5], [4, 7], -1, [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
-           [[4, 6], [1, 5], [0, 3], [4, 7], [2, 6], [1, 9], [0, 5], [2, 8], [7, 9], -1]),
-          [gen([6, 2, 4, -1, 0, 1, 3, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, 1, 1, -1, -1, 1, 1],0),
-           gen([6, 2, 4, -1, 1, 3, 0, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, -1, -1, 1, -1, 1, 1],0)])
-    init=initWith(data[0],data[1])
-##    print(findAge(gen1,rect,init[2]))
+    data = ([[2, 6], [1, 5], [4, 7], [2, 9], [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
+            ([[2, 6], [1, 5], [4, 7], -1, [0, 3], [1, 6], [0, 4], [3, 8], [7, 9], [5, 8]],
+             [[4, 6], [1, 5], [0, 3], [4, 7], [2, 6], [1, 9], [0, 5], [2, 8], [7, 9], -1]),
+            [gen([6, 2, 4, -1, 0, 1, 3, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, 1, 1, -1, -1, 1, 1],0),
+             gen([6, 2, 4, -1, 1, 3, 0, 8, 7, 5],[-1, -1, -1, 0, 1, 1, -1, 1, -1, -1],[-1, -1, 1, 0, -1, -1, 1, -1, 1, 1],0)])
+    init = initWith(data[0], data[1])
+    #    print(findAge(gen1,rect,init[2]))
     gen1 = data[2][0]
     gen2 = data[2][1]
-    immo = [1,1,1,1,0,0,0,1,1,1]
-##    for j in listRect(gen1,init[0]):j[0].show()
-##    deepBdMapRec(gen1,gen1,19,init)
+    immo = [1, 1, 1, 1, 0, 0, 0, 1, 1, 1]
+    #    for j in listRect(gen1,init[0]):j[0].show()
+    #    deepBdMapRec(gen1,gen1,19,init)
 
     tmp = deepBdMapRec(gen1, gen2,99, init, immo)
     print(tmp)

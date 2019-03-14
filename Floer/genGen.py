@@ -3,8 +3,8 @@ from six.moves import range
 
 def genPseudogen(ellx, elly):
     """
-    #ell is a list of pairs representing
-    #width of ellipses,in ellx [a,b] means a<y<b, not a<y<=b!!!
+    # ell is a list of pairs representing
+    # width of ellipses,in ellx [a,b] means a<y<b, not a<y<=b!!!
     """
     pool = [[]]
     for i in range(len(ellx)):
@@ -21,12 +21,13 @@ def genPseudogen(ellx, elly):
         pool = tmp
     return pool
 
-#second I gen "shifts of permutation
+# second I gen "shifts of permutation
 
 
-class gen:##
+class gen:
     def __init__(self, perm, xShift, yShift, premas):
-        (self.perm,self.xShift,self.yShift,self.maslov)=(perm,xShift,yShift,premas)
+        self.perm = perm
+        self.xShift, self.yShift, self.maslov = xShift, yShift, premas
 
     def show(self):
         s = ""

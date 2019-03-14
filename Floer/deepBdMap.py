@@ -89,40 +89,43 @@ def detectSimple(n,gen1,gen2,ellDir):# 1=accepted 0 don't know -1 refused
             if trans1[i]==trans2[i] and ellDir[1][i]==-1:
                 return 0
         # at this point it is a possibly horny rectangle
-        return 1 #  accepting because of bdMG verification only
-    else:# nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return 1  #  accepting because of bdMG verification only
+    else:  # nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for i in range(n):
             if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):# hole
                 return 0
             trans1[gen1.perm[i]]=i
             trans2[gen2.perm[i]]=i
-        start=-1#is there only one component? (preparation)
+        start=-1  # is there only one component? (preparation)
         for i in range(n):
             if trans1[i]==trans2[i]:
                 if ellDir[1][i]==-1:
                     return 0
-            else: start=trans1[i]
-        #is there only one component?
-        tmp=isSimplePermComp(gen1.perm,gen2.perm,trans1,trans2,start)
-        if tmp[1]==nbMobile and tmp[0]==4: return 1
-        else: return 0
+            else:
+                start=trans1[i]
+        # is there only one component?
+        tmp = isSimplePermComp(gen1.perm,gen2.perm,trans1,trans2,start)
+        if tmp[1]==nbMobile and tmp[0]==4:
+            return 1
+        else:
+            return 0
 
 
 def decideOrdering(ell):
-    ordering=[]
-    for b in [0,1]:
-        for i,e in enumerate(ell[b]):
-            if e!=-1:
-                ordering.append((b,i,1))
-                ordering.append((b,i,-1))
+    ordering = []
+    for b in [0, 1]:
+        for i, e in enumerate(ell[b]):
+            if e != -1:
+                ordering.append((b, i, 1))
+                ordering.append((b, i, -1))
     ordering.reverse()
     return ordering
 
 
-def cPj(x,y,xs,ys,cx,cy):
-    x=x+xs*0.3-cx
-    y=y+ys*0.3-cy
-    return -atan2(x,y)# zero on top positiveness is ok
+def cPj(x, y, xs, ys, cx, cy):
+    x = x + xs*0.3-cx
+    y = y + ys*0.3-cy
+    return -atan2(x, y)  # zero on top positiveness is ok
 
 
 def isBetween(a1, a2, a3):
@@ -419,18 +422,20 @@ def findHoles(gen1,gen2,trans1,trans2,ellDir,bigon):
             continue
         if gen1.perm[i]==gen2.perm[i] and gen1.xShift[i]==gen2.xShift[i] and gen1.yShift[i]==gen2.yShift[i] and ellDir[0][i]==1 and ellDir[1][gen1.perm[i]]==1:
             continue
-        if acc.count(i)==0:
-            m=findAll(i,gen1.perm,gen2.perm,trans1,trans2)
-            res.append((i,m))
+        if acc.count(i) == 0:
+            m = findAll(i, gen1.perm, gen2.perm, trans1, trans2)
+            res.append((i, m))
     return res
 
 
-def isIn(g2,path,x,y):
-    p=0
+def isIn(g2, path, x, y):
+    p = 0
     for k in range(x):
         if path[k]:
-            if g2[k]>=y:p+=1
-            if path[k][1]>=y:p-=1
+            if g2[k] >= y:
+                p += 1
+            if path[k][1] >= y:
+                p -= 1
     return p
 
 
@@ -468,12 +473,16 @@ def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):# g2Acc contain
         else:
             if isH[i]==2 or isH[i]==0 and not tmp1:
                 gg=gen1
-                if newEllDir[0][i]!=0: newEllDir[0][i]=1
-                if newEllDir[1][gen1.perm[i]]!=0: newEllDir[1][gen1.perm[i]]=1
+                if newEllDir[0][i]!=0:
+                    newEllDir[0][i]=1
+                if newEllDir[1][gen1.perm[i]]!=0:
+                    newEllDir[1][gen1.perm[i]]=1
             else:
                 gg=gen2
-                if newEllDirp[0][i]!=0: newEllDirp[0][i]=1
-                if newEllDirp[1][gen2.perm[i]]!=0: newEllDirp[1][gen2.perm[i]]=1
+                if newEllDirp[0][i]!=0:
+                    newEllDirp[0][i]=1
+                if newEllDirp[1][gen2.perm[i]]!=0:
+                    newEllDirp[1][gen2.perm[i]]=1
             g2.perm.append(gg.perm[i])
             g2.xShift.append(gg.xShift[i])
             g2.yShift.append(gg.yShift[i])

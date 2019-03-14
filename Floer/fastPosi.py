@@ -42,16 +42,16 @@ def isSimplePermComp(p1,p2,trans1,trans2,startx):
 
 def detectSimple(n, gen1, gen2, ellDir):
     """
-    ##1=accepted 0 don't know -1 refused
+    1=accepted ; 0=don't know ; -1=refused
     """
-    nbMobile=0
-    trans1=[-1]*n
-    trans2=[-1]*n
+    nbMobile = 0
+    trans1 = [-1] * n
+    trans2 = [-1] * n
     for i in range(n):
-        if gen1.perm[i]!=gen2.perm[i]:
-            nbMobile+=1
-    if nbMobile==0:
-        nbSMobile=0
+        if gen1.perm[i] != gen2.perm[i]:
+            nbMobile += 1
+    if nbMobile == 0:
+        nbSMobile = 0
         for i in range(n):
             if gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]:
                 nbSMobile+=1
@@ -59,12 +59,12 @@ def detectSimple(n, gen1, gen2, ellDir):
                 if ellDir[0][i]==-1 or ellDir[1][gen1.perm[i]]==-1:
                     return 0
         if nbSMobile==1:
-            return 1 ## accepting because of bdMG verification only
+            return 1  # accepting because of bdMG verification only
         else:
             return 0
-    if nbMobile==2:##rectangle, to elaborate for replacing version
+    if nbMobile==2:  # rectangle, to elaborate for replacing version
         for i in range(n):
-            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):##hole
+            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):  # hole
                 return 0
             if gen1.perm[i]!=-1:
                 trans1[gen1.perm[i]]=i
@@ -72,23 +72,23 @@ def detectSimple(n, gen1, gen2, ellDir):
         for i in range(n):
             if trans1[i]==trans2[i] and ellDir[1][i]==-1:
                 return 0
-        ##at this point it is a possibly horny rectangle
-        return 1 ## accepting because of bdMG verification only
-    else:##nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # at this point it is a possibly horny rectangle
+        return 1  # accepting because of bdMG verification only
+    else:  # nbMobile >2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for i in range(n):
-            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):##hole
+            if gen1.perm[i]==gen2.perm[i] and (ellDir[0][i]==-1 or gen1.xShift[i]!=gen2.xShift[i] or gen1.yShift[i]!=gen2.yShift[i]):  # hole
                 return 0
             if gen1.perm[i]!=-1:
                 trans1[gen1.perm[i]]=i
                 trans2[gen2.perm[i]]=i
-        start=-1#is there only one component? (preparation)
+        start=-1  # is there only one component? (preparation)
         for i in range(n):
             if trans1[i] == trans2[i]:
                 if ellDir[1][i]==-1:
                     return 0
             else:
                 start=trans1[i]
-        #is there only one component?
+        # is there only one component?
         tmp=isSimplePermComp(gen1.perm,gen2.perm,trans1,trans2,start)
         if tmp[1] == nbMobile and tmp[0] == 4:
             return 1

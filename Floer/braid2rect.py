@@ -73,12 +73,12 @@ def rdBraid(s):
 
 if __name__ == "__main__":
     pass
-# 
+#
 #     with open("braidList.txt","r") as br:
 #         rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
 #     atlas = {}
 #     import simplify.diagSimplify
-# 
+#
 #     for kn in rawList:
 #         tmp = rdBraid(kn[2])
 #         atlas[(int(kn[0]),int(kn[1]))]=simplify.diagSimplify.simplify(
