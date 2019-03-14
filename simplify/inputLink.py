@@ -5,7 +5,8 @@ from math import sqrt
 from pairing import minPairing
 
 ###################### first some plane geometry needed later
-constradius=1## when 2 points are nearer they are considered identical!
+constradius = 1
+# when 2 points are nearer they are considered identical!
 
 
 def dist(p1, p2):
@@ -24,7 +25,8 @@ def distToLine(p, l):
     k=sqrt(dist(l[0],l[1])*1.0)
     peri=(k1+k2+k)/2
     h=(sqrt(peri*(peri-k1)*(peri-k2)*(peri-k))*2)/k
-    if k1*k1-h*h>k*k or k2*k2-h*h>k*k : return min((k1,k2))
+    if k1*k1-h*h>k*k or k2*k2-h*h>k*k:
+        return min((k1,k2))
     return h
 
 
@@ -47,29 +49,23 @@ def underOn(l1, l2, dx, dy):
     """
     of two (intersecting) line find which is like / and \
     """
-##    def ori(l):
-##        return l[0][0]*dx+l[0][1]*dy<l[1][0]*dx+l[1][1]*dy
-##    l1p=l1[:]
-##    l2p=l2[:]
-##    if ori(l1): l1p=(l1[1],l1[0])
-##    if ori(l2): l2p=(l2[1],l2[0])
-##    (dx,dy)=(-dy,dx)
-##    return ori((l1p[0],l2p[0]))
-    return (l1[0][0]-l1[1][0])/(l1[0][1]-l1[1][1])>(l2[0][0]-l2[1][0])/(l2[0][1]-l2[1][1])
+    return (l1[0][0]-l1[1][0])/(l1[0][1]-l1[1][1]) > (l2[0][0]-l2[1][0])/(l2[0][1]-l2[1][1])
 
 
 def locate(x, y, dx, dy, l1, l2, lines):
-    res=0
+    res = 0
     for l in lines:
-        if l==l1 or l==l2: continue
-        k=intersect(((x,y),(x-dy,y+dx)),l)
-        if k[3]>=0 and k[3]<=1 and k[2]>0:res+=1
+        if l == l1 or l == l2:
+            continue
+        k = intersect(((x, y), (x - dy, y + dx)), l)
+        if 0 <= k[3] <= 1 and k[2] > 0:
+            res += 1
     return res
 
 
 def uOrn(v1x, v1y, v2x, v2y, dx, dy):
-    d1=v1x*dx+v1y*dy
-    d2=v2x*dx+v2y*dy
+    d1 = v1x*dx+v1y*dy
+    d2 = v2x*dx+v2y*dy
     if d1 > 0 and d2 < 0:
         return 3
     if d1 < 0 and d2 > 0:
@@ -126,39 +122,43 @@ def lineToOLink(lines):
                 if boo:
                     vertex.append((l2[1][0],l2[1][1],locate(l2[1][0],l2[1][1],dx,dy,l1,l2,lines),boo))
                 continue
-            if tmp[2]>=0.0 and tmp[2]<=1.0 and  tmp[3]>=0.0 and tmp[3]<=1.0:
-                loc=locate(tmp[0],tmp[1],dx,dy,l1,l2,lines)
+            if 0.0 <= tmp[2] <= 1.0 and 0.0 <= tmp[3] <= 1.0:
+                loc = locate(tmp[0], tmp[1], dx, dy, l1, l2, lines)
 ##                boo=0
 ##                if underOn(l1,l2,dx,dy)==0:boo=1-boo
-##                if (l1[0][1]>l2[0][1] and boo) or (l1[0][1]<l2[0][1] and 1-boo): 
+##                if (l1[0][1]>l2[0][1] and boo) or (l1[0][1]<l2[0][1] and 1-boo):
 ##                    inter.append((tmp[0],tmp[1],loc,1))
 ##                else:
 ##                    inter.append((tmp[0],tmp[1],loc,0))
-##                    
-                if underOn(l1,l2,dx,dy): 
-                    inter.append((tmp[0],tmp[1],loc,1))
+##
+                if underOn(l1, l2, dx, dy):
+                    inter.append((tmp[0], tmp[1], loc, 1))
                 else:
-                    inter.append((tmp[0],tmp[1],loc,0))
-    t=[(x[2],x[3],x[0]*dx+x[1]*dy) for x in vertex]+[(x[2],x[3],x[0]*dx+x[1]*dy) for x in inter]
-    t.sort(cmp=lambda x,y :cmp(x[2],y[2]))
+                    inter.append((tmp[0], tmp[1], loc, 0))
+    t = [(x[2],x[3],x[0]*dx+x[1]*dy)
+         for x in vertex]+[(x[2],x[3],x[0]*dx+x[1]*dy) for x in inter]
+    t.sort(key=lambda x: x[2])
     print(t)
-    return OLink.OLink([(x[1],x[0]) for x in t],entry)
-
-
+    return OLink.OLink([(x[1], x[0]) for x in t], entry)
 
 ################################# a gui to draw link and "read" them
 
+
 class inputWindow(Tkinter.Frame):
-    def drawArrow(self,l):
-        self.board.create_line (l[0][0],l[0][1],l[1][0],l[1][1],width=10,arrow=Tkinter.LAST,fill="#000")
-        coef=sqrt(1.0*dist(l[0],l[1]))
-        coef=(coef-10)/coef## =arrow head!!!!!!!!
-        self.board.create_line (l[0][0],l[0][1],int(l[0][0]+coef*(l[1][0]-l[0][0])),int(l[0][1]+coef*(l[1][1]-l[0][1])),width=6,fill="#40f")
-    
+    def drawArrow(self, l):
+        self.board.create_line(l[0][0],l[0][1],l[1][0],l[1][1],
+                               width=10, arrow=Tkinter.LAST, fill="#000")
+        coef = sqrt(1.0*dist(l[0], l[1]))
+        coef = (coef-10)/coef  # =arrow head!!!!!!!!
+        self.board.create_line(l[0][0], l[0][1],
+                               int(l[0][0]+coef*(l[1][0]-l[0][0])),
+                               int(l[0][1]+coef*(l[1][1]-l[0][1])),
+                               width=6, fill="#40f")
+
     def __init__(self, master=None):
         Tkinter.Frame.__init__(self, master)
         self.pack()
-        self.board=Tkinter.Canvas(self,width=1000,height=500)
+        self.board = Tkinter.Canvas(self, width=1000, height=500)
         self.board.pack()
         self.loadButton=Tkinter.Button(self,text=" Load Link ",command=self.loadLink)
         self.loadButton.pack()
@@ -179,28 +179,28 @@ class inputWindow(Tkinter.Frame):
         self.lines.append(((self.fromX,self.fromY,self.depth),(event.x,event.y,self.depth)))
         self.drawArrow(((self.fromX,self.fromY,self.depth),(event.x,event.y)))
 
-    def mouseDe(self,event):
-        p=(event.x,event.y)
-        dis=constradius*2000
-        select=-1
+    def mouseDe(self, event):
+        p = (event.x,event.y)
+        dis = constradius*2000
+        select = -1
         for i in range(len(self.lines)):
-            if distToLine(p,self.lines[i])<dis:
-                select=i
-                dis=distToLine(p,self.lines[i])
-        if select!=-1:
+            if distToLine(p, self.lines[i]) < dis:
+                select = i
+                dis = distToLine(p, self.lines[i])
+        if select != -1:
             for i in self.board.find_all():
                 self.board.delete(i)
-            self.lines[select:select+1]=[]
+            self.lines[select:select+1] = []
             for i in self.lines:
                 self.drawArrow(i)
 
     def loadLink(self):
-        self.lines=linePreparations(self.lines)
+        self.lines = linePreparations(self.lines)
         for i in self.board.find_all():
-                self.board.delete(i)
+            self.board.delete(i)
         for i in self.lines:
             self.drawArrow(i)
-        self.result=lineToOLink(self.lines)
+        self.result = lineToOLink(self.lines)
         self.event_generate("<<loadLink>>")
 
 
@@ -211,7 +211,7 @@ def inputLink():
     win = inputWindow()
     win.master.title("Link drawing program")
     win.mainloop()
-    return win.result            
+    return win.result
 
 
 if __name__ == "__main__":

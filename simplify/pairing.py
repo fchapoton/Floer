@@ -16,7 +16,7 @@ def cheapestPath(states, transitionCost):
                     cost=tmp
                     states[len(states)-n-1][s]=(t,cost)
     start=-1
-    cost=infty
+    cost = infty
     for s in range(len(states[0])):
         if cost>states[0][s][1]:
             start=s
@@ -25,7 +25,7 @@ def cheapestPath(states, transitionCost):
     for n in range(len(states)-1):
         start=states[n][start][0]
         path.append(start)
-    return (path,cost)
+    return (path, cost)
 
 
 def minPairing(matrix):
@@ -36,10 +36,7 @@ def minPairing(matrix):
 
 
 def weight(pairing, matrix):
-    s = 0
-    for i in range(len(pairing)):
-        s += matrix[i][pairing[i]]
-    return s
+    return sum(matrix[i][pairi] for i, pairi in enumerate(pairing))
 
 
 def improve(pairing, matrix):
@@ -48,21 +45,26 @@ def improve(pairing, matrix):
         states=[]
         for i in range(l+1):
             states.append(l*[(0,0)])
-        def transitionCost(n,x,y):
-            if x==y and y==start and n==0: return infty
-            if n==0 and x!=start: return infty
-            if n==l-1 and y!=start: return infty
-            if x==y: return 0
+
+        def transitionCost(n, x, y):
+            if x==y and y==start and n==0:
+                return infty
+            if n==0 and x!=start:
+                return infty
+            if n==l-1 and y!=start:
+                return infty
+            if x==y:
+                return 0
             return matrix[x][pairing[y]]-matrix[x][pairing[x]]
-        path=cheapestPath(states,transitionCost)
-        if path[1]>=0:
+        path = cheapestPath(states, transitionCost)
+        if path[1] >= 0:
             continue
         path=path[0]
         visit=l*[-1]
         for i in range(len(path)):
             if visit[path[i]]>=0 and path[i-1]!=path[i]:
                 cycleStart=visit[path[i]]
-                end=i
+                end = i
                 break
             visit[path[i]]=i
         tmp=pairing[path[cycleStart]]
@@ -74,14 +76,17 @@ def improve(pairing, matrix):
 
 
 def rMatrix(l):
-    states=[]
+    """
+    a random square matrix of size l
+    """
+    states = []
     for i in range(l):
-        states.append(l*[0])
+        states.append(l * [0])
     for i in range(l):
         for j in range(l):
-            states[i][j]=randint(1,1000)
+            states[i][j] = randint(1, 1000)
     return states
-    
+
 
 def trtr(n, x, y):
     if x == 0 and y == 1 and n == 0:

@@ -1,18 +1,19 @@
 # some combinatorics first
+from six.moves import range
 
 
 def genPerm(n):
-    if n==0:
+    if n == 0:
         return [[]]
-    res=[]
-    prev=genPerm(n-1)
+    res = []
+    prev = genPerm(n - 1)
     for p in prev:
-        for i in range(n-1):
-            k=p[i]
-            tmp=p+[k]
-            tmp[i]=n
+        for i in range(n - 1):
+            k = p[i]
+            tmp = p + [k]
+            tmp[i] = n
             res.append(tmp)
-        res.append(p+[n])
+        res.append(p + [n])
     return res
 
 
@@ -22,10 +23,10 @@ def genPermElem(elem):
     """
     if not elem:
         return [[]]
-    tot=[]
+    tot = []
     for i in range(len(elem)):
-        tmp=genPermElem(elem[:i]+elem[i+1:])
-        tot+=[[elem[i]]+x for x in tmp]
+        tmp = genPermElem(elem[:i] + elem[i + 1:])
+        tot += [[elem[i]] + x for x in tmp]
     return tot
 
 
@@ -174,9 +175,9 @@ for l in golayCache:
 ##            mn=min(r[d],mn)
 ##        bounds.append((mn,mx))
 ##    res=multiDim([i[1]-i[0]+1 for i in bounds])
-##    for i in xrange(len(l)):
+##    for i in range(len(l)):
 ##        nn=res
-##        for d in xrange(dim-1):
+##        for d in range(dim-1):
 ##            nn=nn[tmp[i][d]]
 ##        nn[tmp[i][dim-1]]=l[i]
 ##    return (res,bounds)

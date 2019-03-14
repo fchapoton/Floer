@@ -34,15 +34,18 @@ def findAge(gen, rect, tr):##next in line!
     return age
 
 
-def findIsPoss(perm1,perm2):
-    res=0
-    for j,h in enumerate(perm1):
-        if perm2[j]!=h: res-=1
+def findIsPoss(perm1, perm2):
+    res = 0
+    for j, h in enumerate(perm1):
+        if perm2[j] != h:
+            res -= 1
         for i in range(j):
             if i!=-1:
-                if perm1[i]<h: res+=2
-                if perm2[i]<perm2[j]: res-=2
-    return res>=0
+                if perm1[i]<h:
+                    res+=2
+                if perm2[i]<perm2[j]:
+                    res-=2
+    return res >= 0
 
 
 def listPossRectMp(rect, ell):##ell is only there to avoid where there is no oval!
@@ -143,11 +146,13 @@ debug = [0] * 128
 
 
 def deepBdMapRec(genStart,genGoal,depth,init,immobile,upDown=0,inherited=-1,hmap=-1):##init should contains what doesn't change without the diag changing
-    if not findIsPoss(genStart.perm,genGoal.perm): return 0
+    if not findIsPoss(genStart.perm,genGoal.perm):
+        return 0
     possRect,rect,tr=init
-    if hmap==-1: hmap=dict()
-    acc=[]
-    age=findAge(genStart,rect,tr)
+    if hmap==-1:
+        hmap = {}
+    acc = []
+    age = findAge(genStart,rect,tr)
     if upDown==1 and age==0:##first condition: the steps on the path disappear
         return areGenEqual(genStart,genGoal)
 ##    print("("+repr(rect)+","+"[gen("+genStart.toString()+",0),"+"gen("+genGoal.toString()+",0)])")

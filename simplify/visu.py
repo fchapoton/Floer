@@ -29,24 +29,26 @@ def drawEnd(x1,x2,y,height,width,fill,fig):
             color='#%d%d%d'%(0,0,0)
         else:
             color=fill
-            
+
         drawArch(x1-k,x2+k,y,height+k*dir,color,fig)
 
 
 def drawBraidElem(x1,y1,x2,y2,entry,elem,pos,width,fill,fig):
     d1=(max(x2,x1)-min(x2,x1))/(entry+1)
     out=entry
-    if elem==2: out+=2
-    if elem==3: out-=2
-    d2=(max(x2,x1)-min(x2,x1))/(out+1)
-    high=0
-    low=0
-    if elem==0:
-        drawRibbon(x1+d1*(pos+1+1),y1,x1+d2*(pos+1),y2,width,fill,fig)  
-        drawRibbon(x1+d1*(pos+1),y1,x1+d2*(pos+1+1),y2,width,fill,fig)  
+    if elem == 2:
+        out += 2
+    if elem == 3:
+        out -= 2
+    d2 = (max(x2,x1)-min(x2,x1))/(out+1)
+    high = 0
+    low = 0
+    if elem == 0:
+        drawRibbon(x1+d1*(pos+1+1),y1,x1+d2*(pos+1),y2,width,fill,fig)
+        drawRibbon(x1+d1*(pos+1),y1,x1+d2*(pos+1+1),y2,width,fill,fig)
     if elem==1:
-        drawRibbon(x1+d1*(pos+1),y1,x1+d2*(pos+1+1),y2,width,fill,fig)  
-        drawRibbon(x1+d1*(pos+1+1),y1,x1+d2*(pos+1),y2,width,fill,fig)  
+        drawRibbon(x1+d1*(pos+1),y1,x1+d2*(pos+1+1),y2,width,fill,fig)
+        drawRibbon(x1+d1*(pos+1+1),y1,x1+d2*(pos+1),y2,width,fill,fig)
     if elem==2:
         drawEnd(x1+d2*(pos+1),x1+d2*(pos+2),y2,-(y2-y1)/3,width,fill,fig)
     if elem==3:
@@ -92,7 +94,7 @@ def drawBraidSerie(x1,y1,x2,y2,s,width,fig):
         for y in range(n/d):
             drawBraid(x1+dx*x,y1+dy*y,x1+dx*(x+1),y1+dy*(y+1),s[d*y+x].word,s[d*y+x].entry,width,fig)
 
-    
+
 if __name__ == "__main__":
     root = Tkinter.Tk()
     fig = Tkinter.Canvas(root, width=500, height=500)
@@ -102,4 +104,4 @@ if __name__ == "__main__":
 ##    drawEnd(60,200,100,-50,10,'#%d%d%d'%(9,0,0),fig)
 ##    drawBraidElem(10,10,500,50,8,1,2,7,'#%d%d%d'%(9,0,0),fig)
     drawBraid(10,10,500,500,[(2,0),(2,1),(1,0),(1,0),(1,2),(3,1),(3,0)],0,6,fig)
-    root.mainloop()      
+    root.mainloop()

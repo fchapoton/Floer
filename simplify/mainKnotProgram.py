@@ -7,11 +7,11 @@ import inputLink
 
 class mainWindow:
     def __init__(self):
-        self.root=Tkinter.Tk()
+        self.root = Tkinter.Tk()
         self.root.title("Link main program")
-        menuBar=Tkinter.Menu(self.root)
+        menuBar = Tkinter.Menu(self.root)
         self.root["menu"]=menuBar
-        fileMenu=Tkinter.Menu(menuBar)
+        fileMenu = Tkinter.Menu(menuBar)
         menuBar.add_cascade(label="file",menu=fileMenu)
         fileMenu.add_command(label="exit",command=self.close)
         self.actionMenu=Tkinter.Menu(menuBar)

@@ -3,26 +3,28 @@ import fastUnknot2
 
 def tangleToRect(tangle):
     """
-    Takes a pseudo braid return a coll a point forming the recDiag
+    Takes a pseudo braid
+
+    return a coll a point forming the recDiag
     """
-    points=[]
-    section=[-1,1]
-    forbidden=[-1,1]
+    points = []
+    section = [-1, 1]
+    forbidden = [-1, 1]
 
     def findFree(s, e):
-        x=(s+e)/2.0
+        x = (s + e)/2.0
         while True:
-            x=(s+x)/2.0
+            x = (s+x)/2.0
             if x not in forbidden:
                 return x
 
-    levelCounter=0
+    levelCounter = 0
     for level in tangle:
-        if level[0]==3:
+        if level[0] == 3:
             points.append((section[level[1]+1],levelCounter))
             points.append((section[level[1]+2],levelCounter))
             section[level[1]+1:level[1]+3]=[]
-        if level[0]==2:
+        if level[0] == 2:
             tmp1=findFree(section[level[1]],section[level[1]+1])
             tmp2=findFree(tmp1,section[level[1]+1])
             points.append((tmp1,levelCounter))
@@ -78,44 +80,46 @@ def fromWordToRectDiag(word,width):
     return tangleToRect(fromBraidToTangle(word,width))
 
 
-def forAnna(word,width):
+def forAnna(word, width):
     """
     print(forAnna([[1,0],[1,0],[1,0]],)2)
     """
-    return (fastUnknot2.unknot(fromWordToRectDiag(word,width),20000)[1]).toRectDia().toStringNice()
+    return (fastUnknot2.unknot(fromWordToRectDiag(word, width), 20000)[1]).toRectDia().toStringNice()
 
 
 def readLetterBraid(s):
-    b=[]
-    mm=0
+    b = []
+    mm = 0
     for l in s:
-        n=ord(l)
-        if n>96:
+        n = ord(l)
+        if n > 96:
             b.append([0,n-97])
-            if n-97>mm: mm=n-97
+            if n-97>mm:
+                mm=n-97
         else:
             b.append([1,n-65])
-            if n-65>mm: mm=n-65
-    return (b,mm+2)
+            if n-65>mm:
+                mm=n-65
+    return (b, mm + 2)
 
 
 def knot_source():
-    tab=[]
-    s=""
-    subFile=open("braidRep.txt")
-    sub=subFile.read()
-    subFile.close()
-    tab=sub.split("\n")
-    tab=[[x.split(" ")[0],x.split(" ")[2]] for x in tab]
+    tab = []
+    s = ""
+    with open("braidRep.txt") as subFile:
+        sub = subFile.read()
+
+    tab = sub.split("\n")
+    tab = [[x.split(" ")[0], x.split(" ")[2]] for x in tab]
     for i in tab:
         print(i[0])
         print("")
-        bbb=readLetterBraid(i[1])
-        tmp= forAnna(bbb[0],bbb[1])
+        bbb = readLetterBraid(i[1])
+        tmp = forAnna(bbb[0],bbb[1])
         print(tmp)
         print("")
-        s+=i[0]+"\n"+tmp+"\n"
-    with open("c://knot.txt",'w') as f:
+        s += i[0] + "\n" + tmp + "\n"
+    with open("c://knot.txt", 'w') as f:
         f.write(s)
 
 
@@ -124,20 +128,20 @@ def knot_source():
 
 
 def FromDT(s):
-    tab=s.split("\n")
+    tab = s.split("\n")
     for i in tab:
-        r="BR[DTCode["
+        r = "BR[DTCode["
         for c in i:
-            n=ord(c)
-            if n>96:
-                r+=str((n-96)*2)+","
+            n = ord(c)
+            if n > 96:
+                r += str((n-96)*2)+","
             else:
-                r+="-"+str((n-64)*2)+","
+                r += "-"+str((n-64)*2)+","
         print(r[:len(r)-1]+"]]")
 
 
 def extractBraid(s):
-    res=""
+    res = ""
     for i in s:
         if i!="\n":
             res+=i
@@ -250,6 +254,8 @@ def extractBraid(s):
 ##Out[29]=
 ##BR[7,{1,2,
 ##  3,-4,5,-6,5,-4,-3,-2,-1,5,-4,-3,-2,-4,-3,-4,-6,5,-4,3,2,5,-4,3,5,-4}]
+
+
 extractBraid("""
 Out[30]=
 BR[7,{1,2,
@@ -390,7 +396,7 @@ BR[7,{1,2,3,-4,5,-4,-3,-2,-1,-4,-3,-2,4,-3,-4,-6,5,-4,3,2,5,4,3,5,-4,5,-6,-6}]
 Out[62]=
 BR[7,{1,2,3,4,-5,4,-3,-2,-1,4,-3,-2,-4,-3,-4,6,5,-4,3,2,5,-4,3,-5,4,-5,6,6}]
 """)
-##        
+
 ##FromDT("""bdegahjclmfnpoki
 ##bdegahjclofnpikm
 ##bdegahjcmfnoilpk

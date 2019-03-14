@@ -10,10 +10,12 @@ def unknot(diag):
     stack=[diag]
     hmap=dict({diag.hashInt():0})
     while True:
-        if len(stack)==0: return ("not an unknot",diag)
-        else: diag=stack.pop()
-##        diag.draw()##debug!!
-        if diag.complexity<3: return ("not knotted",diag)
+        if len(stack)==0:
+            return ("not an unknot",diag)
+        else:
+            diag=stack.pop()
+        if diag.complexity < 3:
+            return ("not knotted",diag)
         if diag.isdestabilisable():
             print("reduction!")
             print(len(stack))
@@ -26,12 +28,11 @@ def unknot(diag):
             hmap=dict({diag.hashInt():0})
         succ=diag.fastsuccCa(hmap)
         for k in succ:
-##            if not hmap.has_key(k.hashInt()):
-            k.predecessor=diag
+            k.predecessor = diag
             stack=[k]+stack
             hmap[k.hashInt()]=0
         if len(hmap)>=500+counter or len(hmap)<=-500+counter:
-            counter=len(hmap)
+            counter = len(hmap)
             print("Please wait!")
             print(len(hmap))
 

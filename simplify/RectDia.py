@@ -251,7 +251,7 @@ class RectDia:
 #######################building lists of successors by the moves
 
     def succCy(self):
-        succ=[]
+        succ = []
         for i in range(self.getSize()):
             for j in range(self.getSize()):
                 tmp=self.copy()
@@ -260,26 +260,26 @@ class RectDia:
         return succ
 
     def succCa(self):
-        succ=[]
+        succ = []
         for d in range(2):
             for i in range(self.getSize()):
-                tmp=self.copy()
-                if tmp.is_castling(i,d) :
-                    tmp.m_castling(i,d)
+                tmp = self.copy()
+                if tmp.is_castling(i, d):
+                    tmp.m_castling(i, d)
                     succ.append(tmp)
         return succ
 
     def succDe(self):
-        succ=[]
-        tmpp=self.is_destabilisation()
-        if tmpp!=-1:
-            tmp=self.copy()
+        succ = []
+        tmpp = self.is_destabilisation()
+        if tmpp != -1:
+            tmp = self.copy()
             tmp.m_destabilisation(tmpp)
             succ.append(tmp)
         return succ
 
     def succTrDe(self):
-        succ=[]
+        succ = []
         n=self.getSize()
         for k in self.points:
             tmp=self.copy()
@@ -325,16 +325,19 @@ class RectDia:
                 else: return 0
         if d.count(-1)==0: return 1
         else: return 0
+
 ##    def __count(self,l,x,d)
 ##        tot=0
 ##        for p in l:
 ##            if (p.x==x and d==0) or (p.y==y and d==1):tot+=1
 ##        return tot
+
     def is_flipe(self,a,b):
         if self.__hasFullDiag(0,b,a) and self.__hasFullDiag(0,a,b):
             if len(self.__fetch(a,b,b,a))==0:
                 return 1
         return 0
+
     def m_flipe(self,a,b):
         flipped=self.__fetch(0,0,a,b)
         dx=[0]*self.getSize()
@@ -441,6 +444,7 @@ class RectDia:
             for p in points:
                 if(p[0]==forbidden[x]):
                     self.points.append(self.point(x-1,p[1],0,0))
+
     def toString(self):
         s=''
         self.orderPoints(0)
@@ -450,6 +454,7 @@ class RectDia:
             s+="""
 """
         return s
+
     def toStringNice(self):
         s=''
         self.orderPoints(0)
@@ -478,10 +483,10 @@ class RectDia:
 
 
 if __name__ == "__main__":
-    dd=RectDia([(0,0),(0,3),(1,1),(1,2),(2,2),(2,3),(3,0),(3,1)])
-##    dd=RectDia([(0,0),(0,1),(1,0),(1,2),(2,2),(2,1)])
-##    dd=RectDia([(1,0),(0,1),(2,0),(0,2),(1,2),(2,1)])
-    dd=RectDia([(2,0),(1,1),(0,2),(0,4),(1,3),(2,2),(3,1),(4,0),(4,3),(3,4)])
+    dd0 = RectDia([(0,0),(0,3),(1,1),(1,2),(2,2),(2,3),(3,0),(3,1)])
+    dd1 = RectDia([(0,0),(0,1),(1,0),(1,2),(2,2),(2,1)])
+    dd2 = RectDia([(1,0),(0,1),(2,0),(0,2),(1,2),(2,1)])
+    dd = RectDia([(2,0),(1,1),(0,2),(0,4),(1,3),(2,2),(3,1),(4,0),(4,3),(3,4)])
     print(dd.toStringNice())
 ##    dd=RectDia([])
 ##

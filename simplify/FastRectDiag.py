@@ -7,7 +7,6 @@ from . import RectDia
 import copy
 
 
-
 class FastRectDiag:
     def __init__(self,tab):
         if isinstance(tab, RectDia.RectDia):
@@ -27,17 +26,18 @@ class FastRectDiag:
                     self.xSorted[p[0]*2+1]=p[1]
                 else:
                     (self.xSorted[p[0]*2+0],self.xSorted[p[0]*2+1])=(p[1],self.xSorted[p[0]*2+0])
-            if self.ySorted[p[1]*2+0]==-1:
-                    self.ySorted[p[1]*2+0]=p[0]
+            if self.ySorted[p[1]*2+0] == -1:
+                self.ySorted[p[1]*2+0] = p[0]
             else:
-                if p[0]>self.ySorted[p[1]*2+0]:
-                    self.ySorted[p[1]*2+1]=p[0]
+                if p[0] > self.ySorted[p[1]*2+0]:
+                    self.ySorted[p[1]*2+1] = p[0]
                 else:
                     (self.ySorted[p[1]*2+0],self.ySorted[p[1]*2+1])=(p[0],self.ySorted[p[1]*2+0])
+
     def copy(self):
-        h=copy.copy(self)
-        h.xSorted=h.xSorted[:]
-        h.ySorted=h.ySorted[:]
+        h = copy.copy(self)
+        h.xSorted = h.xSorted[:]
+        h.ySorted = h.ySorted[:]
         return h
 
     def order(self):
@@ -69,9 +69,9 @@ class FastRectDiag:
         return (k-i)*(j-k)*(l-i)*(j-l)>0
 
     def castleX(self,nb):
-        tmp11=self.xSorted[nb*2]        
+        tmp11=self.xSorted[nb*2]
         tmp12=self.xSorted[nb*2+1]
-        tmp21=self.xSorted[(nb+1)%self.complexity*2]        
+        tmp21=self.xSorted[(nb+1)%self.complexity*2]
         tmp22=self.xSorted[(nb+1)%self.complexity*2+1]
         if self.ySorted[tmp11*2]==nb:
             self.ySorted[tmp11*2]=(nb+1)%self.complexity
@@ -92,10 +92,11 @@ class FastRectDiag:
         (self.xSorted[nb*2],self.xSorted[(nb+1)%self.complexity*2])=(self.xSorted[(nb+1)%self.complexity*2],self.xSorted[nb*2])
         (self.xSorted[nb*2+1],self.xSorted[(nb+1)%self.complexity*2+1])=(self.xSorted[(nb+1)%self.complexity*2+1],self.xSorted[nb*2+1])
         return self
+
     def castleY(self,nb):
-        tmp11=self.ySorted[nb*2]        
+        tmp11=self.ySorted[nb*2]
         tmp12=self.ySorted[nb*2+1]
-        tmp21=self.ySorted[(nb+1)%self.complexity*2]        
+        tmp21=self.ySorted[(nb+1)%self.complexity*2]
         tmp22=self.ySorted[(nb+1)%self.complexity*2+1]
         if self.xSorted[tmp11*2]==nb:
             self.xSorted[tmp11*2]=(nb+1)%self.complexity
@@ -117,31 +118,39 @@ class FastRectDiag:
         (self.ySorted[nb*2],self.ySorted[(nb+1)%self.complexity*2])=(self.ySorted[(nb+1)%self.complexity*2],self.ySorted[nb*2])
         (self.ySorted[nb*2+1],self.ySorted[(nb+1)%self.complexity*2+1])=(self.ySorted[(nb+1)%self.complexity*2+1],self.ySorted[nb*2+1])
         return self
-    def castle(self,nb,direction):
+
+    def castle(self, nb, direction):
         if direction:
             if self.__areUnlinked2(self.ySorted[(nb+1)%self.complexity*2],self.ySorted[(nb+1)%self.complexity*2+1],self.ySorted[nb*2],self.ySorted[nb*2+1]):
                 return self.castleY(nb)
-                
+
         else:
             if self.__areUnlinked2(self.xSorted[(nb+1)%self.complexity*2],self.xSorted[(nb+1)%self.complexity*2+1],self.xSorted[nb*2],self.xSorted[nb*2+1]):
                 return self.castleX(nb)
         return 0
+
     def isCastle(self,nb,direction):
         if direction:
             return self.__areUnlinked2(self.ySorted[(nb+1)%self.complexity*2],self.ySorted[(nb+1)%self.complexity*2+1],self.ySorted[nb*2],self.ySorted[nb*2+1])
         else:
             return self.__areUnlinked2(self.xSorted[(nb+1)%self.complexity*2],self.xSorted[(nb+1)%self.complexity*2+1],self.xSorted[nb*2],self.xSorted[nb*2+1])
-    def __has(self,x,y):
-        return self.xSorted[x*2+0]==y or self.xSorted[x*2+1]==y
-    def isdestabilisation(self,x,y):
-        nn=self.__has(x,y)
-        mn=self.__has((x-1)%self.complexity,y)
-        nm=self.__has(x,(y-1)%self.complexity)
-        mm=self.__has((x-1)%self.complexity,(y-1)%self.complexity)
-        if mn and nm and nn and (not mm): return 0
-        if mm and mn and nn and (not nm): return 1
-        if mm and nm and nn and (not mn): return 2
-        if mm and mn and nm and (not nn): return 3
+
+    def __has(self, x, y):
+        return self.xSorted[x*2+0] == y or self.xSorted[x*2+1] == y
+
+    def isdestabilisation(self, x, y):
+        nn = self.__has(x, y)
+        mn = self.__has((x-1) % self.complexity,y)
+        nm = self.__has(x,(y-1) % self.complexity)
+        mm = self.__has((x-1)%self.complexity,(y-1) % self.complexity)
+        if mn and nm and nn and (not mm):
+            return 0
+        if mm and mn and nn and (not nm):
+            return 1
+        if mm and nm and nn and (not mn):
+            return 2
+        if mm and mn and nm and (not nn):
+            return 3
         return -1
 
     def isdestabilisable(self):
@@ -150,7 +159,7 @@ class FastRectDiag:
             if self.ySorted[x*2+1]-self.ySorted[x*2]==1:
                 return (1,x)
             if self.xSorted[x*2+1]-self.xSorted[x*2]==1:
-                return (0,x)   
+                return (0,x)
         return 0
 
     def __areUnlinked3(self,a,b,d):
@@ -158,6 +167,7 @@ class FastRectDiag:
             return self.__areUnlinked2(self.xSorted[a*2],self.xSorted[a*2+1],self.xSorted[b*2],self.xSorted[b*2+1])
         else:
             return self.__areUnlinked2(self.ySorted[a*2],self.ySorted[a*2+1],self.ySorted[b*2],self.ySorted[b*2+1])
+
     def chainCastle(self,a,b,d):
         tmp=self
         if a>b: b+=self.complexity
@@ -174,7 +184,7 @@ class FastRectDiag:
             (tmp,tmp.predecessor)=(tmp.copy(),tmp)
             tmp.cycle(d)
         return tmp
-    
+
     def isdestabilisableAdvanced(self):
         if self.isdestabilisable(): return 0
         self.order()
@@ -235,28 +245,32 @@ class FastRectDiag:
                     yS+=[a,b]
             self.ySorted=yS
             self.xSorted=self.xySorted(yS)
-            
+
     def succCa(self):
-        acc=[]
+        acc = []
         for i in range(self.complexity):
-            if self.isCastle(i,0): acc.append(self.copy().castle(i,0))
-            if self.isCastle(i,1): acc.append(self.copy().castle(i,1))
+            if self.isCastle(i, 0):
+                acc.append(self.copy().castle(i, 0))
+            if self.isCastle(i, 1):
+                acc.append(self.copy().castle(i, 1))
         return acc
 
-    def fastsuccCa(self,dico):
-        acc=[]
+    def fastsuccCa(self, dico):
+        acc = []
         for i in range(self.complexity):
-            if self.isCastle(i,0):
-                if not dico.has_key(self.hashCastle(i,0)): acc.append(self.copy().castle(i,0))
-            if self.isCastle(i,1):
-                if not dico.has_key(self.hashCastle(i,1)): acc.append(self.copy().castle(i,1))
+            if self.isCastle(i, 0):
+                if self.hashCastle(i, 0) not in dico:
+                    acc.append(self.copy().castle(i, 0))
+            if self.isCastle(i, 1):
+                if self.hashCastle(i, 1) not in dico:
+                    acc.append(self.copy().castle(i, 1))
         return acc
 
-    def hashCastle(self,i,d):
-        self.castle(i,d)
-        h1=self.hashInt()
-        self.castle(i,d)
-        return h1    
+    def hashCastle(self, i, d):
+        self.castle(i, d)
+        h1 = self.hashInt()
+        self.castle(i, d)
+        return h1
 
     def hashInt(self):
         n=self.complexity
@@ -276,12 +290,12 @@ class FastRectDiag:
 
 
 if __name__ == "__main__":
-    dd=FastRectDiag([(0,0),(0,4),(1,2),(1,8),(2,7),(2,9),(3,6),(3,8),(4,1),(4,3),(5,2),(5,7),(6,0),(6,3),(7,1),(7,5),(8,4),(8,6),(9,5),(9,9)])
-    dd.complexity=7
-    dd.xSorted=[2, 6, 1, 5, 4, 6, 3, 5, 0, 3, 1, 4, 0, 2]
-    dd.ySorted=[4, 6, 1, 5, 0, 6, 3, 4, 2, 5, 1, 3, 0, 2]
+    dd = FastRectDiag([(0,0),(0,4),(1,2),(1,8),(2,7),(2,9),(3,6),(3,8),(4,1),(4,3),(5,2),(5,7),(6,0),(6,3),(7,1),(7,5),(8,4),(8,6),(9,5),(9,9)])
+    dd.complexity = 7
+    dd.xSorted = [2, 6, 1, 5, 4, 6, 3, 5, 0, 3, 1, 4, 0, 2]
+    dd.ySorted = [4, 6, 1, 5, 0, 6, 3, 4, 2, 5, 1, 3, 0, 2]
     print(dd.toRectDia().toStringNice())
-    des=dd.isdestabilisable()
-    tmp=dd.copy()
+    des = dd.isdestabilisable()
+    tmp = dd.copy()
     tmp.m_destabilisation(des[0],des[1])
     print(tmp.toRectDia().toStringNice())
