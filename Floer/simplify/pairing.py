@@ -7,7 +7,7 @@ def cheapestPath(states, transitionCost):
     """
     states is of the form [[0,0,0],[0,0],[0,0,0],[(0,0),(0,0)]] with (0,0)'s in the last column
     """
-    for n in range(1,len(states)):
+    for n in range(1, len(states)):
         for s in range(len(states[len(states)-n-1])):
             cost=infty+1
             for t in range(len(states[len(states)-n])):

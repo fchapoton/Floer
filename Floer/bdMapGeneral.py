@@ -369,17 +369,17 @@ def bdMap(rect, gen1, gen2, cache, ell, to0, toPlus, chEll, delta, path, init):
     height = 0
     for i in range(n - 1):
         height = -ll[path[i*2][0]]
-        for j in chEll[1][path[i*2][1]]:# lr premier est de type y
+        for j in chEll[1][path[i*2][1]]:  # lr premier est de type y
             ll[j]+=height
         height=-ll[path[i*2+1][0]]
         for j in chEll[0][path[i*2+1][1]]:
             ll[j]+=height
-#     for i in range(0,2*(n-1)):
+#     for i in range(2*(n-1)):
 #         height=-ll[path[i][0]]
 #         for j in path[i][1]:# lr premier est de type y
 #             ll[j]+=height
     categ[1]+=1
-    if ll[path[2*(n-1)][0]]!=0:
+    if ll[path[2*(n-1)][0]] != 0:
         return 0
     categ[2] += 1
     for i in range((n-1)*2, lenll):

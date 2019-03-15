@@ -69,10 +69,10 @@ class FastRectDiag:
         return (k-i)*(j-k)*(l-i)*(j-l)>0
 
     def castleX(self,nb):
-        tmp11=self.xSorted[nb*2]
-        tmp12=self.xSorted[nb*2+1]
-        tmp21=self.xSorted[(nb+1)%self.complexity*2]
-        tmp22=self.xSorted[(nb+1)%self.complexity*2+1]
+        tmp11 = self.xSorted[nb*2]
+        tmp12 = self.xSorted[nb*2+1]
+        tmp21 = self.xSorted[(nb+1)%self.complexity*2]
+        tmp22 = self.xSorted[(nb+1)%self.complexity*2+1]
         if self.ySorted[tmp11*2]==nb:
             self.ySorted[tmp11*2]=(nb+1)%self.complexity
         else:
@@ -94,10 +94,10 @@ class FastRectDiag:
         return self
 
     def castleY(self,nb):
-        tmp11=self.ySorted[nb*2]
-        tmp12=self.ySorted[nb*2+1]
-        tmp21=self.ySorted[(nb+1)%self.complexity*2]
-        tmp22=self.ySorted[(nb+1)%self.complexity*2+1]
+        tmp11 = self.ySorted[nb*2]
+        tmp12 = self.ySorted[nb*2+1]
+        tmp21 = self.ySorted[(nb+1)%self.complexity*2]
+        tmp22 = self.ySorted[(nb+1)%self.complexity*2+1]
         if self.xSorted[tmp11*2]==nb:
             self.xSorted[tmp11*2]=(nb+1)%self.complexity
         else:
@@ -144,7 +144,7 @@ class FastRectDiag:
                                        self.xSorted[nb*2],self.xSorted[nb*2+1])
 
     def __has(self, x, y):
-        return self.xSorted[x*2+0] == y or self.xSorted[x*2+1] == y
+        return self.xSorted[x * 2] == y or self.xSorted[x * 2 + 1] == y
 
     def isdestabilisation(self, x, y):
         nn = self.__has(x, y)
@@ -165,9 +165,9 @@ class FastRectDiag:
         self.order()
         for x in range(self.complexity):
             if self.ySorted[x*2+1]-self.ySorted[x*2]==1:
-                return (1,x)
+                return (1, x)
             if self.xSorted[x*2+1]-self.xSorted[x*2]==1:
-                return (0,x)
+                return (0, x)
         return 0
 
     def _areUnlinked3(self, a, b, d):
@@ -188,16 +188,16 @@ class FastRectDiag:
             b += self.complexity
         interval = b - a - 1
         for i in range(interval):
-            (tmp,tmp.predecessor)=(tmp.copy(),tmp)
-            if tmp._areUnlinked3(a%self.complexity,
-                                 (a+1)%self.complexity, d):
-                tmp.castle(a%self.complexity,d)
-                a=(a+1)%self.complexity
+            tmp, tmp.predecessor = tmp.copy(), tmp
+            if tmp._areUnlinked3(a % self.complexity,
+                                 (a + 1) % self.complexity, d):
+                tmp.castle(a % self.complexity, d)
+                a = (a + 1) % self.complexity
             else:
-                tmp.castle((b-1)%self.complexity,d)
-                b=(b-1)%self.complexity
-        if a == self.complexity-1:
-            (tmp,tmp.predecessor)=(tmp.copy(),tmp)
+                tmp.castle((b - 1) % self.complexity, d)
+                b = (b - 1) % self.complexity
+        if a == self.complexity - 1:
+            tmp, tmp.predecessor = tmp.copy(),tmp
             tmp.cycle(d)
         return tmp
 

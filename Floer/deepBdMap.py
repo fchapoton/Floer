@@ -163,7 +163,7 @@ def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
                     pairs.append((ext[1],i,-1,b,1,b))
         else:
             pairs=[(ext[1],ell[0][ext[1]][0],-1,-1,1,-1)]# x, y, xShift, y shift
-            for i in range(0,ell[0][ext[1]][0]):
+            for i in range(ell[0][ext[1]][0]):
                 for b in [-1,1]:
                     pairs.append((ext[1],i,-1,b,1,b))
         res=[]
@@ -191,7 +191,7 @@ def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
                         pairs.append((i,ext[1],b,-1,b,1))
         else:
             pairs = [] # x, y, xShift, y shift
-            for i in range(0,ell[1][ext[1]][0]):
+            for i in range(ell[1][ext[1]][0]):
                 for b in [-1,1]:
                     pairs.append((i,ext[1],b,-1,b,1))
         res = []
@@ -561,8 +561,8 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
                 ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
                 break
             ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
-        if ext[0]==1:# horizontal ellipse
-            cx,cy=(ell[1][ext[1]][0]+ell[1][ext[1]][1])*0.5, ext[1]
+        if ext[0]==1:  # horizontal ellipse
+            cx, cy = (ell[1][ext[1]][0]+ell[1][ext[1]][1])*0.5, ext[1]
             tmp1=trans1[ext[1]]
             tmp2=trans2[ext[1]]
             if isBetween(cPj(tmp2,gen2.perm[tmp2],gen2.xShift[tmp2],gen2.yShift[tmp2],cx,cy), -ext[2]*1.5707963267948966,
@@ -574,26 +574,17 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
             ell[1][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
 
     # operating the splitting
-    pairs=[]
-    for poss in nextGeneration:
-        pairs+=splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,poss)
+    pairs = [splitting(rect, gen1, gen2, ell, ellDir, trans1, trans2, poss)
+             for poss in nextGeneration]
+
     # controlling the splitted (and returning when needed)
-#     print(pairs
-#     print("past split"
     for p in pairs:
-#         print(maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)
-#         print(maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)
-#         print("pair!!"
-#         p[0][0].show()
-#         p[0][1].show()
-#         p[1][0].show()
-#         p[1][1].show()
         if maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)!=-1 or maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)!=-1:
-            continue# to optimise
+            continue  # to optimise
         if deepBdMap(rect,p[0][0],p[0][1],ell,p[0][2],ordering) and deepBdMap(rect,p[1][0],p[1][1],ell,p[1][2],ordering):
             return 1
 
-    if 1:
+    if True:
         totalG += 1
         if totalG == 8:
             print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
