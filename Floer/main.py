@@ -1,4 +1,5 @@
 import six
+import json
 
 from highLevel import AllToString
 from rectDiagMisc import toStringNice
@@ -34,9 +35,10 @@ if s == "n":
         raise ValueError("not in the knot table")
 else:
     print("Please enter the rectangular diagram as a list of pairs of coordinates:")
-    print("(example: [[0,0],[0,1],[1,0],[1,1]] is the trivial knot (the 4 corners of a rectangle))")
+    print("Example: [[0,0],[0,1],[1,0],[1,1]] is the trivial knot (the 4 corners of a rectangle).")
+    print("Example: [[0,0],[2,0],[2,3],[1,3],[1,1],[3,1],[3,2],[0,2]] for ?")
     s = input("")
-    rect = eval(s)
+    rect = json.loads(s)
     print("How hard do you want the program to try to simplify your rectangular diagram?(0-100000) 0: no simplification 5000: pretty good compromise")
     print("Warning! The running time of the program is not linear in this number!")
     br = int(input(""))
