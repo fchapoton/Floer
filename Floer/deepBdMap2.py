@@ -12,7 +12,7 @@ def copyGen(g):
     return gen(g.perm[:], g.xShift[:], g.yShift[:], 0)
 
 
-def findAge(gen, rect, tr):##next in line!
+def findAge(gen, rect, tr):  # next in line!
     n = len(gen.perm)
     age = 0
     for i in range(n):  # opti:loop in reverse directions with returns
@@ -40,15 +40,16 @@ def findIsPoss(perm1, perm2):
         if perm2[j] != h:
             res -= 1
         for i in range(j):
-            if i!=-1:
-                if perm1[i]<h:
-                    res+=2
-                if perm2[i]<perm2[j]:
-                    res-=2
+            if i != -1:
+                if perm1[i] < h:
+                    res += 2
+                if perm2[i] < perm2[j]:
+                    res -= 2
     return res >= 0
 
 
-def listPossRectMp(rect, ell):##ell is only there to avoid where there is no oval!
+def listPossRectMp(rect, ell):
+    # ell is only there to avoid where there is no oval!
     n = len(rect)
     coord = []
     for x in range(n):
@@ -127,19 +128,19 @@ def listReverseBigon(gen, rect, tr, immobile):
     n = len(gen.perm)
     res = []
     for i in range(n):
-        if gen.perm[i]!=-1 and not immobile[i]:
-            tmp=i##carefull!!!!!!!!! changed from above!
-            if tmp<tr[gen.perm[i]][0] and gen.yShift[i]==-1 or tmp>tr[gen.perm[i]][1] and gen.yShift[i]==1:##carefull!!!!!!!!! changed
-                ng=copyGen(gen)
+        if gen.perm[i] != -1 and not immobile[i]:
+            tmp = i  # carefull!!!!!!!!! changed from above!
+            if tmp<tr[gen.perm[i]][0] and gen.yShift[i]==-1 or tmp>tr[gen.perm[i]][1] and gen.yShift[i]==1:  # carefull!!!!!!!!! changed
+                ng = copyGen(gen)
                 ng.yShift[i]*=-1
-                age=2*(n+gen.perm[i])+1+(ng.yShift[i]+1)//2##carefull!!!!!!!!! changed
+                age = 2*(n+gen.perm[i])+1+(ng.yShift[i]+1)//2  # carefull!!!!!!!!! changed
                 res.append((ng,age))
             tmp = gen.perm[i]+(gen.yShift[i]+1)//2
             if tmp<=rect[i][0] and gen.xShift[i]==-1 or tmp>rect[i][1] and gen.xShift[i]==1:
-                ng=copyGen(gen)
+                ng = copyGen(gen)
                 ng.xShift[i]*=-1
-                age=2*i+1+(ng.xShift[i]+1)//2##carefull!!!!!!!!! changed
-                res.append((ng,age))
+                age = 2*i+1+(ng.xShift[i]+1) // 2  # carefull!!!!!!!!! changed
+                res.append((ng, age))
     return res
 
 

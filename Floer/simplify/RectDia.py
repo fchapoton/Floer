@@ -1,11 +1,19 @@
+# -*- coding: utf-8 -*-
+try:
+    import Tkinter as tkinter
+except ImportError:
+    import tkinter
+
+from .visu2 import _line
 
 
-class RectDia:
+class RectDia(object):
     def __init__(self, tab):
         self.points = []
         for x in tab:
             self.points.append(self.point(x[0], x[1], 0, 0))
-        self.isOriented = 0
+        self.isOriented = False
+        self._size = len(self.points) // 2
 
     class point:  # NOT immutable
         def __init__(self, x, y, isO, ori):
@@ -38,24 +46,27 @@ class RectDia:
             r.points.append(self.point(p.x, p.y, 0, 0))
         return r
 
-    def getSize(self):
-        return len(self.points) / 2
+    def size(self):
+        """
+        half the number of points
+        """
+        return self._size
+
+    def __iter__(self):
+        return ((pt.x, pt.y) for pt in self.points)
 
     def isCorrectNonOri(self):
-        n = self.getSize()
+        n = self._size
         if len(self.points) % 2:
-            return 0
-        x=[0]*n
-        y=[0]*n
+            return False
+        x = [0] * n
+        y = [0] * n
         for p in self.points:
-            if p.x<0 or p.y<0:
-                return 0
-            x[p.x]+=1
-            y[p.y]+=1
-        for i in range(n):
-            if x[i]!=2 or y[i]!=2:
-                return 0
-        return 1
+            if p.x < 0 or p.y < 0:
+                return False
+            x[p.x] += 1
+            y[p.y] += 1
+        return all(x[i] == 2 and y[i] == 2 for i in range(n))
 
     def orderPoints(self, direction):
         if direction:
@@ -66,12 +77,17 @@ class RectDia:
                 return p.x
         self.points.sort(key=f)
 
-    def ____compact(self,l,d):
+    def ____compact(self, l, d):
+        """
+        d is a direction
+
+        l is a bound in this direction
+        """
         for p in self.points:
-            if d==0 and p.x>l:
-                p.x-=1
-            if d==1 and p.y>l:
-                p.y-=1
+            if d == 0 and p.x > l:
+                p.x -= 1
+            if d == 1 and p.y > l:
+                p.y -= 1
 
     def __compact(self):
         n=100
@@ -86,7 +102,8 @@ class RectDia:
             if y[n-1-i]==0:
                 self.____compact(n-1-i,1)
 
-    def __has(self, x, y):
+    def _contains_(self, xy):
+        x, y = xy
         return any(p.x == x and p.y == y for p in self.points)
 
     def __del(self,x,y):
@@ -98,7 +115,7 @@ class RectDia:
 
 ############################# The moves #############################3
 
-    def _unlinked(self,i,j,k,l):
+    def _unlinked(self, i, j, k, l):
         if i==j or i==k or i==l or j==k or j==l or k==l:
             return 0
         if j<i:
@@ -109,18 +126,18 @@ class RectDia:
             return 0
         return 1
 
-    def m_cycle(self,dx,dy):
-        n=self.getSize()
+    def m_cycle(self, dx, dy):
+        n = self._size
         for p in self.points:
-            p.x+=dx
-            p.y+=dy
-            if p.x>=n:
-                p.x-=n
-            if p.y>=n:
-                p.y-=n
+            p.x += dx
+            p.y += dy
+            if p.x >= n:
+                p.x -= n
+            if p.y >= n:
+                p.y -= n
 
     def is_castling(self,i,direction):
-        n=self.getSize()
+        n=self._size
         self.orderPoints(direction)
         p1=self.points[2*i]
         p2=self.points[2*i+1]
@@ -137,8 +154,8 @@ class RectDia:
             return True
         return False
 
-    def m_castling(self,i,direction):## if impossible throws exception
-        n=self.getSize()
+    def m_castling(self, i, direction):  # if impossible throws exception
+        n = self._size
         self.orderPoints(direction)
         p1=self.points[2*i]
         p2=self.points[2*i+1]
@@ -159,7 +176,7 @@ class RectDia:
         q2.castle(i, direction, n)
 
     def is_stabilisation(self):
-        n = self.getSize()
+        n = self._size
         for p in self.points:
             if p.x == p.y and n == 1 + p.x:
                 return True
@@ -168,7 +185,7 @@ class RectDia:
     def m_stabilisation(self,kind):
         if not self.is_stabilisation(kind):
             raise ValueError
-        n=self.getSize()-1
+        n=self._size-1
         ori = 0
         if kind==0:
             for p in self.points:
@@ -213,11 +230,11 @@ class RectDia:
             self.points+=[self.point(n+1,n,self.isOriented,1-ori)]
 
     def is_destabilisation(self):
-        n=self.getSize()-1
-        nn=self.__has(n,n)
-        mn=self.__has(n-1,n)
-        nm=self.__has(n,n-1)
-        mm=self.__has(n-1,n-1)
+        n = self._size - 1
+        nn = (n, n) in self
+        mn = (n - 1, n) in self
+        nm = (n, n - 1) in self
+        mm = (n - 1, n - 1) in self
         if mn and nm and nn and (not mm):
             return 0
         if mm and mn and nn and (not nm):
@@ -229,7 +246,7 @@ class RectDia:
         return -1
 
     def m_destabilisation(self, kind):  # use following is_desta
-        n=self.getSize()-1
+        n = self._size - 1
         if kind==0:
             self.__del(n,n)
             self.__del(n-1,n)
@@ -254,24 +271,25 @@ class RectDia:
             if p.y==n:
                 p.y-=1
 
-    def hashInt(self):
+    def __hash__(self):
         """
-        ###################    a "perfect" hash function
+        a "perfect" hash function
         """
-        n=self.getSize()
-        res=0
+        n = self._size
+        res = 0
         self.orderPoints(1)
         self.orderPoints(0)
-        for i in range(2*n):
-            res*=n
-            res+=self.points[i].y
-        return (res*2+1)*pow(2,n)
+        for i in range(2 * n):
+            res *= n
+            res += self.points[i].y
+        return (res * 2 + 1) * pow(2, n)
+
 #######################building lists of successors by the moves
 
     def succCy(self):
         succ = []
-        for i in range(self.getSize()):
-            for j in range(self.getSize()):
+        for i in range(self._size):
+            for j in range(self._size):
                 tmp=self.copy()
                 tmp.m_cycle(i,j)
                 succ.append(tmp)
@@ -280,7 +298,7 @@ class RectDia:
     def succCa(self):
         succ = []
         for d in range(2):
-            for i in range(self.getSize()):
+            for i in range(self._size):
                 tmp = self.copy()
                 if tmp.is_castling(i, d):
                     tmp.m_castling(i, d)
@@ -298,7 +316,7 @@ class RectDia:
 
     def succTrDe(self):
         succ = []
-        n=self.getSize()
+        n=self._size
         for k in self.points:
             tmp=self.copy()
             tmp.m_cycle(n-1-k.x,n-1-k.y)
@@ -318,24 +336,20 @@ class RectDia:
         return succ
 
     def successors(self):
-        return self.succCy()+self.succCa()+self.succDe()+self.succSt()
+        return self.succCy() + self.succCa() + self.succDe() + self.succSt()
 ##Flipe-move part##################################
 
-    def __fetch(self,x,y,dx,dy):
-        l=[]
-        for p in self.points:
-            if p.x>=x and p.y>=y and p.x<x+dx and p.y<y+dy:
-                l.append(p)
-        return l
+    def _fetch(self, x, y, dx, dy):
+        return [p for p in self.points
+                if x <= p.x < x + dx and y <= p.y < y + dy]
 
-    def __hasNoneDiag(self,x,y,s):
-        for p in self.points:
-            if p.x>=x and p.y>=y and p.x<x+s and p.y<y+s and p.x-x!=p.y-y:
-                return 0
-        return 1
+    def __hasNoneDiag(self, x, y, s):
+        return not any(x <= p.x < x + s and y <= p.y < y + s and
+                       p.x - x != p.y - y
+                       for p in self.points)
 
     def __hasFullDiag(self,x,y,s):
-        n=self.getSize()
+        n=self._size
         d=[-1]*min(min(n-x,n-y),s)
         for p in self.points:
             if p.x>=x and p.y>=y and p.x<x+s and p.y<y+s:
@@ -356,19 +370,19 @@ class RectDia:
 
     def is_flipe(self, a, b):
         if self.__hasFullDiag(0,b,a) and self.__hasFullDiag(0,a,b):
-            if len(self.__fetch(a,b,b,a))==0:
+            if len(self._fetch(a,b,b,a))==0:
                 return 1
         return 0
 
     def m_flipe(self,a,b):
-        flipped=self.__fetch(0,0,a,b)
-        dx=[0]*self.getSize()
-        dy=[0]*self.getSize()
+        flipped=self._fetch(0,0,a,b)
+        dx=[0]*self._size
+        dy=[0]*self._size
         for p in flipped:
             dx[p.x]+=1
             dy[p.y]+=1
-        aList=self.__fetch(0,b,a,a)
-        bList=self.__fetch(a,0,b,b)
+        aList=self._fetch(0,b,a,a)
+        bList=self._fetch(a,0,b,b)
         aListX=[p.x for p in aList]
         bListY=[p.y for p in bList]
         for p in flipped:
@@ -384,46 +398,64 @@ class RectDia:
             (p.x,p.y)=(a+p.y,b+p.x)
         self.__compact()
 
-    def __rotate(self):
-        n=self.getSize()
+    def _rotate(self):
+        n = self._size
         for p in self.points:
-            (p.x,p.y)=(n-1-p.y,p.x)
+            p.x, p.y = n - 1 - p.y, p.x
 
     def succfl(self):
-        succ=[]
-        n=self.getSize()
+        succ = []
+        n = self._size
         for r in range(4):
             for i in range(n):
                 for j in range(n):
-                    for a in range(1,n+1):###########3too small!!
+                    for a in range(1, n + 1):  # 3too small!!
                         for b in range(1,n+1):
                             tmp=self.copy()
                             tmp.m_cycle(i,j)
                             if tmp.is_flipe(a,b):
                                 tmp.m_flipe(a,b)
                                 succ.append(tmp)
-
-##                            tmp.draw()
-            self.__rotate()
+            self._rotate()
         return succ
-#######################################################
 
     def draw(self):
-        import Tkinter
-        import visu2
-        root=Tkinter.Tk()
-        fig=Tkinter.Canvas(root,width=800,height=800)
-        fig.pack()
-        visu2.drawRectDia(self,fig)
-        root.mainloop()
-#############from Olink#######################################
+        """
+        Depict the link in a graphical style.
 
-    def fromOlink(self,link):
-        tangle=link.word
+        In [5]: d = RectDia([(0,0),(2,0),(0,2),(2,2),(1,1),(1,3),(3,1),(3,3)])
+        In [6]: d.draw()
+        """
+        root = tkinter.Tk()
+        fig = tkinter.Canvas(root, width=800, height=800)
+        fig.pack()
+
+        n = self.size()
+        dist = 500 / n
+
+        self.orderPoints(1)
+        self.orderPoints(0)  # the sort is order preserving for equals!!
+        for x in range(n):
+            _line(self.points[2*x].x, self.points[2*x].y,
+                  self.points[2*x+1].x, self.points[2*x+1].y, dist, fig)
+
+        self.orderPoints(0)
+        self.orderPoints(1)  # the sort is order preserving for equals!!
+        for x in range(n):
+            _line(self.points[2*x].x, self.points[2*x].y,
+                  self.points[2*x+1].x, self.points[2*x+1].y, dist, fig)
+
+        root.mainloop()
+
+    def fromOlink(self, link):
+        """
+        construction from an oriented link ?
+        """
+        tangle = link.word
         print(tangle)
-        points=[]
-        section=[-1,1]
-        forbidden=[-1,1]
+        points = []
+        section = [-1,1]
+        forbidden = [-1,1]
 
         def findFree(s,e):
             x=(s+e)/2.0
@@ -467,61 +499,40 @@ class RectDia:
                 if(p[0]==forbidden[x]):
                     self.points.append(self.point(x-1,p[1],0,0))
 
-    def toString(self):
-        s=''
-        self.orderPoints(0)
-        self.orderPoints(1)
-        for c in range(len(self.points)/2):
-            s+='.'*self.points[2*c].x+'o'+'-'*(self.points[2*c+1].x-self.points[2*c].x-1)+'o'
-            s+="""
-"""
-        return s
-
     def toStringNice(self):
-        s=''
-        self.orderPoints(0)
+        """
+        dd0 = RectDia([(0,0),(0,3),(1,1),(1,2),(2,2),(2,3),(3,0),(3,1)])
+        dd1 = RectDia([(0,0),(0,1),(1,0),(1,2),(2,2),(2,1)])
+        dd2 = RectDia([(1,0),(0,1),(2,0),(0,2),(1,2),(2,1)])
+        dd = RectDia([(2,0),(1,1),(0,2),(0,4),(1,3),(2,2),(3,1),(4,0),(4,3),(3,4)])
+
+        In [8]: d = RectDia([(0,0),(2,0),(0,2),(2,2),(1,1),(1,3),(3,1),(3,3)])
+        In [9]: print(d.toStringNice())
+        o-o 
+        |o+o
+        o+o|
+         o-o
+        """
         self.orderPoints(1)
-        n=len(self.points)/2
-        tab=[[" "]*n for i in range(n)]
-        for i in range(2*n):
-            tab[self.points[i].y][self.points[i].x]="o"
+        n = self._size
+        tab = [[" "] * n for _ in range(n)]
+        for x, y in self:
+            tab[y][x] = "o"
         for i in range(n):
-            for j in range(self.points[2*i].x+1,self.points[2*i+1].x):
-                tab[i][j]="-"
+            for j in range(self.points[2*i].x + 1, self.points[2*i+1].x):
+                tab[i][j] = u"─"
         self.orderPoints(0)
         for i in range(n):
-            for j in range(self.points[2*i].y+1,self.points[2*i+1].y):
-                if tab[j][i]=="-":
-                    tab[j][i]="+"
+            for j in range(self.points[2*i].y + 1, self.points[2*i+1].y):
+                if tab[j][i] == u"─":
+                    tab[j][i] = u"┼"
                 else:
-                    tab[j][i]="|"
+                    tab[j][i] = u"│"
+
+        s = ''
         for i in range(n):
-            for j in range(n):
-                s += tab[i][j]
-            s+= "\n"
+            s += ''.join(tab[i])
+            s += "\n"
         return s
 
-#############################################################
-
-
-if __name__ == "__main__":
-    dd0 = RectDia([(0,0),(0,3),(1,1),(1,2),(2,2),(2,3),(3,0),(3,1)])
-    dd1 = RectDia([(0,0),(0,1),(1,0),(1,2),(2,2),(2,1)])
-    dd2 = RectDia([(1,0),(0,1),(2,0),(0,2),(1,2),(2,1)])
-    dd = RectDia([(2,0),(1,1),(0,2),(0,4),(1,3),(2,2),(3,1),(4,0),(4,3),(3,4)])
-    print(dd.toStringNice())
-##    dd=RectDia([])
-##
-##    f=inputLink()
-####    f=OLink.OLink(f,0)
-##    print(1)
-##    dd.fromOlink(f)
-##    print(2)
-##    dd.draw()
-##    print(3)
-##    print(dd.toString())
-####    t=dd.succfl()
-####    for x in t:
-####        x.draw()
-##
-##
+    __repr__ = toStringNice

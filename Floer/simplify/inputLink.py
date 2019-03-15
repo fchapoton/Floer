@@ -1,8 +1,15 @@
-import OLink
-import Tkinter
+from . import OLink
+from .pairing import minPairing
+
+try:
+    import Tkinter as tkinter
+except ImportError:
+    import tkinter
+
+
 from math import sqrt
 
-from pairing import minPairing
+
 
 ###################### first some plane geometry needed later
 constradius = 1
@@ -30,17 +37,17 @@ def distToLine(p, l):
     return h
 
 
-def intersect(l1,l2):
+def intersect(l1, l2):
     """
     intersection of line or segments return coordinates and proportion on segements
     """
-    d1=(l1[1][0]-l1[0][0])*(l2[1][1]-l2[0][1])-(l1[1][1]-l1[0][1])*(l2[1][0]-l2[0][0]) ##determinant
-    if d1==0:
-        return 0 ##if paralleles
-    gx=l2[0][0]-l1[0][0]
-    gy=l2[0][1]-l1[0][1]
-    ds=gx*(l2[1][1]-l2[0][1])-gy*(l2[1][0]-l2[0][0])
-    dt=((l1[1][0]-l1[0][0])*gy-(l1[1][1]-l1[0][1])*gx)
+    d1 = (l1[1][0]-l1[0][0])*(l2[1][1]-l2[0][1])-(l1[1][1]-l1[0][1])*(l2[1][0]-l2[0][0])  # determinant
+    if d1 == 0:
+        return 0  # if paralleles
+    gx = l2[0][0]-l1[0][0]
+    gy = l2[0][1]-l1[0][1]
+    ds = gx*(l2[1][1]-l2[0][1])-gy*(l2[1][0]-l2[0][0])
+    dt = ((l1[1][0]-l1[0][0])*gy-(l1[1][1]-l1[0][1])*gx)
     return(l1[0][0]+(ds*(l1[1][0]-l1[0][0]))/d1,l1[0][1]+(ds*(l1[1][1]-l1[0][1]))/d1,ds*1.0/d1,-dt*1.0/d1)
 ###################### The transformation in a link itself
 
@@ -78,8 +85,8 @@ def linePreparations(lines):
     """
     ## interpreting a set of lines as the diagram of a link!
     """
-    infty=100000000
-    matrix=[]
+    infty = 100000000
+    matrix = []
     for i in range(len(lines)):
         matrix.append(len(lines)*[0])
     for i in range(len(lines)):
@@ -144,10 +151,10 @@ def lineToOLink(lines):
 ################################# a gui to draw link and "read" them
 
 
-class inputWindow(Tkinter.Frame):
+class inputWindow(tkinter.Frame):
     def drawArrow(self, l):
         self.board.create_line(l[0][0],l[0][1],l[1][0],l[1][1],
-                               width=10, arrow=Tkinter.LAST, fill="#000")
+                               width=10, arrow=tkinter.LAST, fill="#000")
         coef = sqrt(1.0*dist(l[0], l[1]))
         coef = (coef-10)/coef  # =arrow head!!!!!!!!
         self.board.create_line(l[0][0], l[0][1],
@@ -156,21 +163,22 @@ class inputWindow(Tkinter.Frame):
                                width=6, fill="#40f")
 
     def __init__(self, master=None):
-        Tkinter.Frame.__init__(self, master)
+        tkinter.Frame.__init__(self, master)
         self.pack()
-        self.board = Tkinter.Canvas(self, width=1000, height=500)
+        self.board = tkinter.Canvas(self, width=1000, height=500)
         self.board.pack()
-        self.loadButton=Tkinter.Button(self,text=" Load Link ",command=self.loadLink)
+        self.loadButton=tkinter.Button(self, text=" Load Link ",
+                                       command=self.loadLink)
         self.loadButton.pack()
-        self.result=0
-        self.lines=[]
-        self.depth=0
-        self.board.bind("<Button-1>",self.mousePr)
-        self.board.bind("<Button-3>",self.mouseDe)
-        self.board.bind("<ButtonRelease-1>",self.mouseRe)
+        self.result = 0
+        self.lines = []
+        self.depth = 0
+        self.board.bind("<Button-1>", self.mousePr)
+        self.board.bind("<Button-3>", self.mouseDe)
+        self.board.bind("<ButtonRelease-1>", self.mouseRe)
 
-    def mousePr(self,event):
-        (self.fromX,self.fromY)=(event.x,event.y)
+    def mousePr(self, event):
+        self.fromX, self.fromY = event.x, event.y
 
     def mouseRe(self,event):
         if dist((self.fromX,self.fromY,self.depth),(event.x,event.y))<constradius:

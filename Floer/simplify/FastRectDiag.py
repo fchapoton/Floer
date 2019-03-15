@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from six.moves import range
 
-from . import RectDia
+from .RectDia import RectDia
 
 import copy
 
@@ -12,16 +12,16 @@ def sign(x):
 
 
 class FastRectDiag:
-    def __init__(self,tab):
-        if isinstance(tab, RectDia.RectDia):
+    def __init__(self, tab):
+        if isinstance(tab, RectDia):
             tab = [(p.x, p.y) for p in tab.points]
         self.predecessor = 0
         self.complexity = len(tab) // 2
         self.xSorted = []
         self.ySorted = []
         for i in range(self.complexity):
-            self.xSorted+=[-1,-1]
-            self.ySorted+=[-1,-1]
+            self.xSorted += [-1, -1]
+            self.ySorted += [-1, -1]
         for p in tab:
             if self.xSorted[p[0]*2+0]==-1:
                 self.xSorted[p[0]*2+0]=p[1]
@@ -44,6 +44,9 @@ class FastRectDiag:
         h.ySorted = h.ySorted[:]
         return h
 
+    def __repr__(self):
+        return repr(self.toRectDia())
+
     def order(self):
         for i in range(self.complexity):
             if self.xSorted[2*i]>self.xSorted[2*i+1]:
@@ -52,16 +55,16 @@ class FastRectDiag:
                 (self.ySorted[2*i],self.ySorted[2*i+1])=(self.ySorted[2*i+1],self.ySorted[2*i])
 
     def xySorted(self,tab):
-        a=[-1]*(2*self.complexity)
-        for i in range(2*self.complexity):
-            o=tab[i]
-            if a[2*o]==-1:
-                a[2*o]=i/2
+        a = [-1] * (2 * self.complexity)
+        for i in range(2 * self.complexity):
+            o = tab[i]
+            if a[2*o] == -1:
+                a[2*o] = i//2
             else:
-                a[2*o+1]=i/2
+                a[2*o+1] = i//2
         return a
 
-    def getSize(self):
+    def size(self):
         return self.complexity
 
     def _areUnlinked2(self, i, j, k, l):
@@ -233,17 +236,22 @@ class FastRectDiag:
         return 0
 
     def cycle(self, d):
+        """
+        change self inplace
+
+        d is a direction (0 or 1)
+        """
         if d == 0:
-            self.xSorted=self.xSorted[len(self.xSorted)-2:]+self.xSorted[:len(self.xSorted)-2]
-            self.ySorted=self.xySorted(self.xSorted)
+            self.xSorted = self.xSorted[len(self.xSorted)-2:]+self.xSorted[:len(self.xSorted)-2]
+            self.ySorted = self.xySorted(self.xSorted)
         else:
-            self.ySorted=self.ySorted[len(self.ySorted)-2:]+self.ySorted[:len(self.ySorted)-2]
-            self.xSorted=self.xySorted(self.ySorted)
+            self.ySorted = self.ySorted[len(self.ySorted)-2:]+self.ySorted[:len(self.ySorted)-2]
+            self.xSorted = self.xySorted(self.ySorted)
 
     def m_destabilisation(self, direction, row):
-        self.complexity-=1
-        xS=[]
-        yS=[]
+        self.complexity -= 1
+        xS = []
+        yS = []
         if direction == 0:
             for i in range(self.complexity+1):
                 if i!=row:
@@ -306,10 +314,28 @@ class FastRectDiag:
         return res
 
     def toRectDia(self):
-        return RectDia.RectDia([(i, self.xSorted[2 * i])
-                                for i in range(len(self.xSorted) // 2)] +
-                               [(i, self.xSorted[2 * i + 1])
-                                for i in range(len(self.xSorted) // 2)])
+        """
+        d = FastRectDiag([(0,0),(0,4),(1,2),(1,8),(2,7),
+        (2,9),(3,6),(3,8),(4,1),
+        (4,3),(5,2),(5,7),(6,0),(6,3),(7,1),(7,5),(8,4),(8,6),
+        (9,5),(9,9)])
+        In [16]: d.toRectDia()
+        Out[16]: 
+        o-----o   
+        |   o-+o  
+        |o--+o||  
+        ||  o+o|  
+        o+---+-+o 
+         |   | o+o
+         | o-+--o|
+         |o+-o   |
+         o+o     |
+          o------o
+        """
+        return RectDia([(i, self.xSorted[2 * i])
+                        for i in range(len(self.xSorted) // 2)] +
+                       [(i, self.xSorted[2 * i + 1])
+                        for i in range(len(self.xSorted) // 2)])
 
 
 if __name__ == "__main__":
@@ -322,5 +348,5 @@ if __name__ == "__main__":
     print(dd.toRectDia().toStringNice())
     des = dd.isdestabilisable()
     tmp = dd.copy()
-    tmp.m_destabilisation(des[0],des[1])
+    tmp.m_destabilisation(des[0], des[1])
     print(tmp.toRectDia().toStringNice())

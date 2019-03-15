@@ -91,7 +91,7 @@ def toStringNice(rect):
     >>> print(toStringNice(r))
     """
     n = len(rect)
-    tab = [[" "] * n for i in range(n)]
+    tab = [[" "] * n for _ in range(n)]
     for i in range(n):
         for j in [0, 1]:
             tab[i][rect[i][j]] = "o"

@@ -1,20 +1,28 @@
-import Tkinter
-import tkMessageBox
-import fastUnknot
-import RectDia
-import inputLink
+try:
+    import Tkinter as tkinter
+except ImportError:
+    import tkinter
+
+try:
+    import tkMessageBox as messagebox
+except ImportError:
+    from tkinter import messagebox
+
+from . import fastUnknot
+from . import RectDia
+from . import inputLink
 
 
 class mainWindow:
     def __init__(self):
-        self.root = Tkinter.Tk()
+        self.root = tkinter.Tk()
         self.root.title("Link main program")
-        menuBar = Tkinter.Menu(self.root)
+        menuBar = tkinter.Menu(self.root)
         self.root["menu"]=menuBar
-        fileMenu = Tkinter.Menu(menuBar)
+        fileMenu = tkinter.Menu(menuBar)
         menuBar.add_cascade(label="file",menu=fileMenu)
         fileMenu.add_command(label="exit",command=self.close)
-        self.actionMenu=Tkinter.Menu(menuBar)
+        self.actionMenu=tkinter.Menu(menuBar)
         menuBar.add_cascade(label="action",menu=self.actionMenu)
         self.actionMenu.add_command(label="Draw a link",command=self.drawKnot)
         self.actionMenu.add_command(label="View unknotting",command=self.viewHistory)
@@ -38,26 +46,26 @@ class mainWindow:
         self.root.mainloop()
 
     def unKnot(self):
-        if self.currentLink==-1:
-            tkMessageBox.showinfo(title="Error!",message="No link loaded")
+        if self.currentLink == -1:
+            messagebox.showinfo(title="Error!",message="No link loaded")
             return
 
-        dd=RectDia.RectDia([])
+        dd = RectDia.RectDia([])
         dd.fromOlink(self.currentLink)
-        print(dd.toString())
-        tmpResult=fastUnknot.unknot(dd)
-        tkMessageBox.showinfo(title="Result",message=tmpResult[0])
-        self.history=tmpResult
+        print(dd.toStringNice())
+        tmpResult = fastUnknot.unknot(dd)
+        messagebox.showinfo(title="Result", message=tmpResult[0])
+        self.history = tmpResult
 
-    def loadLink(self,event):
-        self.currentLink=self.currentInputWindows.result
+    def loadLink(self, event):
+        self.currentLink = self.currentInputWindows.result
         self.currentInputWindows.destroy()
 
     def viewHistory(self):
-        if self.history==-1:
-            tkMessageBox.showinfo(title="Error!",message="No history loaded")
+        if self.history == -1:
+            messagebox.showinfo(title="Error!",message="No history loaded")
             return
-        if self.currentInputWindows!=0:
+        if self.currentInputWindows != 0:
             self.currentInputWindows.destroy()
         import diapoUnknotting
         self.root.quit()

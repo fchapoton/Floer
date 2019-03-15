@@ -93,16 +93,17 @@ if __name__ == "__main__":
 with open("knotAtlas.pic", "rb") as av:
     atlas = pickle.load(av)
 
-
-if __name__ == "__main__":
-    s = ""
-    print(atlas[(7, 2)])
-    for i in range(13):
-        for j in range(1, len(atlas) + 1):
-            if (i, j) in atlas:
-                s += str((i, j))+": "+str(atlas[(i, j)])+"\n"
-            else:
-                break
-        print("passage")
-    with open("knotAtlasV1.txt", "w") as av:
-        av.write(s)
+"""
+pour reconstruction du fichier knotAtlasV1.txt
+"""
+# if __name__ == "__main__":
+#     s = "{"
+#     for i in range(13):
+#         for j in range(1, len(atlas) + 1):
+#             if (i, j) in atlas:
+#                 s += str((i, j)) + ": " + str(atlas[(i, j)]) + ",\n"
+#             else:
+#                 break
+#     s += "}"
+#     with open("knotAtlasV1.txt", "w") as av:
+#         av.write(s)

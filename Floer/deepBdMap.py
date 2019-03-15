@@ -354,35 +354,37 @@ def nextOnGen(p, gen1, gen2, cuts, trans1, trans2):
     return res
 
 
-def nextOnCuts(p,cuts):#cut=(x,y,xs,ys,d,(x,y,xs,ys))
+def nextOnCuts(p, cuts):
+    """
+    cut=(x,y,xs,ys,d,(x,y,xs,ys))
+    """
     res = []
     for c in cuts:
         if c[1][0] == p[0]:
-            res.append((c[0][0],c[0][1],c[0][2],c[0][3],[c[1]],1))
+            res.append((c[0][0], c[0][1], c[0][2], c[0][3], [c[1]], 1))
     return res
-# n=0
 
 
 def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
     # I use the []=false trick
-#     global n
-#     if n>10: return 0
-#     n+=1
+    #     global n
+    #     if n>10: return 0
+    #     n+=1
 
     if start[0]==goal[0] and start[1]==goal[1] and start[2]==goal[2] and start[3]==goal[3]:
         g1Acc[goal[0]]=goal
         for intermed in start[4]:
             g2Acc[intermed[0]]=intermed
         return [(g1Acc,g2Acc)]
-    next=nextOnGen(start,gen1,gen2,cuts,trans1,trans2)+nextOnCuts(start,cuts)
+    next = nextOnGen(start,gen1,gen2,cuts,trans1,trans2)+nextOnCuts(start,cuts)
 
-    res=[]
+    res = []
     for p in next:
-#         if p[0]==goal[0] and p[1]==goal[1] and p[2]==goal[2] and p[3]==goal[3]:
-#             g1Acc[goal[0]]=goal
-#             for intermed in p[4]:
-#                 g2Acc[intermed[0]]=intermed
-#             res.append((g1Acc,g2Acc))
+        #         if p[0]==goal[0] and p[1]==goal[1] and p[2]==goal[2] and p[3]==goal[3]:
+        #             g1Acc[goal[0]]=goal
+        #             for intermed in p[4]:
+        #                 g2Acc[intermed[0]]=intermed
+        #             res.append((g1Acc,g2Acc))
         if g1Acc[p[0]]:
             continue
         tmp1=g1Acc[:]
@@ -394,7 +396,7 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
     return res
 
 
-def findAll(startx,p1,p2,trans1,trans2):# p1,p2are perms as arrays
+def findAll(startx, p1, p2,trans1,trans2):# p1,p2are perms as arrays
     x=startx
     y=p1[x]
     compSize=[startx]
@@ -616,16 +618,17 @@ print(totalG)
 
 
 if __name__ == "__main__":
-#     app=wx.PySimpleApp()
-#     g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1],0)
-#     g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1],0)
-#     data=([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],[[0,5]]*6),[g1,g2])
-#     frm=show_all.floerDiagram(data)
-#     frm.Show()
-#     app.MainLoop()
-    gen1=gen([1, 0, 4, 2, 5, 6, 8, 7, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, -1, 1, -1, -1, 0],0)
-    gen2=gen([6, 1, 4, 0, 2, 7, 8, 5, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [-1, 1, -1, 1, 1, -1, -1, 1, 0],0)
-    rect=[[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]]
-    ell=([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]])
-    ellDir=([1, -1, -1, -1, -1, -1, 1, -1, 0], [1, -1, -1, 0, 1, -1, -1, -1, 1])
+    #     app=wx.PySimpleApp()
+    #     g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1],0)
+    #     g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1],0)
+    #     data=([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],[[0,5]]*6),[g1,g2])
+    #     frm=show_all.floerDiagram(data)
+    #     frm.Show()
+    #     app.MainLoop()
+    gen1 = gen([1, 0, 4, 2, 5, 6, 8, 7, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, -1, 1, -1, -1, 0],0)
+    gen2 = gen([6, 1, 4, 0, 2, 7, 8, 5, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [-1, 1, -1, 1, 1, -1, -1, 1, 0],0)
+    rect = [[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]]
+    ell = ([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]])
+    ellDir = ([1, -1, -1, -1, -1, -1, 1, -1, 0],
+              [1, -1, -1, 0, 1, -1, -1, -1, 1])
     print(deepBdMap(rect, gen1, gen2, ell, ellDir))

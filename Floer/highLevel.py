@@ -108,7 +108,7 @@ def AllToString(rect):
 
 if __name__ == "__main__":
     rect0 = [[1,4],[0,2],[1,3],[2,4],[0,3]]  # treefoil
-    rect1 = [[3,6],[4,8],[0,2],[1,7],[0,5],[3,8],[2,6],[1,5],[4,7]]#16 crossings
+    rect1 = [[3,6],[4,8],[0,2],[1,7],[0,5],[3,8],[2,6],[1,5],[4,7]]  # 16 crossings
     rect2 = [[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]]
     rect3 = [[2,4],[3,6],[0,6],[0,5],[1,4],[1,5],[2,3]]  # big unknot
     rect4 = [[1,5],[0,2],[1,4],[3,5],[2,4],[0,3]]
@@ -126,10 +126,10 @@ if __name__ == "__main__":
     rect_d = [[0,13],[9,11],[5,7],[6,10],[9,12],[11,13],[5,8],
               [7,10],[1,3],[2,6],[1,4],[3,8],[4,12],[0,2]]
 
-    rect_e = atlas[(12,1291)]
-    rect_f = atlas[(11,370)]  # 90s about
-    rect_g = atlas[(9,15)]
-    rect = atlas[(11,418)]  # has a multi domain!
+    rect_e = atlas[(12, 1291)]
+    rect_f = atlas[(11, 370)]  # 90s about
+    rect_g = atlas[(9, 15)]
+    rect = atlas[(11, 418)]  # has a multi domain!
 
     print(rectDiagMisc.toStringNice(rect))
     print(rect)

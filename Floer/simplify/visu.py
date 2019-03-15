@@ -1,36 +1,41 @@
-import Tkinter
+try:
+    import Tkinter as tkinter
+except ImportError:
+    import tkinter
+
 from math import sqrt
 
 
-def drawRibbon(x1,y1,x2,y2,width,fill,fig):
-    color='#%d%d%d'%(0,0,0)
+def drawRibbon(x1, y1, x2, y2, width, fill, fig):
+    color = '#%d%d%d' % (0, 0, 0)
     fig.create_line(x1-width,y1,x2-width,y2,fill=color)
     fig.create_line(x1-width+1,y1,x2-width+1,y2,fill=color)
     fig.create_line(x1+width,y1,x2+width,y2)
     fig.create_line(x1+width-1,y1,x2+width-1,y2)
-    color=fill
-    for k in range(-width+2,width-1):
-        fig.create_line(x1+k,y1,x2+k,y2,fill=color)
+
+    color = fill
+    for k in range(-width+2, width-1):
+        fig.create_line(x1+k, y1, x2+k, y2, fill=color)
     return
 
 
 def drawArch(x1, x2, y, height, fill, fig):
-    fig.create_line(x1,y,x1,y+height,fill=fill)
-    fig.create_line(x2,y,x2,y+height,fill=fill)
-    fig.create_line(x1,y+height,x2+1,y+height,fill=fill)
+    fig.create_line(x1,y,x1,y+height, fill=fill)
+    fig.create_line(x2,y,x2,y+height, fill=fill)
+    fig.create_line(x1,y+height,x2+1,y+height, fill=fill)
 
 
-def drawEnd(x1,x2,y,height,width,fill,fig):
-    dir=1
-    if height<0:
-        dir=-1
-    for k in range(-width,width+1):
-        if k<-width+2 or k>width-2:
-            color='#%d%d%d'%(0,0,0)
+def drawEnd(x1, x2, y, height, width, fill, fig):
+    dir = 1
+    if height < 0:
+        dir = -1
+    for k in range(-width, width+1):
+        if k < -width+2 or k > width-2:
+            color = '#%d%d%d' % (0,0,0)
         else:
-            color=fill
+            color = fill
 
-        drawArch(x1-k,x2+k,y,height+k*dir,color,fig)
+        drawArch(x1-k,x2+k,y,height+k*dir, color, fig)
 
 
 def drawBraidElem(x1,y1,x2,y2,entry,elem,pos,width,fill,fig):
@@ -85,23 +90,27 @@ def goodDivisor(n):
             return k
 
 
-def drawBraidSerie(x1,y1,x2,y2,s,width,fig):
-    n=len(s)
-    d=goodDivisor(n)
-    dx=(x2-x1)/d
-    dy=(y2-y1)*d/n
+def drawBraidSerie(x1, y1, x2, y2, s, width, fig):
+    n = len(s)
+    d = goodDivisor(n)
+    dx = (x2-x1)/d
+    dy = (y2-y1)*d/n
     for x in range(d):
-        for y in range(n/d):
-            drawBraid(x1+dx*x,y1+dy*y,x1+dx*(x+1),y1+dy*(y+1),s[d*y+x].word,s[d*y+x].entry,width,fig)
+        for y in range(n//d):
+            drawBraid(x1+dx*x,y1+dy*y,x1+dx*(x+1),
+                      y1+dy*(y+1),s[d*y+x].word,s[d*y+x].entry,
+                      width,fig)
 
 
 if __name__ == "__main__":
-    root = Tkinter.Tk()
-    fig = Tkinter.Canvas(root, width=500, height=500)
+    root = tkinter.Tk()
+    fig = tkinter.Canvas(root, width=500, height=500)
     fig.pack()
-##    drawRibbon(200,0,60,100,10,'#%d%d%d'%(9,0,0),fig)
-##    drawRibbon(60,0,200,100,10,'#%d%d%d'%(9,0,0),fig)
-##    drawEnd(60,200,100,-50,10,'#%d%d%d'%(9,0,0),fig)
-##    drawBraidElem(10,10,500,50,8,1,2,7,'#%d%d%d'%(9,0,0),fig)
-    drawBraid(10,10,500,500,[(2,0),(2,1),(1,0),(1,0),(1,2),(3,1),(3,0)],0,6,fig)
+    #    drawRibbon(200,0,60,100,10,'#%d%d%d'%(9,0,0),fig)
+    #    drawRibbon(60,0,200,100,10,'#%d%d%d'%(9,0,0),fig)
+    #    drawEnd(60,200,100,-50,10,'#%d%d%d'%(9,0,0),fig)
+    #    drawBraidElem(10,10,500,50,8,1,2,7,'#%d%d%d'%(9,0,0),fig)
+    drawBraid(10, 10, 500, 500,
+              [(2, 0), (2, 1), (1, 0), (1, 0), (1, 2), (3, 1), (3, 0)],
+              0, 6, fig)
     root.mainloop()

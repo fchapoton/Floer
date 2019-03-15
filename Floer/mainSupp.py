@@ -1,6 +1,8 @@
-from braid2rect import atlas
-from rectDiagMisc import toStringNice
-from highLevel import AllToString
+from __future__ import absolute_import
+
+from .braid2rect import atlas
+from .rectDiagMisc import toStringNice
+from .highLevel import AllToString
 
 import time
 
