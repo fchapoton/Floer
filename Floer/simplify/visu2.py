@@ -8,16 +8,18 @@ def _l(x, y, x2, y2, dist, fig):
 
 def drawRectDia(diag, fig):
     n = diag.getSize()
-    dist = 500/n
+    dist = 500 / n
     diag.orderPoints(1)
     diag.orderPoints(0)  # the sort is order preserving for equals!!
 
     for x in range(n):
-        _l(diag.points[2*x].x,diag.points[2*x].y,diag.points[2*x+1].x,diag.points[2*x+1].y,dist,fig)
+        _l(diag.points[2*x].x,diag.points[2*x].y,
+           diag.points[2*x+1].x,diag.points[2*x+1].y, dist, fig)
     diag.orderPoints(0)
-    diag.orderPoints(1)##the sort is order preserving for equals!!
+    diag.orderPoints(1)  # the sort is order preserving for equals!!
     for x in range(n):
-        _l(diag.points[2*x].x,diag.points[2*x].y,diag.points[2*x+1].x,diag.points[2*x+1].y,dist,fig)
+        _l(diag.points[2*x].x, diag.points[2*x].y,
+           diag.points[2*x+1].x, diag.points[2*x+1].y, dist, fig)
 
 
 def drawRectDia2(diag, fig):
@@ -30,11 +32,14 @@ def drawRectDia2(diag, fig):
     diag.orderPoints(0)  # the sort is order preserving for equals!!
 
     for x in range(n):
-        _l(diag.points[2*x].x,diag.points[2*x].y,diag.points[2*x+1].x,diag.points[2*x+1].y,dist,fig)
+        _l(diag.points[2*x].x, diag.points[2*x].y,
+           diag.points[2*x+1].x, diag.points[2*x+1].y, dist, fig)
     diag.orderPoints(0)
-    diag.orderPoints(1)##the sort is order preserving for equals!!
+    diag.orderPoints(1)  # the sort is order preserving for equals!!
+
     for x in range(n):
-        _l(diag.points[2*x].x,diag.points[2*x].y,diag.points[2*x+1].x,diag.points[2*x+1].y,dist,fig)
+        _l(diag.points[2*x].x, diag.points[2*x].y,
+           diag.points[2*x+1].x, diag.points[2*x+1].y, dist, fig)
 
 
 if __name__ == "__main__":
@@ -42,4 +47,3 @@ if __name__ == "__main__":
     fig = Tkinter.Canvas(root, width=500, height=500)
     fig.pack()
     root.mainloop()
-

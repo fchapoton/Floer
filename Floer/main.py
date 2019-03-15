@@ -9,7 +9,11 @@ import simplify.diagSimplify
 if six.PY2:
     input = raw_input
 
-
+print("""
+┏━━━━━━━━━━━━━━━━━━━━━━━┓
+┃   Floer version 0.1   ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━┛
+""")
 s = ""
 while s != "y" and s != "n":
     s = input("""Do you want to enter a knot:

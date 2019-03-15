@@ -12,7 +12,8 @@ import getOptiEllipses
 from homology import transpose
 import rectDiagMisc
 from bdMapGeneral import (hdEllipsesGen, hdCond, hdCond2, preparePath,
-                          deepBdMap2, bdMapPsgenCache, fillFValue, bdMap, categ)
+                          bdMapPsgenCache, fillFValue, bdMap, categ)
+import deepBdMap2
 
 
 def getKnotFloerHomology(rect):
@@ -47,17 +48,18 @@ def getKnotFloerHomology(rect):
     for i in transposed:
         s = ""
         for j in i:
-            s += format(str(len(j)),6)+" "
+            s += format(str(len(j)), 6) + " "
         print(s)
-    # the bdMap stuff
-    HDEll=hdEllipsesGen(ell[0],ell[1])
-    (to0,toPlus,chEll)=hdCond(rect,HDEll)
-    delta=hdCond2(rect,HDEll,to0,toPlus)
-    path=preparePath(rect,ell)
-    print("path", path)
-    # the deepBd stuff
-    init=deepBdMap2.initWith(rect,ell)
 
+    # the bdMap stuff
+    HDEll = hdEllipsesGen(ell[0], ell[1])
+    to0, toPlus, chEll = hdCond(rect, HDEll)
+    delta = hdCond2(rect, HDEll, to0, toPlus)
+    path = preparePath(rect, ell)
+    print("path", path)
+
+    # the deepBd stuff
+    init = deepBdMap2.initWith(rect, ell)
 
     #     def eulerP(tab):
     #         k=[0]*(len(tab[0]))
@@ -69,7 +71,7 @@ def getKnotFloerHomology(rect):
     #         return k
     #     print(eulerP(tmp))
     cache = bdMapPsgenCache(rect, ell, pool)
-    fillFValue(tmp,cache,ell,to0,toPlus,chEll,delta)
+    fillFValue(tmp, cache, ell, to0, toPlus, chEll, delta)
     # new# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     #         cache2=bdMapGolay.bdMapPsgenCache(rect,ell,pool)
     #     a=raw_input("w")

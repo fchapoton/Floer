@@ -7,6 +7,10 @@ from . import RectDia
 import copy
 
 
+def sign(x):
+    return -1 if x < 0 else 1
+
+
 class FastRectDiag:
     def __init__(self,tab):
         if isinstance(tab, RectDia.RectDia):
@@ -53,20 +57,18 @@ class FastRectDiag:
             o=tab[i]
             if a[2*o]==-1:
                 a[2*o]=i/2
-            else: a[2*o+1]=i/2
+            else:
+                a[2*o+1]=i/2
         return a
 
     def getSize(self):
         return self.complexity
 
-    def _areUnlinked(self,i,j,k,l):
-        if (i-j)*(i-k)*(i-l)*(k-j)*(l-j)*(l-k)==0:return 0
-        if i<k<j or j<k<i: boo=1
-        if i<l<j or j<l<i: boo2=1
-        return boo==boo2
-
-    def _areUnlinked2(self,i,j,k,l):
-        return (k-i)*(j-k)*(l-i)*(j-l)>0
+    def _areUnlinked2(self, i, j, k, l):
+        """
+        pas bien efficace sans doute
+        """
+        return sign(k - i) * sign(j - k) * sign(l - i) * sign(j - l) > 0
 
     def castleX(self,nb):
         tmp11 = self.xSorted[nb*2]
@@ -247,8 +249,10 @@ class FastRectDiag:
                 if i!=row:
                     a=self.xSorted[2*i]
                     b=self.xSorted[2*i+1]
-                    if a>self.xSorted[2*row]: a-=1
-                    if b>self.xSorted[2*row]: b-=1
+                    if a>self.xSorted[2*row]:
+                        a-=1
+                    if b>self.xSorted[2*row]:
+                        b-=1
                     xS+=[a,b]
             self.xSorted=xS
             self.ySorted=self.xySorted(xS)
@@ -257,8 +261,10 @@ class FastRectDiag:
                 if i!=row:
                     a=self.ySorted[2*i]
                     b=self.ySorted[2*i+1]
-                    if a>self.ySorted[2*row]: a-=1
-                    if b>self.ySorted[2*row]: b-=1
+                    if a>self.ySorted[2*row]:
+                        a-=1
+                    if b>self.ySorted[2*row]:
+                        b-=1
                     yS+=[a,b]
             self.ySorted=yS
             self.xSorted=self.xySorted(yS)
@@ -300,10 +306,10 @@ class FastRectDiag:
         return res
 
     def toRectDia(self):
-        return RectDia.RectDia([(i, self.xSorted[2*i])
-                                for i in range(len(self.xSorted)/2)]
-                               +[(i, self.xSorted[2*i+1])
-                                 for i in range(len(self.xSorted)/2)])
+        return RectDia.RectDia([(i, self.xSorted[2 * i])
+                                for i in range(len(self.xSorted) // 2)] +
+                               [(i, self.xSorted[2 * i + 1])
+                                for i in range(len(self.xSorted) // 2)])
 
 
 if __name__ == "__main__":

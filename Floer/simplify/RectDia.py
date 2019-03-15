@@ -91,17 +91,22 @@ class RectDia:
 
     def __del(self,x,y):
         for p in self.points:
-            if p.x==x and p.y==y:
+            if p.x == x and p.y == y:
                 self.points.remove(p)
-                if self.isOriented: return p.ori
+                if self.isOriented:
+                    return p.ori
 
 ############################# The moves #############################3
 
-    def __unlinked(self,i,j,k,l):
-        if i==j or i==k or i==l or j==k or j==l or k==l: return 0
-        if j<i: (i,j)=(j,i)
-        if l<k: (k,l)=(l,k)
-        if (i<k<j and j<l) or (i<l<j and k<i): return 0
+    def _unlinked(self,i,j,k,l):
+        if i==j or i==k or i==l or j==k or j==l or k==l:
+            return 0
+        if j<i:
+            (i,j)=(j,i)
+        if l<k:
+            (k,l)=(l,k)
+        if (i<k<j and j<l) or (i<l<j and k<i):
+            return 0
         return 1
 
     def m_cycle(self,dx,dy):
@@ -109,8 +114,10 @@ class RectDia:
         for p in self.points:
             p.x+=dx
             p.y+=dy
-            if p.x>=n: p.x-=n
-            if p.y>=n: p.y-=n
+            if p.x>=n:
+                p.x-=n
+            if p.y>=n:
+                p.y-=n
 
     def is_castling(self,i,direction):
         n=self.getSize()
@@ -124,9 +131,11 @@ class RectDia:
             q1=self.points[0]
             q2=self.points[1]
         d=1-direction
-        if direction and self.__unlinked(p1.x,p2.x,q1.x,q2.x): return 1
-        if d and self.__unlinked(p1.y,p2.y,q1.y,q2.y): return 1
-        return 0
+        if direction and self._unlinked(p1.x,p2.x,q1.x,q2.x):
+            return True
+        if d and self._unlinked(p1.y,p2.y,q1.y,q2.y):
+            return True
+        return False
 
     def m_castling(self,i,direction):## if impossible throws exception
         n=self.getSize()
@@ -140,9 +149,9 @@ class RectDia:
             q1=self.points[0]
             q2=self.points[1]
         d=1-direction
-        if direction and not self.__unlinked(p1.x,p2.x,q1.x,q2.x):
+        if direction and not self._unlinked(p1.x,p2.x,q1.x,q2.x):
             raise RuntimeError
-        if d and not self.__unlinked(p1.y,p2.y,q1.y,q2.y):
+        if d and not self._unlinked(p1.y,p2.y,q1.y,q2.y):
             raise RuntimeError
         p1.castle(i, direction, n)
         p2.castle(i, direction, n)
@@ -160,11 +169,12 @@ class RectDia:
         if not self.is_stabilisation(kind):
             raise ValueError
         n=self.getSize()-1
-        ori=0
+        ori = 0
         if kind==0:
             for p in self.points:
                 if p.x==p.y and p.x==n:
-                    if self.isOriented: ori=p.ori
+                    if self.isOriented:
+                        ori=p.ori
                     self.points.remove(p)
                     break
             self.points+=[self.point(n,n+1,self.isOriented,ori),self.point(n+1,n,self.isOriented,ori),self.point(n+1,n+1,self.isOriented,1-ori)]
@@ -172,9 +182,12 @@ class RectDia:
             i=-1
             for p in self.points:
                 if kind==2 and p.x==n and p.y!=n or kind==1 and p.y==n and p.x!=n:
-                    if kind==2: i=p.y
-                    else: i=p.x
-                    if self.isOriented: ori=p.ori
+                    if kind==2:
+                        i=p.y
+                    else:
+                        i=p.x
+                    if self.isOriented:
+                        ori=p.ori
                     self.points.remove(p)
                     break
             self.points+=[self.point(i,n+1,self.isOriented,ori).__inv(kind-1)]
@@ -188,7 +201,8 @@ class RectDia:
                     p.ori=1-p.ori
                 if p.x==n and p.y!=n:
                     i=p.y
-                    if self.isOriented: ori=p.ori
+                    if self.isOriented:
+                        ori=p.ori
                     self.points.remove(p)
                 if p.y==n and p.x!=n:
                     j=p.x
@@ -204,13 +218,17 @@ class RectDia:
         mn=self.__has(n-1,n)
         nm=self.__has(n,n-1)
         mm=self.__has(n-1,n-1)
-        if mn and nm and nn and (not mm): return 0
-        if mm and mn and nn and (not nm): return 1
-        if mm and nm and nn and (not mn): return 2
-        if mm and mn and nm and (not nn): return 3
+        if mn and nm and nn and (not mm):
+            return 0
+        if mm and mn and nn and (not nm):
+            return 1
+        if mm and nm and nn and (not mn):
+            return 2
+        if mm and mn and nm and (not nn):
+            return 3
         return -1
 
-    def m_destabilisation(self,kind):##use following is_desta
+    def m_destabilisation(self, kind):  # use following is_desta
         n=self.getSize()-1
         if kind==0:
             self.__del(n,n)
@@ -321,10 +339,14 @@ class RectDia:
         d=[-1]*min(min(n-x,n-y),s)
         for p in self.points:
             if p.x>=x and p.y>=y and p.x<x+s and p.y<y+s:
-                if p.x-x==p.y-y: d[p.x-x]=1
-                else: return 0
-        if d.count(-1)==0: return 1
-        else: return 0
+                if p.x-x==p.y-y:
+                    d[p.x-x]=1
+                else:
+                    return 0
+        if d.count(-1)==0:
+            return 1
+        else:
+            return 0
 
 ##    def __count(self,l,x,d)
 ##        tot=0
@@ -332,7 +354,7 @@ class RectDia:
 ##            if (p.x==x and d==0) or (p.y==y and d==1):tot+=1
 ##        return tot
 
-    def is_flipe(self,a,b):
+    def is_flipe(self, a, b):
         if self.__hasFullDiag(0,b,a) and self.__hasFullDiag(0,a,b):
             if len(self.__fetch(a,b,b,a))==0:
                 return 1
@@ -469,14 +491,14 @@ class RectDia:
         self.orderPoints(0)
         for i in range(n):
             for j in range(self.points[2*i].y+1,self.points[2*i+1].y):
-                if tab[j][i]=="-": tab[j][i]="+"
-                else:tab[j][i]="|"
+                if tab[j][i]=="-":
+                    tab[j][i]="+"
+                else:
+                    tab[j][i]="|"
         for i in range(n):
             for j in range(n):
-                s+=tab[i][j]
-            s+="""
-"""
-
+                s += tab[i][j]
+            s+= "\n"
         return s
 
 #############################################################

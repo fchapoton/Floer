@@ -16,11 +16,8 @@ def makePairs(r):
 
 
 def simplify(rect, bd):
-    return makePairs(fastUnknot2.unknot(toPoints(rect),bd)[1].xSorted)
+    return makePairs(fastUnknot2.unknot(toPoints(rect), bd)[1].xSorted)
 
 
 def simplifyPoints(rect, bd):
-    return makePairs(fastUnknot2.unknot(rect,bd)[1].xSorted)
-
-
-print(simplify([[0, 1], [0, 1]], 1000))
+    return makePairs(fastUnknot2.unknot(rect, bd)[1].xSorted)
