@@ -94,31 +94,8 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
     return vert
 
 
-def sortVert(vert, n):
-    tab = [[] for i in range(n)]
-    for v in vert:
-        tab[v[2]].append(v)
-    return tab
-
-
-def getTable(x, y, vert):
-    tab = [[0]*y for i in range(x+1)]
-    sortedVert = sortVert(vert, x + 1)
-    for i in range(x):
-        for j in range(y):
-            tab[i+1][j]=tab[i][j]
-        for j in sortedVert[i]:
-            if j[0]>j[1]:
-                for k in range(j[1],j[0]):
-                    tab[i+1][k]-=1
-            else:
-                for k in range(j[0],j[1]):
-                    tab[i+1][k]+=1
-    return tab[1:]
-
-
-def hdCond(rect,ell):# here ell are hdEll!
-    to0=[]
+def hdCond(rect, ell):# here ell are hdEll!
+    to0 = []
     for i in range(len(rect)):
         for j in [0,1]:
             to0.append((i*5+2,rect[i][j]*4+1,[]))
