@@ -74,79 +74,83 @@ class FastRectDiag:
         return sign(k - i) * sign(j - k) * sign(l - i) * sign(j - l) > 0
 
     def castleX(self,nb):
+        N = self.complexity
         tmp11 = self.xSorted[nb*2]
         tmp12 = self.xSorted[nb*2+1]
-        tmp21 = self.xSorted[(nb+1)%self.complexity*2]
-        tmp22 = self.xSorted[(nb+1)%self.complexity*2+1]
+        tmp21 = self.xSorted[(nb+1) % N*2]
+        tmp22 = self.xSorted[(nb+1) % N*2+1]
         if self.ySorted[tmp11*2]==nb:
-            self.ySorted[tmp11*2]=(nb+1)%self.complexity
+            self.ySorted[tmp11*2]=(nb+1) % N
         else:
-            self.ySorted[tmp11*2+1]=(nb+1)%self.complexity
+            self.ySorted[tmp11*2+1]=(nb+1) % N
         if self.ySorted[tmp12*2]==nb:
-            self.ySorted[tmp12*2]=(nb+1)%self.complexity
+            self.ySorted[tmp12*2]=(nb+1) % N
         else:
-            self.ySorted[tmp12*2+1]=(nb+1)%self.complexity
-        if self.ySorted[tmp21*2]==(nb+1)%self.complexity:
+            self.ySorted[tmp12*2+1]=(nb+1) % N
+        if self.ySorted[tmp21*2]==(nb+1) % N:
             self.ySorted[tmp21*2]=nb
         else:
             self.ySorted[tmp21*2+1]=nb
-        if self.ySorted[tmp22*2]==(nb+1)%self.complexity:
+        if self.ySorted[tmp22*2]==(nb+1) % N:
             self.ySorted[tmp22*2]=nb
         else:
             self.ySorted[tmp22*2+1]=nb
-        (self.xSorted[nb*2],self.xSorted[(nb+1)%self.complexity*2])=(self.xSorted[(nb+1)%self.complexity*2],self.xSorted[nb*2])
-        (self.xSorted[nb*2+1],self.xSorted[(nb+1)%self.complexity*2+1])=(self.xSorted[(nb+1)%self.complexity*2+1],self.xSorted[nb*2+1])
+        (self.xSorted[nb*2],self.xSorted[(nb+1) % N*2])=(self.xSorted[(nb+1) % N*2],self.xSorted[nb*2])
+        (self.xSorted[nb*2+1],self.xSorted[(nb+1) % N*2+1])=(self.xSorted[(nb+1) % N*2+1],self.xSorted[nb*2+1])
         return self
 
-    def castleY(self,nb):
+    def castleY(self, nb):
+        N = self.complexity
         tmp11 = self.ySorted[nb*2]
         tmp12 = self.ySorted[nb*2+1]
-        tmp21 = self.ySorted[(nb+1)%self.complexity*2]
-        tmp22 = self.ySorted[(nb+1)%self.complexity*2+1]
+        tmp21 = self.ySorted[(nb+1) % N*2]
+        tmp22 = self.ySorted[(nb+1) % N*2+1]
         if self.xSorted[tmp11*2]==nb:
-            self.xSorted[tmp11*2]=(nb+1)%self.complexity
+            self.xSorted[tmp11*2]=(nb+1) % N
         else:
-            self.xSorted[tmp11*2+1]=(nb+1)%self.complexity
+            self.xSorted[tmp11*2+1]=(nb+1) % N
         if self.xSorted[tmp12*2]==nb:
-            self.xSorted[tmp12*2]=(nb+1)%self.complexity
+            self.xSorted[tmp12*2]=(nb+1) % N
         else:
-            self.xSorted[tmp12*2+1]=(nb+1)%self.complexity
+            self.xSorted[tmp12*2+1]=(nb+1) % N
 
-        if self.xSorted[tmp21*2]==(nb+1)%self.complexity:
+        if self.xSorted[tmp21*2]==(nb+1) % N:
             self.xSorted[tmp21*2]=nb
         else:
             self.xSorted[tmp21*2+1]=nb
-        if self.xSorted[tmp22*2]==(nb+1)%self.complexity:
+        if self.xSorted[tmp22*2]==(nb+1) % N:
             self.xSorted[tmp22*2]=nb
         else:
             self.xSorted[tmp22*2+1]=nb
-        (self.ySorted[nb*2],self.ySorted[(nb+1)%self.complexity*2])=(self.ySorted[(nb+1)%self.complexity*2],self.ySorted[nb*2])
-        (self.ySorted[nb*2+1],self.ySorted[(nb+1)%self.complexity*2+1])=(self.ySorted[(nb+1)%self.complexity*2+1],self.ySorted[nb*2+1])
+        (self.ySorted[nb*2],self.ySorted[(nb+1) % N*2])=(self.ySorted[(nb+1) % N*2],self.ySorted[nb*2])
+        (self.ySorted[nb*2+1],self.ySorted[(nb+1) % N*2+1])=(self.ySorted[(nb+1) % N*2+1],self.ySorted[nb*2+1])
         return self
 
     def castle(self, nb, direction):
+        N = self.complexity
         if direction:
-            if self._areUnlinked2(self.ySorted[(nb+1)%self.complexity*2],
-                                   self.ySorted[(nb+1)%self.complexity*2+1],
-                                   self.ySorted[nb*2],self.ySorted[nb*2+1]):
+            if self._areUnlinked2(self.ySorted[(nb+1) % N*2],
+                                  self.ySorted[(nb+1) % N*2+1],
+                                  self.ySorted[nb*2],self.ySorted[nb*2+1]):
                 return self.castleY(nb)
 
         else:
-            if self._areUnlinked2(self.xSorted[(nb+1)%self.complexity*2],
-                                   self.xSorted[(nb+1)%self.complexity*2+1],
-                                   self.xSorted[nb*2],self.xSorted[nb*2+1]):
+            if self._areUnlinked2(self.xSorted[(nb+1) % N*2],
+                                  self.xSorted[(nb+1) % N*2+1],
+                                  self.xSorted[nb*2],self.xSorted[nb*2+1]):
                 return self.castleX(nb)
         return 0
 
     def isCastle(self, nb, direction):
+        N = self.complexity
         if direction:
-            return self._areUnlinked2(self.ySorted[(nb+1)%self.complexity*2],
-                                       self.ySorted[(nb+1)%self.complexity*2+1],
-                                       self.ySorted[nb*2],self.ySorted[nb*2+1])
+            return self._areUnlinked2(self.ySorted[(nb+1) % N*2],
+                                      self.ySorted[(nb+1) % N*2+1],
+                                      self.ySorted[nb*2],self.ySorted[nb*2+1])
         else:
-            return self._areUnlinked2(self.xSorted[(nb+1)%self.complexity*2],
-                                       self.xSorted[(nb+1)%self.complexity*2+1],
-                                       self.xSorted[nb*2],self.xSorted[nb*2+1])
+            return self._areUnlinked2(self.xSorted[(nb+1) % N*2],
+                                      self.xSorted[(nb+1) % N*2+1],
+                                      self.xSorted[nb*2],self.xSorted[nb*2+1])
 
     def __has(self, x, y):
         return self.xSorted[x * 2] == y or self.xSorted[x * 2 + 1] == y
@@ -155,7 +159,7 @@ class FastRectDiag:
         nn = self.__has(x, y)
         mn = self.__has((x-1) % self.complexity,y)
         nm = self.__has(x,(y-1) % self.complexity)
-        mm = self.__has((x-1)%self.complexity,(y-1) % self.complexity)
+        mm = self.__has((x-1) % self.complexity,(y-1) % self.complexity)
         if mn and nm and nn and (not mm):
             return 0
         if mm and mn and nn and (not nm):
@@ -215,11 +219,11 @@ class FastRectDiag:
         for d in (0, 1):
             for i in range(self.complexity):
                 n=1
-                while self._areUnlinked3(i,(i+n)%self.complexity, d):
+                while self._areUnlinked3(i,(i+n) % self.complexity, d):
                     n += 1
                 fw[i]=n-1
                 n=1
-                while self._areUnlinked3(i,(i-n)%self.complexity, d):
+                while self._areUnlinked3(i,(i-n) % self.complexity, d):
                     n += 1
                 bw[i]=n-1
             for i in range(self.complexity):
@@ -320,12 +324,12 @@ class FastRectDiag:
         (4,3),(5,2),(5,7),(6,0),(6,3),(7,1),(7,5),(8,4),(8,6),
         (9,5),(9,9)])
         In [16]: d.toRectDia()
-        Out[16]: 
-        o-----o   
-        |   o-+o  
-        |o--+o||  
-        ||  o+o|  
-        o+---+-+o 
+        Out[16]:
+        o-----o
+        |   o-+o
+        |o--+o||
+        ||  o+o|
+        o+---+-+o
          |   | o+o
          | o-+--o|
          |o+-o   |

@@ -17,7 +17,7 @@ def fromTangleToRect(tangle):
 
     In [2]: tangle = [[2, 0], [2, 1], [1, 0], [1, 0], [1, 0], [3, 1], [3, 0]]
     In [3]: fromTangleToRect(tangle)
-    Out[3]: 
+    Out[3]:
        o──o
        │oo│
       o┼o││
@@ -158,13 +158,18 @@ def knot_source():
         f.write(s)
 
 
-##knot_source()
-##########################3from DTcode now
+# knot_source()
+# ---------- from DTcode now ----------
 
 
 def FromDT(s):
     """
     s = Dowker-Thistlethwaite code
+
+    on suppose que le vrai boulot est fait par M***a
+
+    FromDT("bdegahjclmfnpoki")
+    BR[DTCode[4,8,10,14,2,16,20,6,24,26,12,28,32,30,22,18]]
     """
     tab = s.split("\n")
     for i in tab:
@@ -207,94 +212,94 @@ def extractBraid(s):
                 if -j>mm:
                     mm=-j-1
         print(b)
-        tmp= forAnna(b,mm)
+        tmp = forAnna(b,mm)
         print(tmp)
         print("")
-        s+="\n"+tmp+"\n"
+        s += "\n"+tmp+"\n"
     with open("c://temp//knot16cr.txt",'w') as f:
         f.write(s)
 
-##extractBraid("""
-##Out[9]=
-##BR[7,{1,2,3,-4,5,6,5,-4,5,-4,-3,-2,-1,-4,-3,-2,-4,-3,-4,5,-4,3,2,5,-4,3,5,-4,-6,5}]
-##
-##Out[10]=
-##BR[9,{1,2,-3,4,5,6,7,6,-5,-4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,6,-8,-7,6,-5,-4,-3,2,-5,6,7,6,-5,-4,-3,-5,-4,-5,8}]
-##
-##Out[11]=
-##BR[7,{1,2,3,4,-5,4,-3,-2,-1,4,4,-3,-2,-3,-5,6,-5,4,-3,2,4,-3,4,6}]
-##
-##Out[12]=
-##BR[7,{1,2,
-##  3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,5,5,6,5,-4,-3,2,5,-4,3,5,-4,5}]
-##
-##Out[13]=
-##BR[9,{1,2,
-##  3,4,5,6,7,6,-5,-4,-3,-2,-1,6,-5,-4,-3,-2,6,6,-5,-4,-3,-5,4,5,6,-7,6,-8,7,
-##    6,-5,-4,3,2,6,-5,4,3,6,-5,4,6,5,6,-7,8}]
-##
-##Out[14]=
-##BR[5,{1,-2,3,-4,-4,3,3,-2,-1,-2,-4,-4,-4,-4,-4,3,-2,3}]
-##
-##Out[15]=
-##BR[7,{1,2,
-##  3,4,-5,-6,-5,-4,-3,-2,-1,-5,6,-5,4,-3,2,4,-3,4,-5,-5,4,4,-3,-2,-3,-5}]
-##
-##Out[16]=
-##BR[7,{1,2,
-##  3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,-6,5,-4,-3,2,5,-4,3,5,-4,5}]
-##
-##Out[17]=
-##BR[7,{1,2,
-##  3,4,-5,6,-5,-4,-3,-2,-1,4,-3,2,4,-3,4,-5,-5,4,4,-3,-2,-3,-6,-5,-5,-5}]
-##
-##Out[18]=
-##BR[9,{1,2,
-##  3,4,5,-6,7,-6,-5,-4,-3,-2,-1,-5,-4,-3,-2,5,-4,3,5,-4,5,-6,-6,
-##    5,5,-4,-3,2,-4,3,4,-7,8,7,-6,5,-6,-7,-6,-8}]
-##
-##Out[19]=
-##BR[7,{1,2,-3,4,-3,-2,-1,-3,-2,-3,-5,6,-5,4,-3,2,4,-3,4,6,-5,-5}]
-##
-##Out[20]=
-##BR[9,{1,2,-3,4,5,6,7,6,-5,-4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,8,-7,
-##    6,-5,-4,-3,2,-5,6,-5,-4,-3,-5,-4,-5,-7,-8}]
-##
-##Out[21]=
-##BR[7,{1,2,
-##  3,-4,5,-4,-3,-2,-1,-4,-3,-2,-4,3,4,5,5,-6,5,-4,-3,2,5,-4,3,5,-4,5,-6,-6}]
-##
-##Out[22]=
-##BR[7,{1,2,
-##  3,-4,5,-4,-3,-2,-1,-6,5,-4,-3,-2,-4,-3,-4,-6,5,-4,3,2,5,-4,3,5,-4,-6}]
-##
-##Out[23]=
-##BR[7,{1,2,-3,4,-5,4,-3,-2,-1,-3,-2,-3,6,-5,4,-3,2,4,-3,4,6,-5}]
-##
-##Out[24]=
-##BR[7,{1,-2,-3,-4,5,-4,3,2,-1,5,-4,3,2,3,5,4,
-##    5,-6,5,-4,-3,-2,-4,5,-4,-3,-4,-6,-6,-6}]
-##
-##Out[25]=
-##BR[9,{1,2,
-##  3,4,5,6,-7,-8,-7,-6,-5,-4,-3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,
-##    6,-5,-4,-3,2,-5,6,-5,-4,-3,-5,-4,-5,8,-7}]
-##
-##Out[26]=
-##BR[7,{1,2,-3,-4,-5,6,-5,4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,-5,6,-5,4,-5,
-##    6,-5,-4,-3,2,-5,-4,-3,-5,-4,-5}]
-##
-##Out[27]=
-##BR[7,{1,2,3,4,-5,6,-5,-5,4,-3,-2,-1,4,4,-3,-2,-3,-5,-6,-5,4,-3,2,4,-3,4}]
-##
-##Out[28]=
-##BR[7,{1,2,
-##  3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,5,6,5,5,-4,-3,2,5,-4,3,5,-4,
-##    5}]
-##
-##Out[29]=
-##BR[7,{1,2,
-##  3,-4,5,-6,5,-4,-3,-2,-1,5,-4,-3,-2,-4,-3,-4,-6,5,-4,3,2,5,-4,3,5,-4}]
+# extractBraid("""
+# Out[9]=
+# BR[7,{1,2,3,-4,5,6,5,-4,5,-4,-3,-2,-1,-4,-3,-2,-4,-3,-4,5,-4,3,2,5,-4,3,5,-4,-6,5}]
+#
+# Out[10]=
+# BR[9,{1,2,-3,4,5,6,7,6,-5,-4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,6,-8,-7,6,-5,-4,-3,2,-5,6,7,6,-5,-4,-3,-5,-4,-5,8}]
+#
+# Out[11]=
+# BR[7,{1,2,3,4,-5,4,-3,-2,-1,4,4,-3,-2,-3,-5,6,-5,4,-3,2,4,-3,4,6}]
+#
+# Out[12]=
+# BR[7,{1,2,
+#   3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,5,5,6,5,-4,-3,2,5,-4,3,5,-4,5}]
+#
+# Out[13]=
+# BR[9,{1,2,
+#   3,4,5,6,7,6,-5,-4,-3,-2,-1,6,-5,-4,-3,-2,6,6,-5,-4,-3,-5,4,5,6,-7,6,-8,7,
+#     6,-5,-4,3,2,6,-5,4,3,6,-5,4,6,5,6,-7,8}]
+#
+# Out[14]=
+# BR[5,{1,-2,3,-4,-4,3,3,-2,-1,-2,-4,-4,-4,-4,-4,3,-2,3}]
+#
+# Out[15]=
+# BR[7,{1,2,
+#   3,4,-5,-6,-5,-4,-3,-2,-1,-5,6,-5,4,-3,2,4,-3,4,-5,-5,4,4,-3,-2,-3,-5}]
+#
+# Out[16]=
+# BR[7,{1,2,
+#   3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,-6,5,-4,-3,2,5,-4,3,5,-4,5}]
+#
+# Out[17]=
+# BR[7,{1,2,
+#   3,4,-5,6,-5,-4,-3,-2,-1,4,-3,2,4,-3,4,-5,-5,4,4,-3,-2,-3,-6,-5,-5,-5}]
+#
+# Out[18]=
+# BR[9,{1,2,
+#   3,4,5,-6,7,-6,-5,-4,-3,-2,-1,-5,-4,-3,-2,5,-4,3,5,-4,5,-6,-6,
+#     5,5,-4,-3,2,-4,3,4,-7,8,7,-6,5,-6,-7,-6,-8}]
+#
+# Out[19]=
+# BR[7,{1,2,-3,4,-3,-2,-1,-3,-2,-3,-5,6,-5,4,-3,2,4,-3,4,6,-5,-5}]
+#
+# Out[20]=
+# BR[9,{1,2,-3,4,5,6,7,6,-5,-4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,8,-7,
+#     6,-5,-4,-3,2,-5,6,-5,-4,-3,-5,-4,-5,-7,-8}]
+#
+# Out[21]=
+# BR[7,{1,2,
+#   3,-4,5,-4,-3,-2,-1,-4,-3,-2,-4,3,4,5,5,-6,5,-4,-3,2,5,-4,3,5,-4,5,-6,-6}]
+#
+# Out[22]=
+# BR[7,{1,2,
+#   3,-4,5,-4,-3,-2,-1,-6,5,-4,-3,-2,-4,-3,-4,-6,5,-4,3,2,5,-4,3,5,-4,-6}]
+#
+# Out[23]=
+# BR[7,{1,2,-3,4,-5,4,-3,-2,-1,-3,-2,-3,6,-5,4,-3,2,4,-3,4,6,-5}]
+#
+# Out[24]=
+# BR[7,{1,-2,-3,-4,5,-4,3,2,-1,5,-4,3,2,3,5,4,
+#     5,-6,5,-4,-3,-2,-4,5,-4,-3,-4,-6,-6,-6}]
+#
+# Out[25]=
+# BR[9,{1,2,
+#   3,4,5,6,-7,-8,-7,-6,-5,-4,-3,-2,-1,6,-5,4,3,-2,6,-5,4,3,4,6,5,6,-7,
+#     6,-5,-4,-3,2,-5,6,-5,-4,-3,-5,-4,-5,8,-7}]
+#
+# Out[26]=
+# BR[7,{1,2,-3,-4,-5,6,-5,4,3,-2,-1,6,-5,4,3,-2,6,-5,4,3,-5,6,-5,4,-5,
+#     6,-5,-4,-3,2,-5,-4,-3,-5,-4,-5}]
+#
+# Out[27]=
+# BR[7,{1,2,3,4,-5,6,-5,-5,4,-3,-2,-1,4,4,-3,-2,-3,-5,-6,-5,4,-3,2,4,-3,4}]
+#
+# Out[28]=
+# BR[7,{1,2,
+#   3,4,5,-6,5,-4,-3,-2,-1,5,5,-4,-3,-2,-4,3,4,5,5,5,6,5,5,-4,-3,2,5,-4,3,5,-4,
+#     5}]
+#
+# Out[29]=
+# BR[7,{1,2,
+#   3,-4,5,-6,5,-4,-3,-2,-1,5,-4,-3,-2,-4,-3,-4,-6,5,-4,3,2,5,-4,3,5,-4}]
 
 
 # extractBraid("""
@@ -439,58 +444,58 @@ def extractBraid(s):
 # """)
 
 
-##FromDT("""bdegahjclmfnpoki
-##bdegahjclofnpikm
-##bdegahjcmfnoilpk
-##bdegahjcmfnoipkl
-##bdegahjcmfnoiplk
-##bdegahjcmfnopikl
-##bdegahjcmfnopilk
-##bdegahjcmfonilpk
-##bdegahjcmfopnilk
-##bdegahjcmfponilk
-##bdegahjcmkfnoipl
-##bdegahjcmkfoipln
-##bdegahjcmkfonipl
-##bdegahjcmlfnpoki
-##bdegahjcmnfiokpl
-##bdegahjcnkfopiml
-##bdegahjcnkfpoiml
-##bdegahjcnmfiokpl
-##bdegahjcoflnpkim
-##bdegahjcofmnpkil
-##bdegahjcolfnpikm
-##bdegahkclmnfpoji
-##bdegahkclmofipjn
-##bdegahkclmofnipj
-##bdegahkclnfjoipm
-##bdegahkclnfjopim
-##bdegahkclnfjpoim
-##bdegahkclnfpiojm
-##bdegahkclnfpjoim
-##bdegahkclnmfpoji
-##bdeGaHJCKMFNOIPL
-##bdeGaHJCKMFnoIpl
-##bdeGaHJCKmFNOiPL
-##bdeGaHJCKmFnoipl
-##bdeGahjCkMfNOIPL
-##bdeGahjCkMfnoIpl
-##bdeGahjCkmfnoipl
-##bdegaHJcKMFNOIPL
-##bdegaHJcKmFnoipl
-##bdegahJcKMFNOIPL
-##bdegahJckmFnoipl
-##bdeGaHJCKMFOIPLN
-##bdeGaHJCKmFoipln
-##bdeGahjCkMfOIPLN
-##bdeGahjCkmfoipln
-##bdegaHJcKMFOIPLN
-##bdegaHJcKmFoipln
-##bdegahJcKMFOIPLN
-##bdegahJckmFoipln
-##bdegahjcKMfOIPLN
-##bdegahjckMfOIPLN
-##bdeGaHJCKMFONIPL
-##bdeGahjCkmfonipl
-##bdegaHJcKMFONIPL
-##""")
+# FromDT("""bdegahjclmfnpoki
+# bdegahjclofnpikm
+# bdegahjcmfnoilpk
+# bdegahjcmfnoipkl
+# bdegahjcmfnoiplk
+# bdegahjcmfnopikl
+# bdegahjcmfnopilk
+# bdegahjcmfonilpk
+# bdegahjcmfopnilk
+# bdegahjcmfponilk
+# bdegahjcmkfnoipl
+# bdegahjcmkfoipln
+# bdegahjcmkfonipl
+# bdegahjcmlfnpoki
+# bdegahjcmnfiokpl
+# bdegahjcnkfopiml
+# bdegahjcnkfpoiml
+# bdegahjcnmfiokpl
+# bdegahjcoflnpkim
+# bdegahjcofmnpkil
+# bdegahjcolfnpikm
+# bdegahkclmnfpoji
+# bdegahkclmofipjn
+# bdegahkclmofnipj
+# bdegahkclnfjoipm
+# bdegahkclnfjopim
+# bdegahkclnfjpoim
+# bdegahkclnfpiojm
+# bdegahkclnfpjoim
+# bdegahkclnmfpoji
+# bdeGaHJCKMFNOIPL
+# bdeGaHJCKMFnoIpl
+# bdeGaHJCKmFNOiPL
+# bdeGaHJCKmFnoipl
+# bdeGahjCkMfNOIPL
+# bdeGahjCkMfnoIpl
+# bdeGahjCkmfnoipl
+# bdegaHJcKMFNOIPL
+# bdegaHJcKmFnoipl
+# bdegahJcKMFNOIPL
+# bdegahJckmFnoipl
+# bdeGaHJCKMFOIPLN
+# bdeGaHJCKmFoipln
+# bdeGahjCkMfOIPLN
+# bdeGahjCkmfoipln
+# bdegaHJcKMFOIPLN
+# bdegaHJcKmFoipln
+# bdegahJcKMFOIPLN
+# bdegahJckmFoipln
+# bdegahjcKMfOIPLN
+# bdegahjckMfOIPLN
+# bdeGaHJCKMFONIPL
+# bdeGahjCkmfonipl
+# bdegaHJcKMFONIPL
+# """)

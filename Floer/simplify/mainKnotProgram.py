@@ -18,18 +18,18 @@ class mainWindow:
         self.root = tkinter.Tk()
         self.root.title("Link main program")
         menuBar = tkinter.Menu(self.root)
-        self.root["menu"]=menuBar
+        self.root["menu"] = menuBar
         fileMenu = tkinter.Menu(menuBar)
         menuBar.add_cascade(label="file",menu=fileMenu)
-        fileMenu.add_command(label="exit",command=self.close)
+        fileMenu.add_command(label="exit", command=self.close)
         self.actionMenu=tkinter.Menu(menuBar)
         menuBar.add_cascade(label="action",menu=self.actionMenu)
-        self.actionMenu.add_command(label="Draw a link",command=self.drawKnot)
-        self.actionMenu.add_command(label="View unknotting",command=self.viewHistory)
-        self.actionMenu.add_command(label="Try to unknot",command=self.unKnot)
-##        self.actionMenu.add_command(label="load drawn link",command=self.loadLink)
-        self.currentInputWindows=0
-        self.history=-1
+        self.actionMenu.add_command(label="Draw a link", command=self.drawKnot)
+        self.actionMenu.add_command(label="View unknotting", command=self.viewHistory)
+        self.actionMenu.add_command(label="Try to unknot", command=self.unKnot)
+#        self.actionMenu.add_command(label="load drawn link", command=self.loadLink)
+        self.currentInputWindows = 0
+        self.history = -1
         self.currentLink=-1
         self.root.mainloop()
 

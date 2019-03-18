@@ -97,9 +97,9 @@ def trtr(n, x, y):
 
 
 if __name__ == "__main__":
-    matrix = [[10,2,3,5],[2,10,1,3],[3,1,10,2],[5,3,2,10]]
+    matrix = [[10, 2, 3, 5], [2, 10, 1, 3], [3, 1, 10, 2], [5, 3, 2, 10]]
     for i in range(1):
         matrix = rMatrix(60)
         print(matrix)
         print(minPairing(matrix))
-## 20:3s 40:18s 60: 61 s
+# 20:3s 40:18s 60: 61 s

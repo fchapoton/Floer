@@ -6,12 +6,10 @@ try:
 except ImportError:
     import tkinter
 
-
 from math import sqrt
 
 
-
-###################### first some plane geometry needed later
+#  ---------- first some plane geometry needed later ----------
 constradius = 1
 # when 2 points are nearer they are considered identical!
 
@@ -20,7 +18,9 @@ def dist(p1, p2):
     """
     the squared distance between 2 points
     """
-    return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1])
+    x, y = p1
+    X, Y = p2
+    return (x - X)**2 + (y - Y)**2
 
 
 def distToLine(p, l):
@@ -49,7 +49,7 @@ def intersect(l1, l2):
     ds = gx*(l2[1][1]-l2[0][1])-gy*(l2[1][0]-l2[0][0])
     dt = ((l1[1][0]-l1[0][0])*gy-(l1[1][1]-l1[0][1])*gx)
     return(l1[0][0]+(ds*(l1[1][0]-l1[0][0]))/d1,l1[0][1]+(ds*(l1[1][1]-l1[0][1]))/d1,ds*1.0/d1,-dt*1.0/d1)
-###################### The transformation in a link itself
+# ---------- The transformation in a link itself ----------
 
 
 def underOn(l1, l2, dx, dy):
@@ -78,12 +78,12 @@ def uOrn(v1x, v1y, v2x, v2y, dx, dy):
     if d1 < 0 and d2 > 0:
         return 2
     return 0
-## new underOne
+# new underOne
 
 
 def linePreparations(lines):
     """
-    ## interpreting a set of lines as the diagram of a link!
+    interpreting a set of lines as the diagram of a link!
     """
     infty = 100000000
     matrix = []
@@ -131,13 +131,13 @@ def lineToOLink(lines):
                 continue
             if 0.0 <= tmp[2] <= 1.0 and 0.0 <= tmp[3] <= 1.0:
                 loc = locate(tmp[0], tmp[1], dx, dy, l1, l2, lines)
-##                boo=0
-##                if underOn(l1,l2,dx,dy)==0:boo=1-boo
-##                if (l1[0][1]>l2[0][1] and boo) or (l1[0][1]<l2[0][1] and 1-boo):
-##                    inter.append((tmp[0],tmp[1],loc,1))
-##                else:
-##                    inter.append((tmp[0],tmp[1],loc,0))
-##
+#                 boo=0
+#                 if underOn(l1,l2,dx,dy)==0:boo=1-boo
+#                 if (l1[0][1]>l2[0][1] and boo) or (l1[0][1]<l2[0][1] and 1-boo):
+#                     inter.append((tmp[0],tmp[1],loc,1))
+#                 else:
+#                     inter.append((tmp[0],tmp[1],loc,0))
+#
                 if underOn(l1, l2, dx, dy):
                     inter.append((tmp[0], tmp[1], loc, 1))
                 else:
@@ -148,7 +148,7 @@ def lineToOLink(lines):
     print(t)
     return OLink.OLink([(x[1], x[0]) for x in t], entry)
 
-################################# a gui to draw link and "read" them
+# ---------- a gui to draw link and "read" them ----------
 
 
 class inputWindow(tkinter.Frame):
@@ -212,7 +212,7 @@ class inputWindow(tkinter.Frame):
         self.event_generate("<<loadLink>>")
 
 
-## main and tests
+# ---------- main and tests ----------
 
 
 def inputLink():

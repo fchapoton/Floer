@@ -113,7 +113,7 @@ class RectDia(object):
                 if self.isOriented:
                     return p.ori
 
-############################# The moves #############################3
+# ---------- The moves ----------
 
     def _unlinked(self, i, j, k, l):
         if i==j or i==k or i==l or j==k or j==l or k==l:
@@ -284,7 +284,7 @@ class RectDia(object):
             res += self.points[i].y
         return (res * 2 + 1) * pow(2, n)
 
-#######################building lists of successors by the moves
+# ---------- building lists of successors by the moves ----------
 
     def succCy(self):
         succ = []
@@ -337,7 +337,8 @@ class RectDia(object):
 
     def successors(self):
         return self.succCy() + self.succCa() + self.succDe() + self.succSt()
-##Flipe-move part##################################
+
+    # Flipe-move part
 
     def _fetch(self, x, y, dx, dy):
         return [p for p in self.points
@@ -348,33 +349,27 @@ class RectDia(object):
                        p.x - x != p.y - y
                        for p in self.points)
 
-    def __hasFullDiag(self,x,y,s):
-        n=self._size
-        d=[-1]*min(min(n-x,n-y),s)
+    def __hasFullDiag(self, x, y, s):
+        n = self._size
+        d = [-1] * min(min(n-x,n-y),s)
         for p in self.points:
             if p.x>=x and p.y>=y and p.x<x+s and p.y<y+s:
                 if p.x-x==p.y-y:
                     d[p.x-x]=1
                 else:
                     return 0
-        if d.count(-1)==0:
-            return 1
+        if d.count(-1) == 0:
+            return True
         else:
-            return 0
-
-##    def __count(self,l,x,d)
-##        tot=0
-##        for p in l:
-##            if (p.x==x and d==0) or (p.y==y and d==1):tot+=1
-##        return tot
+            return False
 
     def is_flipe(self, a, b):
-        if self.__hasFullDiag(0,b,a) and self.__hasFullDiag(0,a,b):
-            if len(self._fetch(a,b,b,a))==0:
-                return 1
-        return 0
+        if self.__hasFullDiag(0, b, a) and self.__hasFullDiag(0, a, b):
+            if not self._fetch(a, b, b, a):
+                return True
+        return False
 
-    def m_flipe(self,a,b):
+    def m_flipe(self, a, b):
         flipped=self._fetch(0,0,a,b)
         dx=[0]*self._size
         dy=[0]*self._size
@@ -409,12 +404,12 @@ class RectDia(object):
         for r in range(4):
             for i in range(n):
                 for j in range(n):
-                    for a in range(1, n + 1):  # 3too small!!
-                        for b in range(1,n+1):
-                            tmp=self.copy()
-                            tmp.m_cycle(i,j)
-                            if tmp.is_flipe(a,b):
-                                tmp.m_flipe(a,b)
+                    for a in range(1, n + 1):  # too small!!
+                        for b in range(1, n + 1):
+                            tmp = self.copy()
+                            tmp.m_cycle(i, j)
+                            if tmp.is_flipe(a, b):
+                                tmp.m_flipe(a, b)
                                 succ.append(tmp)
             self._rotate()
         return succ
@@ -508,7 +503,7 @@ class RectDia(object):
 
         In [8]: d = RectDia([(0,0),(2,0),(0,2),(2,2),(1,1),(1,3),(3,1),(3,3)])
         In [9]: print(d.toStringNice())
-        o-o 
+        o-o
         |o+o
         o+o|
          o-o
