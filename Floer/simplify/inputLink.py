@@ -30,9 +30,9 @@ def distToLine(p, l):
     k1 = sqrt(dist(p, l[0]) * 1.0)
     k2 = sqrt(dist(p, l[1]) * 1.0)
     k = sqrt(dist(l[0], l[1]) * 1.0)
-    peri = (k1+k2+k) / 2
-    h = (sqrt(peri*(peri-k1)*(peri-k2)*(peri-k))*2) / k
-    if k1*k1-h*h > k*k or k2*k2-h*h > k*k:
+    peri = (k1 + k2 + k) / 2
+    h = (sqrt(peri * (peri - k1) * (peri - k2) * (peri - k)) * 2) / k
+    if k1 * k1 - h * h > k * k or k2 * k2 - h * h > k * k:
         return min((k1, k2))
     return h
 
@@ -41,16 +41,16 @@ def intersect(l1, l2):
     """
     intersection of line or segments return coordinates and proportion on segments
     """
-    d1 = (l1[1][0]-l1[0][0])*(l2[1][1]-l2[0][1])-(l1[1][1]-l1[0][1])*(l2[1][0]-l2[0][0])  # determinant
+    d1 = (l1[1][0] - l1[0][0]) * (l2[1][1] - l2[0][1]) - (l1[1][1] - l1[0][1]) * (l2[1][0] - l2[0][0])  # determinant
     if d1 == 0:
         return 0  # if paralleles
-    gx = l2[0][0]-l1[0][0]
-    gy = l2[0][1]-l1[0][1]
-    ds = gx*(l2[1][1]-l2[0][1])-gy*(l2[1][0]-l2[0][0])
-    dt = ((l1[1][0]-l1[0][0])*gy-(l1[1][1]-l1[0][1])*gx)
-    return(l1[0][0]+(ds*(l1[1][0]-l1[0][0]))/d1,
-           l1[0][1]+(ds*(l1[1][1]-l1[0][1]))/d1,
-           ds*1.0/d1, -dt*1.0/d1)
+    gx = l2[0][0] - l1[0][0]
+    gy = l2[0][1] - l1[0][1]
+    ds = gx * (l2[1][1] - l2[0][1]) - gy * (l2[1][0] - l2[0][0])
+    dt = ((l1[1][0] - l1[0][0]) * gy - (l1[1][1] - l1[0][1]) * gx)
+    return (l1[0][0] + (ds * (l1[1][0] - l1[0][0])) / d1,
+            l1[0][1] + (ds * (l1[1][1] - l1[0][1])) / d1,
+            ds * 1.0 / d1, -dt * 1.0 / d1)
 # ---------- The transformation in a link itself ----------
 
 
@@ -58,7 +58,7 @@ def underOn(l1, l2, dx, dy):
     """
     of two (intersecting) line find which is like / and \
     """
-    return (l1[0][0]-l1[1][0])/(l1[0][1]-l1[1][1]) > (l2[0][0]-l2[1][0])/(l2[0][1]-l2[1][1])
+    return (l1[0][0] - l1[1][0]) / (l1[0][1] - l1[1][1]) > (l2[0][0] - l2[1][0]) / (l2[0][1] - l2[1][1])
 
 
 def locate(x, y, dx, dy, l1, l2, lines):
@@ -73,14 +73,14 @@ def locate(x, y, dx, dy, l1, l2, lines):
 
 
 def uOrn(v1x, v1y, v2x, v2y, dx, dy):
-    d1 = v1x*dx+v1y*dy
-    d2 = v2x*dx+v2y*dy
+    d1 = v1x * dx + v1y * dy
+    d2 = v2x * dx + v2y * dy
     if d1 > 0 and d2 < 0:
         return 3
     if d1 < 0 and d2 > 0:
         return 2
     return 0
-# new underOne
+# new underOn
 
 
 def linePreparations(lines):
@@ -99,12 +99,12 @@ def linePreparations(lines):
     pairing = minPairing(matrix)
     newLines = []
     for i in range(len(lines)):
-        x1 = (lines[i][1][0]+lines[pairing[i]][0][0]) / 2
-        y1 = (lines[i][1][1]+lines[pairing[i]][0][1]) / 2
+        x1 = (lines[i][1][0] + lines[pairing[i]][0][0]) / 2
+        y1 = (lines[i][1][1] + lines[pairing[i]][0][1]) / 2
         newLines.append([[0, 0], [x1, y1]])
     for i in range(len(lines)):
-        newLines[pairing[i]][0][0] = (lines[i][1][0]+lines[pairing[i]][0][0]) / 2
-        newLines[pairing[i]][0][1] = (lines[i][1][1]+lines[pairing[i]][0][1]) / 2
+        newLines[pairing[i]][0][0] = (lines[i][1][0] + lines[pairing[i]][0][0]) / 2
+        newLines[pairing[i]][0][1] = (lines[i][1][1] + lines[pairing[i]][0][1]) / 2
     return newLines
 
 
@@ -119,15 +119,17 @@ def lineToOLink(lines):
             l1 = lines[i]
             l2 = lines[j]
             tmp = intersect(l1, l2)
-            if dist(l1[1], l2[0]) < constradius*constradius:
+            if dist(l1[1], l2[0]) < constradius * constradius:
                 entry -= 1
-                boo = uOrn(l1[1][0]-l1[0][0], l1[1][1]-l1[0][1], l2[1][0]-l2[0][0], l2[1][1]-l2[0][1], dx, dy)
+                boo = uOrn(l1[1][0] - l1[0][0], l1[1][1] - l1[0][1],
+                           l2[1][0] - l2[0][0], l2[1][1] - l2[0][1], dx, dy)
                 if boo:
                     vertex.append((l1[1][0], l1[1][1], locate(l1[1][0], l1[1][1], dx, dy, l1, l2, lines), boo))
                 continue
             if dist(l1[0], l2[1]) < constradius * constradius:
                 entry -= 1
-                boo = uOrn(l2[1][0]-l2[0][0], l2[1][1]-l2[0][1], l1[1][0]-l1[0][0], l1[1][1]-l1[0][1], dx, dy)
+                boo = uOrn(l2[1][0] - l2[0][0], l2[1][1] - l2[0][1],
+                           l1[1][0] - l1[0][0], l1[1][1] - l1[0][1], dx, dy)
                 if boo:
                     vertex.append((l2[1][0], l2[1][1], locate(l2[1][0], l2[1][1], dx, dy, l1, l2, lines), boo))
                 continue
@@ -144,8 +146,8 @@ def lineToOLink(lines):
                     inter.append((tmp[0], tmp[1], loc, 1))
                 else:
                     inter.append((tmp[0], tmp[1], loc, 0))
-    t = [(x[2], x[3], x[0]*dx+x[1]*dy)
-         for x in vertex]+[(x[2], x[3], x[0]*dx+x[1]*dy) for x in inter]
+    t = [(x[2], x[3], x[0] * dx + x[1] * dy)
+         for x in vertex] + [(x[2], x[3], x[0] * dx + x[1] * dy) for x in inter]
     t.sort(key=lambda x: x[2])
     print(t)
     return OLink.OLink([(x[1], x[0]) for x in t], entry)
@@ -157,11 +159,11 @@ class inputWindow(tkinter.Frame):
     def drawArrow(self, l):
         self.board.create_line(l[0][0], l[0][1], l[1][0], l[1][1],
                                width=10, arrow=tkinter.LAST, fill="#000")
-        coef = sqrt(1.0*dist(l[0], l[1]))
-        coef = (coef-10)/coef  # =arrow head!!!!!!!!
+        coef = sqrt(1.0 * dist(l[0], l[1]))
+        coef = (coef - 10) / coef  # =arrow head!!!!!!!!
         self.board.create_line(l[0][0], l[0][1],
-                               int(l[0][0]+coef*(l[1][0]-l[0][0])),
-                               int(l[0][1]+coef*(l[1][1]-l[0][1])),
+                               int(l[0][0] + coef * (l[1][0] - l[0][0])),
+                               int(l[0][1] + coef * (l[1][1] - l[0][1])),
                                width=6, fill="#40f")
 
     def __init__(self, master=None):
@@ -192,7 +194,7 @@ class inputWindow(tkinter.Frame):
 
     def mouseDe(self, event):
         p = (event.x, event.y)
-        dis = constradius*2000
+        dis = constradius * 2000
         select = -1
         for i in range(len(self.lines)):
             if distToLine(p, self.lines[i]) < dis:
@@ -201,7 +203,7 @@ class inputWindow(tkinter.Frame):
         if select != -1:
             for i in self.board.find_all():
                 self.board.delete(i)
-            self.lines[select:select+1] = []
+            self.lines[select:select + 1] = []
             for i in self.lines:
                 self.drawArrow(i)
 

@@ -8,14 +8,14 @@ from math import sqrt
 
 def drawRibbon(x1, y1, x2, y2, width, fill, fig):
     color = '#%d%d%d' % (0, 0, 0)
-    fig.create_line(x1-width, y1, x2-width, y2, fill=color)
-    fig.create_line(x1-width+1, y1, x2-width+1, y2, fill=color)
-    fig.create_line(x1+width, y1, x2+width, y2)
-    fig.create_line(x1+width-1, y1, x2+width-1, y2)
+    fig.create_line(x1 - width, y1, x2 - width, y2, fill=color)
+    fig.create_line(x1 - width + 1, y1, x2 - width + 1, y2, fill=color)
+    fig.create_line(x1 + width, y1, x2 + width, y2)
+    fig.create_line(x1 + width - 1, y1, x2 + width - 1, y2)
 
     color = fill
-    for k in range(-width+2, width-1):
-        fig.create_line(x1+k, y1, x2+k, y2, fill=color)
+    for k in range(-width + 2, width - 1):
+        fig.create_line(x1 + k, y1, x2 + k, y2, fill=color)
     return
 
 
@@ -49,19 +49,21 @@ def drawBraidElem(x1, y1, x2, y2, entry, elem, pos, width, fill, fig):
     high = 0
     low = 0
     if elem == 0:
-        drawRibbon(x1+d1*(pos+1+1), y1,
-                   x1+d2*(pos+1), y2, width, fill, fig)
-        drawRibbon(x1+d1*(pos+1), y1,
-                   x1+d2*(pos+1+1), y2, width, fill, fig)
+        drawRibbon(x1 + d1 * (pos + 1 + 1), y1,
+                   x1 + d2 * (pos + 1), y2, width, fill, fig)
+        drawRibbon(x1 + d1 * (pos + 1), y1,
+                   x1 + d2 * (pos + 1 + 1), y2, width, fill, fig)
     if elem == 1:
-        drawRibbon(x1+d1*(pos+1), y1,
-                   x1+d2*(pos+1+1), y2, width, fill, fig)
-        drawRibbon(x1+d1*(pos+1+1), y1,
-                   x1+d2*(pos+1), y2, width, fill, fig)
+        drawRibbon(x1 + d1 * (pos + 1), y1,
+                   x1 + d2 * (pos + 1 + 1), y2, width, fill, fig)
+        drawRibbon(x1 + d1 * (pos + 1 + 1), y1,
+                   x1 + d2 * (pos + 1), y2, width, fill, fig)
     if elem == 2:
-        drawEnd(x1+d2*(pos+1), x1+d2*(pos+2), y2, -(y2-y1)/3, width, fill, fig)
+        drawEnd(x1 + d2 * (pos + 1), x1 + d2 * (pos + 2),
+                y2, -(y2 - y1) / 3, width, fill, fig)
     if elem == 3:
-        drawEnd(x1+d1*(pos+1), x1+d1*(pos+2), y1, (y2-y1)/3, width, fill, fig)
+        drawEnd(x1 + d1 * (pos + 1), x1 + d1 * (pos + 2),
+                y1, (y2 - y1) / 3, width, fill, fig)
     while high < entry:
         if high == pos:
             if elem == 2 or elem < 2:
@@ -84,7 +86,7 @@ def drawBraid(x1, y1, x2, y2, braid, entry, width, fig):
         return
     dy = (y2 - y1) / len(braid)
     for i in range(len(braid)):
-        drawBraidElem(x1, y1+dy*i, x2, y1+dy*(i+1), entry,
+        drawBraidElem(x1, y1 + dy * i, x2, y1 + dy * (i + 1), entry,
                       braid[i][0], braid[i][1], width,
                       '#%d%d%d' % (9, 9, 0), fig)
         if braid[i][0] == 2:

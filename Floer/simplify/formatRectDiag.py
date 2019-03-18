@@ -40,25 +40,25 @@ def fromTangleToRect(tangle):
     levelCounter = 0
     for level in tangle:
         if level[0] == 3:
-            points.append((section[level[1]+1], levelCounter))
-            points.append((section[level[1]+2], levelCounter))
-            section[level[1]+1:level[1]+3] = []
+            points.append((section[level[1] + 1], levelCounter))
+            points.append((section[level[1] + 2], levelCounter))
+            section[level[1] + 1:level[1] + 3] = []
         if level[0] == 2:
-            tmp1 = findFree(section[level[1]], section[level[1]+1])
-            tmp2 = findFree(tmp1, section[level[1]+1])
+            tmp1 = findFree(section[level[1]], section[level[1] + 1])
+            tmp2 = findFree(tmp1, section[level[1] + 1])
             points.append((tmp1, levelCounter))
             points.append((tmp2, levelCounter))
             forbidden += [tmp1, tmp2]
             section[level[1] + 1:level[1] + 1] = [tmp1, tmp2]
         if level[0] == 0:
-            tmp1 = findFree(section[level[1] + 2], section[level[1]+3])
+            tmp1 = findFree(section[level[1] + 2], section[level[1] + 3])
             points.append((tmp1, levelCounter))
-            points.append((section[level[1]+1], levelCounter))
+            points.append((section[level[1] + 1], levelCounter))
             forbidden += [tmp1]
             section[level[1] + 3:level[1] + 3] = [tmp1]
             section[level[1] + 1:level[1] + 2] = []
         if level[0] == 1:
-            tmp1 = findFree(section[level[1]], section[level[1]+1])
+            tmp1 = findFree(section[level[1]], section[level[1] + 1])
             points.append((tmp1, levelCounter))
             points.append((section[level[1] + 2], levelCounter))
             forbidden += [tmp1]
@@ -177,10 +177,10 @@ def FromDT(s):
         for c in i:
             n = ord(c)
             if n > 96:
-                r += str((n-96)*2)+", "
+                r += str((n - 96) * 2) + ", "
             else:
-                r += "-"+str((n-64)*2)+", "
-        print(r[:len(r)-1]+"]]")
+                r += "-" + str((n - 64) * 2) + ", "
+        print(r[:len(r) - 1] + "]]")
 
 
 def extractBraid(s):
@@ -204,11 +204,11 @@ def extractBraid(s):
         for jj in i:
             j = int(jj)
             if j > 0:
-                b.append([0, j-1])
+                b.append([0, j - 1])
                 if j > mm:
                     mm = j - 1
             else:
-                b.append([1, -j-1])
+                b.append([1, -j - 1])
                 if -j > mm:
                     mm = -j - 1
         print(b)

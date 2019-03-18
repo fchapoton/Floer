@@ -11,7 +11,8 @@ def cheapestPath(states, transitionCost):
         for s in range(len(states[len(states) - n - 1])):
             cost = infty + 1
             for t in range(len(states[len(states) - n])):
-                tmp = states[len(states)-n][t][1]+transitionCost(len(states)-n-1, s, t)
+                tmp = states[len(states) - n][t][1]
+                tmp += transitionCost(len(states) - n - 1, s, t)
                 if cost > tmp:
                     cost = tmp
                     states[len(states) - n - 1][s] = (t, cost)
@@ -44,10 +45,10 @@ def improve(pairing, matrix):
     for start in range(l):
         states = []
         for i in range(l + 1):
-            states.append(l*[(0, 0)])
+            states.append(l * [(0, 0)])
 
         def transitionCost(n, x, y):
-            if x == y and y == start and n == 0:
+            if x == y == start and n == 0:
                 return infty
             if n == 0 and x != start:
                 return infty
@@ -60,7 +61,7 @@ def improve(pairing, matrix):
         if path[1] >= 0:
             continue
         path = path[0]
-        visit = l*[-1]
+        visit = l * [-1]
         for i in range(len(path)):
             if visit[path[i]] >= 0 and path[i - 1] != path[i]:
                 cycleStart = visit[path[i]]
