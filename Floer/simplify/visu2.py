@@ -8,10 +8,12 @@ def _line(x, y, x2, y2, dist, fig):
     """
     draw one thick line
     """
-    fig.create_line(x*dist+dist/2,y*dist+dist/2,
-                    x2*dist+dist/2,y2*dist+dist/2, width=10, fill="#000")
-    fig.create_line(x*dist+dist/2,y*dist+dist/2,
-                    x2*dist+dist/2,y2*dist+dist/2, width=6, fill="#f00")
+    fig.create_line(x*dist + dist / 2, y*dist + dist / 2,
+                    x2*dist + dist / 2, y2*dist + dist / 2,
+                    width=10, fill="#000")
+    fig.create_line(x*dist + dist / 2, y*dist + dist / 2,
+                    x2*dist + dist / 2, y2*dist + dist / 2,
+                    width=6, fill="#f00")
 
 
 def drawRectDia2(diag, fig):
