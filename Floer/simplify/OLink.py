@@ -14,13 +14,13 @@ class OLink:
         self.entry = entry
 
     def toStringRepr(self):
-        return "OLink(" + str(self.word) + "," + str(self.entry) + ")"
+        return "OLink({},{})".format(self.word, self.entry)
 
     def draw(self):
         root = tkinter.Tk()
-        fig = tkinter.Canvas(root,width=800,height=800)
+        fig = tkinter.Canvas(root, width=800, height=800)
         fig.pack()
-        drawBraid(10,10,790,790,self.word,self.entry,10,fig)
+        drawBraid(10, 10, 790, 790, self.word, self.entry, 10, fig)
         root.mainloop()
 
 

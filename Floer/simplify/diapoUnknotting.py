@@ -6,10 +6,11 @@ class diapoUnknotting(Tkinter.Frame):
     def __init__(self, history, master=None):
         Tkinter.Frame.__init__(self, master)
         self.pack()
-        self.board = Tkinter.Canvas(self,width=1000,height=500)
+        self.board = Tkinter.Canvas(self, width=1000, height=500)
         self.board.pack()
-        self.nextButton = Tkinter.Button(self, text=" Next ",command=self.next)
-        self.previousButton = Tkinter.Button(self, text=" Previous ",command=self.previous)
+        self.nextButton = Tkinter.Button(self, text=" Next ", command=self.next)
+        self.previousButton = Tkinter.Button(self, text=" Previous ",
+                                             command=self.previous)
         self.nextButton.pack()
         self.previousButton.pack()
         self.diapo = []
