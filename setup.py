@@ -17,7 +17,7 @@ setup(name='Floer',
           'Floer': ['knotAtlasV1.txt', 'knotAtlas.pic']
       },
       classifiers=[
-          "Programming Language :: Python :: 3"
+          "Programming Language :: Python :: 3",
           "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
           "Operating System :: OS Independent",
           "Topic :: Scientific/Engineering :: Mathematics",
