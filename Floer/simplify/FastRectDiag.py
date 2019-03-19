@@ -23,20 +23,20 @@ class FastRectDiag:
             self.xSorted += [-1, -1]
             self.ySorted += [-1, -1]
         for p in tab:
-            if self.xSorted[p[0]*2+0] == -1:
-                self.xSorted[p[0]*2+0] = p[1]
+            if self.xSorted[p[0] * 2 + 0] == -1:
+                self.xSorted[p[0] * 2 + 0] = p[1]
             else:
-                if p[1] > self.xSorted[p[0]*2+0]:
-                    self.xSorted[p[0]*2+1] = p[1]
+                if p[1] > self.xSorted[p[0] * 2 + 0]:
+                    self.xSorted[p[0] * 2 + 1] = p[1]
                 else:
-                    (self.xSorted[p[0]*2+0], self.xSorted[p[0]*2+1]) = (p[1], self.xSorted[p[0]*2+0])
-            if self.ySorted[p[1]*2+0] == -1:
-                self.ySorted[p[1]*2+0] = p[0]
+                    (self.xSorted[p[0] * 2 + 0], self.xSorted[p[0] * 2 + 1]) = (p[1], self.xSorted[p[0] * 2 + 0])
+            if self.ySorted[p[1] * 2 + 0] == -1:
+                self.ySorted[p[1] * 2 + 0] = p[0]
             else:
-                if p[0] > self.ySorted[p[1]*2+0]:
-                    self.ySorted[p[1]*2+1] = p[0]
+                if p[0] > self.ySorted[p[1] * 2 + 0]:
+                    self.ySorted[p[1] * 2 + 1] = p[0]
                 else:
-                    (self.ySorted[p[1]*2+0], self.ySorted[p[1]*2+1]) = (p[0], self.ySorted[p[1]*2+0])
+                    (self.ySorted[p[1] * 2 + 0], self.ySorted[p[1] * 2 + 1]) = (p[0], self.ySorted[p[1] * 2 + 0])
 
     def copy(self):
         h = copy.copy(self)
@@ -49,10 +49,10 @@ class FastRectDiag:
 
     def order(self):
         for i in range(self.complexity):
-            if self.xSorted[2*i] > self.xSorted[2*i+1]:
-                (self.xSorted[2*i], self.xSorted[2*i+1]) = (self.xSorted[2*i+1], self.xSorted[2*i])
-            if self.ySorted[2*i] > self.ySorted[2*i+1]:
-                (self.ySorted[2*i], self.ySorted[2*i+1]) = (self.ySorted[2*i+1], self.ySorted[2*i])
+            if self.xSorted[2 * i] > self.xSorted[2 * i + 1]:
+                (self.xSorted[2 * i], self.xSorted[2 * i + 1]) = (self.xSorted[2 * i + 1], self.xSorted[2 * i])
+            if self.ySorted[2 * i] > self.ySorted[2 * i + 1]:
+                (self.ySorted[2 * i], self.ySorted[2 * i + 1]) = (self.ySorted[2 * i + 1], self.ySorted[2 * i])
 
     def xySorted(self, tab):
         a = [-1] * (2 * self.complexity)
@@ -75,82 +75,82 @@ class FastRectDiag:
 
     def castleX(self, nb):
         N = self.complexity
-        tmp11 = self.xSorted[nb*2]
-        tmp12 = self.xSorted[nb*2+1]
-        tmp21 = self.xSorted[(nb+1) % N*2]
-        tmp22 = self.xSorted[(nb+1) % N*2+1]
-        if self.ySorted[tmp11*2] == nb:
-            self.ySorted[tmp11*2] = (nb+1) % N
+        tmp11 = self.xSorted[nb * 2]
+        tmp12 = self.xSorted[nb * 2 + 1]
+        tmp21 = self.xSorted[(nb + 1) % N * 2]
+        tmp22 = self.xSorted[(nb + 1) % N * 2 + 1]
+        if self.ySorted[tmp11 * 2] == nb:
+            self.ySorted[tmp11 * 2] = (nb + 1) % N
         else:
-            self.ySorted[tmp11*2+1] = (nb+1) % N
-        if self.ySorted[tmp12*2] == nb:
-            self.ySorted[tmp12*2] = (nb+1) % N
+            self.ySorted[tmp11 * 2 + 1] = (nb + 1) % N
+        if self.ySorted[tmp12 * 2] == nb:
+            self.ySorted[tmp12 * 2] = (nb + 1) % N
         else:
-            self.ySorted[tmp12*2+1] = (nb+1) % N
-        if self.ySorted[tmp21*2] == (nb+1) % N:
-            self.ySorted[tmp21*2] = nb
+            self.ySorted[tmp12 * 2 + 1] = (nb + 1) % N
+        if self.ySorted[tmp21 * 2] == (nb + 1) % N:
+            self.ySorted[tmp21 * 2] = nb
         else:
-            self.ySorted[tmp21*2+1] = nb
-        if self.ySorted[tmp22*2] == (nb+1) % N:
-            self.ySorted[tmp22*2] = nb
+            self.ySorted[tmp21 * 2 + 1] = nb
+        if self.ySorted[tmp22 * 2] == (nb + 1) % N:
+            self.ySorted[tmp22 * 2] = nb
         else:
-            self.ySorted[tmp22*2+1] = nb
-        (self.xSorted[nb*2], self.xSorted[(nb+1) % N*2]) = (self.xSorted[(nb+1) % N*2], self.xSorted[nb*2])
-        (self.xSorted[nb*2+1], self.xSorted[(nb+1) % N*2+1]) = (self.xSorted[(nb+1) % N*2+1], self.xSorted[nb*2+1])
+            self.ySorted[tmp22 * 2 + 1] = nb
+        (self.xSorted[nb * 2], self.xSorted[(nb + 1) % N * 2]) = (self.xSorted[(nb + 1) % N * 2], self.xSorted[nb * 2])
+        (self.xSorted[nb * 2 + 1], self.xSorted[(nb + 1) % N * 2 + 1]) = (self.xSorted[(nb + 1) % N * 2 + 1], self.xSorted[nb * 2 + 1])
         return self
 
     def castleY(self, nb):
         N = self.complexity
-        tmp11 = self.ySorted[nb*2]
-        tmp12 = self.ySorted[nb*2+1]
-        tmp21 = self.ySorted[(nb+1) % N*2]
-        tmp22 = self.ySorted[(nb+1) % N*2+1]
-        if self.xSorted[tmp11*2] == nb:
-            self.xSorted[tmp11*2] = (nb+1) % N
+        tmp11 = self.ySorted[nb * 2]
+        tmp12 = self.ySorted[nb * 2 + 1]
+        tmp21 = self.ySorted[(nb + 1) % N * 2]
+        tmp22 = self.ySorted[(nb + 1) % N * 2 + 1]
+        if self.xSorted[tmp11 * 2] == nb:
+            self.xSorted[tmp11 * 2] = (nb + 1) % N
         else:
-            self.xSorted[tmp11*2+1] = (nb+1) % N
-        if self.xSorted[tmp12*2] == nb:
-            self.xSorted[tmp12*2] = (nb+1) % N
+            self.xSorted[tmp11 * 2 + 1] = (nb + 1) % N
+        if self.xSorted[tmp12 * 2] == nb:
+            self.xSorted[tmp12 * 2] = (nb + 1) % N
         else:
-            self.xSorted[tmp12*2+1] = (nb+1) % N
+            self.xSorted[tmp12 * 2 + 1] = (nb + 1) % N
 
-        if self.xSorted[tmp21*2] == (nb+1) % N:
-            self.xSorted[tmp21*2] = nb
+        if self.xSorted[tmp21 * 2] == (nb + 1) % N:
+            self.xSorted[tmp21 * 2] = nb
         else:
-            self.xSorted[tmp21*2+1] = nb
-        if self.xSorted[tmp22*2] == (nb+1) % N:
-            self.xSorted[tmp22*2] = nb
+            self.xSorted[tmp21 * 2 + 1] = nb
+        if self.xSorted[tmp22 * 2] == (nb + 1) % N:
+            self.xSorted[tmp22 * 2] = nb
         else:
-            self.xSorted[tmp22*2+1] = nb
-        (self.ySorted[nb*2], self.ySorted[(nb+1) % N*2]) = (self.ySorted[(nb+1) % N*2], self.ySorted[nb*2])
-        (self.ySorted[nb*2+1], self.ySorted[(nb+1) % N*2+1]) = (self.ySorted[(nb+1) % N*2+1], self.ySorted[nb*2+1])
+            self.xSorted[tmp22 * 2 + 1] = nb
+        (self.ySorted[nb * 2], self.ySorted[(nb + 1) % N * 2]) = (self.ySorted[(nb + 1) % N * 2], self.ySorted[nb * 2])
+        (self.ySorted[nb * 2 + 1], self.ySorted[(nb + 1) % N * 2 + 1]) = (self.ySorted[(nb + 1) % N * 2 + 1], self.ySorted[nb * 2 + 1])
         return self
 
     def castle(self, nb, direction):
         N = self.complexity
         if direction:
-            if self._areUnlinked2(self.ySorted[(nb+1) % N*2],
-                                  self.ySorted[(nb+1) % N*2+1],
-                                  self.ySorted[nb*2], self.ySorted[nb*2+1]):
+            if self._areUnlinked2(self.ySorted[(nb + 1) % N * 2],
+                                  self.ySorted[(nb + 1) % N * 2 + 1],
+                                  self.ySorted[nb * 2], self.ySorted[nb * 2 + 1]):
                 return self.castleY(nb)
 
         else:
-            if self._areUnlinked2(self.xSorted[(nb+1) % N*2],
-                                  self.xSorted[(nb+1) % N*2+1],
-                                  self.xSorted[nb*2], self.xSorted[nb*2+1]):
+            if self._areUnlinked2(self.xSorted[(nb + 1) % N * 2],
+                                  self.xSorted[(nb + 1) % N * 2 + 1],
+                                  self.xSorted[nb * 2], self.xSorted[nb * 2 + 1]):
                 return self.castleX(nb)
         return 0
 
     def isCastle(self, nb, direction):
         N = self.complexity
         if direction:
-            return self._areUnlinked2(self.ySorted[(nb+1) % N*2],
-                                      self.ySorted[(nb+1) % N*2+1],
-                                      self.ySorted[nb*2], self.ySorted[nb*2+1])
+            return self._areUnlinked2(self.ySorted[(nb + 1) % N * 2],
+                                      self.ySorted[(nb + 1) % N * 2 + 1],
+                                      self.ySorted[nb * 2], self.ySorted[nb * 2 + 1])
         else:
-            return self._areUnlinked2(self.xSorted[(nb+1) % N*2],
-                                      self.xSorted[(nb+1) % N*2+1],
-                                      self.xSorted[nb*2], self.xSorted[nb*2+1])
+            return self._areUnlinked2(self.xSorted[(nb + 1) % N * 2],
+                                      self.xSorted[(nb + 1) % N * 2 + 1],
+                                      self.xSorted[nb * 2], self.xSorted[nb * 2 + 1])
 
     def __has(self, x, y):
         return self.xSorted[x * 2] == y or self.xSorted[x * 2 + 1] == y
@@ -181,15 +181,15 @@ class FastRectDiag:
 
     def _areUnlinked3(self, a, b, d):
         if d == 0:
-            return self._areUnlinked2(self.xSorted[a*2],
-                                      self.xSorted[a*2+1],
-                                      self.xSorted[b*2],
-                                      self.xSorted[b*2+1])
+            return self._areUnlinked2(self.xSorted[a * 2],
+                                      self.xSorted[a * 2 + 1],
+                                      self.xSorted[b * 2],
+                                      self.xSorted[b * 2 + 1])
         else:
-            return self._areUnlinked2(self.ySorted[a*2],
-                                      self.ySorted[a*2+1],
-                                      self.ySorted[b*2],
-                                      self.ySorted[b*2+1])
+            return self._areUnlinked2(self.ySorted[a * 2],
+                                      self.ySorted[a * 2 + 1],
+                                      self.ySorted[b * 2],
+                                      self.ySorted[b * 2 + 1])
 
     def chainCastle(self, a, b, d):
         tmp = self
@@ -246,10 +246,10 @@ class FastRectDiag:
         d is a direction (0 or 1)
         """
         if d == 0:
-            self.xSorted = self.xSorted[len(self.xSorted)-2:] + self.xSorted[:len(self.xSorted)-2]
+            self.xSorted = self.xSorted[-2:] + self.xSorted[:-2]
             self.ySorted = self.xySorted(self.xSorted)
         else:
-            self.ySorted = self.ySorted[len(self.ySorted)-2:] + self.ySorted[:len(self.ySorted)-2]
+            self.ySorted = self.ySorted[-2:] + self.ySorted[:-2]
             self.xSorted = self.xySorted(self.ySorted)
 
     def m_destabilisation(self, direction, row):
@@ -269,13 +269,13 @@ class FastRectDiag:
             self.xSorted = xS
             self.ySorted = self.xySorted(xS)
         else:
-            for i in range(self.complexity+1):
+            for i in range(self.complexity + 1):
                 if i != row:
-                    a = self.ySorted[2*i]
-                    b = self.ySorted[2*i+1]
-                    if a > self.ySorted[2*row]:
+                    a = self.ySorted[2 * i]
+                    b = self.ySorted[2 * i + 1]
+                    if a > self.ySorted[2 * row]:
                         a -= 1
-                    if b > self.ySorted[2*row]:
+                    if b > self.ySorted[2 * row]:
                         b -= 1
                     yS += [a, b]
             self.ySorted = yS

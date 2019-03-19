@@ -179,14 +179,11 @@ class RectDia(object):
         q2.castle(i, direction, n)
 
     def is_stabilisation(self):
-        n = self._size
-        for p in self.points:
-            if p.x == p.y and n == 1 + p.x:
-                return True
-        return False
+        n = self._size - 1
+        return any(p.x == p.y == n for p in self.points)
 
     def m_stabilisation(self, kind):
-        if not self.is_stabilisation(kind):
+        if not self.is_stabilisation():
             raise ValueError
         n = self._size - 1
         ori = 0

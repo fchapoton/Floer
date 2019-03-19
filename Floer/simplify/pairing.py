@@ -3,7 +3,7 @@ from random import randint
 infty = 1000000
 
 
-def cheapestPath(states, transitionCost):
+def cheapestPath(states, transitionCost, start):
     """
     states is of the form [[0,0,0],[0,0],[0,0,0],[(0,0),(0,0)]] with (0,0)'s in the last column
     """
@@ -12,7 +12,7 @@ def cheapestPath(states, transitionCost):
             cost = infty + 1
             for t in range(len(states[len(states) - n])):
                 tmp = states[len(states) - n][t][1]
-                tmp += transitionCost(len(states) - n - 1, s, t)
+                tmp += transitionCost(len(states) - n - 1, s, t, start)
                 if cost > tmp:
                     cost = tmp
                     states[len(states) - n - 1][s] = (t, cost)
@@ -47,17 +47,17 @@ def improve(pairing, matrix):
         for i in range(l + 1):
             states.append(l * [(0, 0)])
 
-        def transitionCost(n, x, y):
-            if x == y == start and n == 0:
+        def transitionCost(n, x, y, strt):
+            if x == y == strt and n == 0:
                 return infty
-            if n == 0 and x != start:
+            if n == 0 and x != strt:
                 return infty
-            if n == l - 1 and y != start:
+            if n == l - 1 and y != strt:
                 return infty
             if x == y:
                 return 0
             return matrix[x][pairing[y]] - matrix[x][pairing[x]]
-        path = cheapestPath(states, transitionCost)
+        path = cheapestPath(states, transitionCost, start)
         if path[1] >= 0:
             continue
         path = path[0]
@@ -87,14 +87,6 @@ def rMatrix(l):
         for j in range(l):
             states[i][j] = randint(1, 1000)
     return states
-
-
-def trtr(n, x, y):
-    if x == 0 and y == 1 and n == 0:
-        return 2
-    if x == 1 and y == 0 and n == 2:
-        return 0
-    return 5
 
 
 if __name__ == "__main__":

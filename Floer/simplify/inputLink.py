@@ -18,8 +18,8 @@ def dist(p1, p2):
     """
     the squared distance between 2 points
     """
-    x, y = p1
-    X, Y = p2
+    x, y = p1[:2]
+    X, Y = p2[:2]
     return (x - X)**2 + (y - Y)**2
 
 
