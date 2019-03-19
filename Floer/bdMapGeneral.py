@@ -1,5 +1,6 @@
 # opti eliminer de toP ce qui est dans to0
 from deepBdMap2 import deepBdMapRec
+from findDom import connComp
 
 
 def hdEllipsesGen(ellx, elly):
@@ -33,13 +34,13 @@ def convert(x, y, xs, ys):
 
 
 def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
-    vert=[]
-    if HV==0:# (horizontal)
-        if srcy==dsty:
-            if srcx==dstx:
-                if rotation==-1:
-                    vert.append((dly,ury,urx))#
-                    vert.append((ury,dly,dlx))#
+    vert = []
+    if HV == 0:  # (horizontal)
+        if srcy == dsty:
+            if srcx == dstx:
+                if rotation == -1:
+                    vert.append((dly, ury, urx))
+                    vert.append((ury, dly, dlx))
                     return vert
             if srcx<dstx and rotation==-1 and srcy==dly or srcx>dstx and rotation==-1 and srcy==ury:
                 vert.append((ury,dly,dlx))
@@ -59,7 +60,7 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
                     vert.append((ury,dly,dlx))
                     vert.append((dly,ury,urx))
                     return vert
-            if (srcy<dsty)==((rotation==1)==(srcx==dlx)):# yes = 3 parts
+            if (srcy < dsty) == ((rotation==1)==(srcx==dlx)):  # yes = 3 parts
                 # le "dossier"
                 if srcx == urx:
                     dossier = dlx
@@ -94,12 +95,11 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
     return vert
 
 
-def hdCond(rect, ell):# here ell are hdEll!
+def hdCond(rect, ell):  # here ell are hdEll!
     to0 = []
     for i in range(len(rect)):
-        for j in [0,1]:
+        for j in [0, 1]:
             to0.append((i*5+2,rect[i][j]*4+1,[]))
-    from findDom import connComp
     toPlus=connComp(ell[0],ell[1])
     # new# # # # #
     for j in range(len(toPlus)):
@@ -128,23 +128,23 @@ def hdCond(rect, ell):# here ell are hdEll!
     iiii = -1
     for i in range(len(ell[0])):
         if ell[0][i] != -1:
-            iiii+=1
-            e=ell[0][i]
-            tmp=[]
-            for j,c in enumerate(to0+toPlus):# inversed!!
-                if e[0]<=c[0] and e[1]<=c[1] and e[2]>c[0] and e[3]>c[1]:
+            iiii += 1
+            e = ell[0][i]
+            tmp = []
+            for j, c in enumerate(to0 + toPlus):  # inversed!!
+                if e[0] <= c[0] and e[1] <= c[1] and e[2] > c[0] and e[3] > c[1]:
                     tmp.append(j)
                     c[2].append(iiii)
             chEllx.append(tmp)
         else:
             chEllx.append(-1)
     for i in range(len(ell[0])):
-        if ell[1][i]!=-1:
-            iiii+=1
-            e=ell[1][i]
-            tmp=[]
-            for j,c in enumerate(to0+toPlus):# inversed!!
-                if e[0]<=c[0] and e[1]<=c[1] and e[2]>c[0] and e[3]>c[1]:
+        if ell[1][i] != -1:
+            iiii += 1
+            e = ell[1][i]
+            tmp = []
+            for j, c in enumerate(to0+toPlus):  # inversed!!
+                if e[0] <= c[0] < e[2] and e[1] <= c[1] < e[3]:
                     tmp.append(j)
                     c[2].append(iiii)
             chElly.append(tmp)
@@ -165,8 +165,8 @@ def hdCond2(rect,ell,to0,toPlus):
         ll.append((i[0],i[1]))
     delta = {}
     for i in range(n):
-        for dd in [0, 1]:#0 vertical ell
-            if ell[dd][i]==-1:
+        for dd in [0, 1]:  # 0 vertical ell
+            if ell[dd][i] == -1:
                 continue
             coord = []
             for y in range(n):
@@ -180,17 +180,17 @@ def hdCond2(rect,ell,to0,toPlus):
                             coord.append((x1,y1,0,i,y,dx,dy))
             for x in coord:
                 for y in coord:
-                    hdVert=hdGetPath(1-dd,ell[dd][i][0],ell[dd][i][1],ell[dd][i][2],ell[dd][i][3],x[0],x[1],y[0],y[1],1-dd*2)#debug
-                    deltap=[]
-                    cc=0
+                    hdVert=hdGetPath(1-dd,ell[dd][i][0],ell[dd][i][1],ell[dd][i][2],ell[dd][i][3],x[0],x[1],y[0],y[1],1-dd*2)  # debug
+                    deltap = []
+                    cc = 0
                     for p in ll:
-                        ssum=0
+                        ssum = 0
                         for l in hdVert:
                             if p[0]>=l[2]:
-                                if p[1]<l[1] and p[1]>=l[0]:  #debug!!
-                                    ssum+=1
-                                if p[1]>=l[1] and p[1]<l[0]:  #debug!!
-                                    ssum-=1
+                                if p[1]<l[1] and p[1]>=l[0]:  # debug!!
+                                    ssum += 1
+                                if p[1]>=l[1] and p[1]<l[0]:  # debug!!
+                                    ssum -= 1
                         if ssum != 0:
                             deltap.append((cc, ssum))
                         cc+=1
@@ -212,39 +212,39 @@ def bdMapFirstPart(rect, gen1, gen2, ell):
             diff.append(i)
             diffY[gen1[i]] = 1
     # permutation points in the domain? obvious negativity?
-    tab=[0]*(2*n)# is 2* necessary??
-    insidePerm=[]
-    insideWarning=0
+    tab = [0]*(2*n)  # is 2* necessary??
+    insidePerm = []
+    insideWarning = 0
     for i in range(n):
-        if gen1[i]==gen2[i] and tab[2*gen1[i]]==0:
+        if gen1[i] == gen2[i] and tab[2*gen1[i]] == 0:
             immobile.append(1)
         else:
             immobile.append(0)
         if gen1[i]==-1:
             continue
         if gen1[i] < gen2[i]:
-            for k in range(2*gen1[i],2*gen2[i]):
-                tab[k]+=2
-            tab[2*gen1[i]]-=1
-            tab[2*gen2[i]]+=1
-        if gen1[i]>gen2[i]:
-            for k in range(2*gen2[i],2*gen1[i]):
-                tab[k]-=2
-            tab[2*gen1[i]]-=1
-            tab[2*gen2[i]]+=1
-        if tab[2*gen1[i]]>2 or tab[2*gen2[i]]>2:
-            insideWarning=1  # perm point inside
-        for k in range(n):  # # # # # # # #    dangerous
-            if tab[2*k+1]<0:
+            for k in range(2*gen1[i], 2*gen2[i]):
+                tab[k] += 2
+            tab[2*gen1[i]] -= 1
+            tab[2*gen2[i]] += 1
+        if gen1[i] > gen2[i]:
+            for k in range(2*gen2[i], 2*gen1[i]):
+                tab[k] -= 2
+            tab[2*gen1[i]] -= 1
+            tab[2*gen2[i]] += 1
+        if tab[2*gen1[i]] > 2 or tab[2*gen2[i]] > 2:
+            insideWarning = 1  # perm point inside
+        for k in range(n):  # dangerous !
+            if tab[2*k+1] < 0:
                 return 0  # obvious(outside ellipse) negativity
-    lenDiff =len(diff)
+    lenDiff = len(diff)
     vert = [(gen1[i], gen2[i], i) for i in diff]
     tmp = [[] for i in range(n)]
     for i in range(n):
-        if gen1[i]!=-1 and gen2[i]!=gen1[i]:
-            tmp[gen1[i]]=[i]+tmp[gen1[i]]
+        if gen1[i] != -1 and gen2[i] != gen1[i]:
+            tmp[gen1[i]] = [i] + tmp[gen1[i]]
             tmp[gen2[i]].append(i)
-    hori=[]
+    hori = []
     for i in range(n):
         if tmp[i]!=[]:
             hori.append((tmp[i][0],tmp[i][1],i))
@@ -253,35 +253,33 @@ def bdMapFirstPart(rect, gen1, gen2, ell):
             continue
         if ell[1][gen1[i]]==-1 or ell[0][i]==-1:
             continue
-        if gen1[i]==gen2[i]:# and insidePerm.count(i)==1:
+        if gen1[i] == gen2[i]:  # and insidePerm.count(i)==1:
             diff.append(i)
             hori.append((i,i,gen1[i]))
-    return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)# if no problem from pseudogen diff is a "gift"
+    return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)  # if no problem from pseudogen diff is a "gift"
 
 
 def bdMapPsgenCache(rect, ell, pool):
-    res=[[0]*len(pool) for i in range(len(pool))]
-    for iii in range(len(pool)):
-        for jjj in range(len(pool)):
-            res[iii][jjj]=bdMapFirstPart(rect,pool[iii],pool[jjj],ell)
-    return res
+    return [[bdMapFirstPart(rect, pi, pj, ell)
+             for j, pj in enumerate(pool)]
+            for i, pi in enumerate(pool)]
 
 
 def preparePath(rect,ell):  # we need a knot!!
     x = ell[0].index(-1)
-    y=rect[x][1] if ell[1][rect[x][0]]==-1 else rect[x][0]
-    side=0 if rect[x][0]==y else 1
-    path=[]
+    y = rect[x][1] if ell[1][rect[x][0]] == -1 else rect[x][0]
+    side = 0 if rect[x][0]==y else 1
+    path = []
     for i in range(len(rect)-1):
-        path.append((x*2+side,y))# le premier est de type y!
-        tmp=ell[1][y]
-        x= tmp[1] if tmp[0]==x else tmp[0]
-        side=0 if rect[x][0]==y else 1
-        path.append((x*2+side,x))
-        tmp=ell[0][x]
-        y= tmp[1] if tmp[0]==y else tmp[0]
-        side=0 if rect[x][0]==y else 1
-    path.append((x*2+side,y))# the last comp of path is additionall
+        path.append((x * 2 + side, y))  # le premier est de type y!
+        tmp = ell[1][y]
+        x = tmp[1] if tmp[0] == x else tmp[0]
+        side = 0 if rect[x][0] == y else 1
+        path.append((x * 2 + side, x))
+        tmp = ell[0][x]
+        y = tmp[1] if tmp[0] == y else tmp[0]
+        side = 0 if rect[x][0] == y else 1
+    path.append((x * 2 + side, y))  # the last comp of path is additionall
     return path
 
 

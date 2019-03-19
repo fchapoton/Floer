@@ -33,14 +33,14 @@ def genEll(rect):
         if rect[i][0] == 0:
             bottom.append(i)
     score = 1000000000
-    for a, b in [(0,rect[0][0]),
-                 (0,rect[0][1]),
-                 (len(rect)-1,rect[len(rect)-1][0]),
-                 (len(rect)-1,rect[len(rect)-1][1]),
-                 (top[0],len(rect)-1),
-                 (top[1],len(rect)-1),
-                 (bottom[0],0),
-                 (bottom[1],0)]:
+    for a, b in [(0, rect[0][0]),
+                 (0, rect[0][1]),
+                 (len(rect) - 1, rect[len(rect) - 1][0]),
+                 (len(rect) - 1, rect[len(rect) - 1][1]),
+                 (top[0], len(rect) - 1),
+                 (top[1], len(rect) - 1),
+                 (bottom[0], 0),
+                 (bottom[1], 0)]:
         ellx = rect[:]
         elly = rectDiagMisc.transpose(rect)
         ellx[a] = -1
