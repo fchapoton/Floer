@@ -31,7 +31,7 @@ def exch(a, b, mat):
     exch second coord
     """
     for i in range(len(mat)):
-        (mat[i][a],mat[i][b])=(mat[i][b],mat[i][a])
+        mat[i][a], mat[i][b] = mat[i][b], mat[i][a]
 
 
 def invPerm(p):
@@ -48,12 +48,12 @@ def ensure(i, mat, perm):
     """
     print(ensure(0,[[0,0,1],[0,1,1],[1,1,0]],[0,1,2]))
     """
-    for x in range(i,len(mat)):
-        for y in range(i,len(mat[0])):
-            if mat[x][y]==1:
-                (perm[i],perm[x])=(perm[x],perm[i])
-                (mat[x],mat[i])=(mat[i],mat[x])
-                exch(y,i,mat)
+    for x in range(i, len(mat)):
+        for y in range(i, len(mat[0])):
+            if mat[x][y] == 1:
+                perm[i], perm[x] = perm[x], perm[i]
+                mat[x], mat[i] = mat[i], mat[x]
+                exch(y, i, mat)
                 return 1
     return -1
 
@@ -79,7 +79,7 @@ def z2GElimHorizontal(mat):
             return (perm, mat)
         for j in range(i + 1, nn):
             if mat[i][j] == 1:
-                for ii in range(i,n):
+                for ii in range(i, n):
                     mat[ii][j] = (mat[ii][j] + mat[ii][i]) % 2
     return (perm, mat)
 
@@ -89,17 +89,17 @@ def trace(mat):
     trace d'une matrice
     """
     n = 0
-    for i in range(min(len(mat),len(mat[0]))):
+    for i in range(min(len(mat), len(mat[0]))):
         n += mat[i][i]
     return n
 
 
 def completeSolution(mat, sol):
-    for i in range(len(mat[0])-1,-1,-1):
-        sp=0
+    for i in range(len(mat[0]) - 1, -1, -1):
+        sp = 0
         for j in range(len(mat)):
-            sp+=mat[j][i]*sol[j]
-        sol[i]+=sp
+            sp += mat[j][i] * sol[j]
+        sol[i] += sp
         sol[i] %= 2
     return sol
 
@@ -152,15 +152,17 @@ def calcZ2Hom(l1, l2, l3, bndFunc):  # only square mat?
     if len(l1) == 0:
         if len(l3) == 0:
             return len(l2)
-        return len(l2) - imageDim(calcSqMat(l2,l3,bndFunc))  # fkb
+        return len(l2) - imageDim(calcSqMat(l2, l3, bndFunc))  # fkb
     if len(l3) == 0:
-        return len(l2) - imageDim(calcSqMat(l1,l2,bndFunc))
-    print((len(l1),len(l2),len(l3)))
-    tmp=isZero(matrixProduct(calcMat(l2,l3,bndFunc),calcMat(l1,l2,bndFunc)))
+        return len(l2) - imageDim(calcSqMat(l1, l2, bndFunc))
+    print((len(l1), len(l2), len(l3)))
+    tmp = isZero(matrixProduct(calcMat(l2, l3, bndFunc),
+                               calcMat(l1, l2, bndFunc)))
     if tmp:
-        (a,b)=tmp
-        print((l1[a].perm,l1[a].xShift,l1[a].yShift,l3[b].perm,l3[b].xShift,l3[b].yShift))
-    return len(l2)-imageDim(calcSqMat(l2,l3,bndFunc))-imageDim(calcSqMat(l1,l2,bndFunc))
+        a, b = tmp
+        print((l1[a].perm, l1[a].xShift, l1[a].yShift,
+               l3[b].perm, l3[b].xShift, l3[b].yShift))
+    return len(l2) - imageDim(calcSqMat(l2, l3, bndFunc)) - imageDim(calcSqMat(l1, l2, bndFunc))
 
 
 def isZero(mat):
@@ -206,19 +208,19 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
     for j in range(len(chain)):
         if index <= j < index + n:
             continue
-        for i in range(len(chain[0])-1):
-            if len(chain[j][i]) and len(chain[j][i+1]):
-                tmpMat=calcMat(chain[j][i],chain[j][i+1],bndFunc)
+        for i in range(len(chain[0]) - 1):
+            if len(chain[j][i]) and len(chain[j][i + 1]):
+                tmpMat = calcMat(chain[j][i], chain[j][i + 1], bndFunc)
                 for a in tmpMat:
                     for b in a:
-                        tot1+=b
+                        tot1 += b
                         if b == 0:
-                            tot0+=1
+                            tot0 += 1
 #                 makeSquare(tmpMat)
 #                 if i==12 and j==12:
 # #                     print(bndFunc(chain[i][j][3],chain[i+1][j][7]))
 # #                     print(tmpMat)
-#                     print(len(chain[i][j]),len(chain[i+1][j]))
+#                     print(len(chain[i][j]), len(chain[i+1][j]))
 #
 #                     for k in range(len(chain[i][j])):
 #                         b=0
@@ -230,22 +232,23 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 #                         b=0
 #                         print(k)
 #                         chain[i+1][j][k].show()
-                imageDimTab[j][i]=imageDim(tmpMat)
-            if len(chain[j][i])>0 or len(chain[j][i+1])>0:
-                print("Image",i,j,":",len(chain[j][i]),len(chain[j][i+1]),imageDimTab[j][i])
+                imageDimTab[j][i] = imageDim(tmpMat)
+            if len(chain[j][i]) or len(chain[j][i+1]):
+                print("Image", i, j, ":", len(chain[j][i]),
+                      len(chain[j][i+1]), imageDimTab[j][i])
 #             f=open("C:\Program Files\python5\pyprog\Floer\s.txt","a")
 #             f.write(str(("Image",i,j,":",imageDimTab[i][j])))
 #             f.close()
-    res=[[0]*len(chain[0]) for i in range(len(chain))]
-    for i in range(1,len(chain[0])):
+    res = [[0] * len(chain[0]) for i in range(len(chain))]
+    for i in range(1, len(chain[0])):
         for j in range(len(chain)):
             if index <= j < index + n:
                 continue
-            res[j][i]=len(chain[j][i])-imageDimTab[j][i-1]-imageDimTab[j][i]
+            res[j][i] = len(chain[j][i])-imageDimTab[j][i-1]-imageDimTab[j][i]
     for j in range(len(chain)):
         if index <= j < index + n:
             continue
-        res[j][0]=len(chain[j][0])-imageDimTab[j][0]
+        res[j][0] = len(chain[j][0]) - imageDimTab[j][0]
     if index != "no":
         deconv(res, index, n)
     print(tot1, "/", tot0 + tot1)
@@ -254,15 +257,15 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 
 def getBin(n):
     """
-    calcule une suite de nombres
+    calcule une suite de nombres, laquelle ?
 
     >>> print(getBin(4))
     """
-    l = [1] + [0] * n
+    li = [1] + [0] * n
     for i in range(n):
         for j in range(i + 1, 0, -1):
-            l[j] += l[j - 1]
-    return l
+            li[j] += li[j - 1]
+    return li
 
 
 def deconv(res, index, n):
