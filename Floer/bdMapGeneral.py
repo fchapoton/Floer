@@ -9,7 +9,7 @@ def hdEllipsesGen(ellx, elly):
         if ellx[i]==-1:
             resx.append(-1)
         else:
-            resx.append((1+5*i,1+4*ellx[i][0],4+5*i,2+4*ellx[i][1]))
+            resx.append((1+5*i, 1+4*ellx[i][0], 4+5*i, 2+4*ellx[i][1]))
     resy=[]
     for i in range(len(elly)):
         if elly[i]==-1:
@@ -25,15 +25,15 @@ def hdEllipsesGen(ellx, elly):
                 ury=3
             dlx += elly[i][0]*5
             ury += elly[i][1]*5
-            resy.append((dlx,0+i*4,ury,3+i*4))
+            resy.append((dlx, 0+i*4, ury, 3+i*4))
     return (resx, resy)  # the ell parameter of bdMap
 
 
 def convert(x, y, xs, ys):
-    return (x*5+((xs+1)/2)*3+1,y*4+((ys+1)/2)*3)
+    return (x*5+((xs+1)/2)*3+1, y*4+((ys+1)/2)*3)
 
 
-def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
+def hdGetPath(HV, dlx, dly, urx, ury, srcx, srcy, dstx, dsty, rotation):
     vert = []
     if HV == 0:  # (horizontal)
         if srcy == dsty:
@@ -43,22 +43,22 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
                     vert.append((ury, dly, dlx))
                     return vert
             if srcx<dstx and rotation==-1 and srcy==dly or srcx>dstx and rotation==-1 and srcy==ury:
-                vert.append((ury,dly,dlx))
-                vert.append((dly,ury,urx))
+                vert.append((ury, dly, dlx))
+                vert.append((dly, ury, urx))
             if srcx>dstx and rotation==1 and srcy==dly or srcx<dstx and rotation==1 and srcy==ury:
-                vert.append((dly,ury,dlx))
-                vert.append((ury,dly,urx))
+                vert.append((dly, ury, dlx))
+                vert.append((ury, dly, urx))
         else:
             if (srcy<dsty)==(rotation==1):
-                vert.append((dsty,srcy,urx))
+                vert.append((dsty, srcy, urx))
             else:
-                vert.append((dsty,srcy,dlx))
+                vert.append((dsty, srcy, dlx))
     else:
         if srcx==dstx:
             if srcy==dsty:
                 if rotation==1:
-                    vert.append((ury,dly,dlx))
-                    vert.append((dly,ury,urx))
+                    vert.append((ury, dly, dlx))
+                    vert.append((dly, ury, urx))
                     return vert
             if (srcy < dsty) == ((rotation==1)==(srcx==dlx)):  # yes = 3 parts
                 # le "dossier"
@@ -81,17 +81,17 @@ def hdGetPath(HV,dlx,dly,urx,ury,srcx,srcy,dstx,dsty,rotation):
                 vert.append((srcy, dsty, dstx))
         else:
             if srcx < dstx and rotation==1:
-                vert.append((srcy,dly,srcx))
-                vert.append((dly,dsty,dstx))
+                vert.append((srcy, dly, srcx))
+                vert.append((dly, dsty, dstx))
             if srcx < dstx and rotation==-1:
-                vert.append((srcy,ury,srcx))
-                vert.append((ury,dsty,dstx))
+                vert.append((srcy, ury, srcx))
+                vert.append((ury, dsty, dstx))
             if srcx > dstx and rotation==1:
-                vert.append((srcy,ury,srcx))
-                vert.append((ury,dsty,dstx))
+                vert.append((srcy, ury, srcx))
+                vert.append((ury, dsty, dstx))
             if srcx > dstx and rotation==-1:
-                vert.append((srcy,dly,srcx))
-                vert.append((dly,dsty,dstx))
+                vert.append((srcy, dly, srcx))
+                vert.append((dly, dsty, dstx))
     return vert
 
 
@@ -99,11 +99,11 @@ def hdCond(rect, ell):  # here ell are hdEll!
     to0 = []
     for i in range(len(rect)):
         for j in [0, 1]:
-            to0.append((i*5+2,rect[i][j]*4+1,[]))
-    toPlus=connComp(ell[0],ell[1])
+            to0.append((i*5+2, rect[i][j]*4+1, []))
+    toPlus=connComp(ell[0], ell[1])
     # new# # # # #
     for j in range(len(toPlus)):
-        toPlus[j] = (toPlus[j][0],toPlus[j][1],[])
+        toPlus[j] = (toPlus[j][0], toPlus[j][1], [])
     # eliminate useless toPlus
     tmp = []
     for c in toPlus:
@@ -151,18 +151,18 @@ def hdCond(rect, ell):  # here ell are hdEll!
         else:
             chElly.append(-1)
     for t in range(len(to0)):
-        to0[t]=(to0[t][0],to0[t][1],to0[t][2],len(to0[t][2]))
+        to0[t]=(to0[t][0], to0[t][1], to0[t][2], len(to0[t][2]))
     for t in range(len(toPlus)):
-        toPlus[t]=(toPlus[t][0],toPlus[t][1],toPlus[t][2],len(toPlus[t][2]))
-    return (to0,toPlus,(chEllx,chElly))
-    # to0,toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll
+        toPlus[t]=(toPlus[t][0], toPlus[t][1], toPlus[t][2], len(toPlus[t][2]))
+    return (to0, toPlus, (chEllx, chElly))
+    # to0, toPlus contain hd coord., influential ell and nb of influ. ell. chell contains for each ell the position influenced in parallel to to0+toPlus called ll
 
 
-def hdCond2(rect,ell,to0,toPlus):
+def hdCond2(rect, ell, to0, toPlus):
     ll = []
     n = len(rect)
     for i in to0 + toPlus:
-        ll.append((i[0],i[1]))
+        ll.append((i[0], i[1]))
     delta = {}
     for i in range(n):
         for dd in [0, 1]:  # 0 vertical ell
@@ -170,17 +170,17 @@ def hdCond2(rect,ell,to0,toPlus):
                 continue
             coord = []
             for y in range(n):
-                for dx,dy in [(-1,-1),(-1,1),(1,-1),(1,1)]:
-                    (x1,y1)=convert((i,y)[dd],(y,i)[dd],dx,dy)
+                for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+                    (x1, y1)=convert((i, y)[dd], (y, i)[dd], dx, dy)
                     if dd:
                         if (y1==ell[1][i][1] or y1==ell[1][i][3]) and x1>ell[1][i][0] and x1<ell[1][i][2]:
-                            coord.append((x1,y1,1,y,i,dx,dy))
+                            coord.append((x1, y1, 1, y, i, dx, dy))
                     else:
                         if (x1==ell[0][i][0] or x1==ell[0][i][2]) and y1>ell[0][i][1] and y1<ell[0][i][3]:
-                            coord.append((x1,y1,0,i,y,dx,dy))
+                            coord.append((x1, y1, 0, i, y, dx, dy))
             for x in coord:
                 for y in coord:
-                    hdVert=hdGetPath(1-dd,ell[dd][i][0],ell[dd][i][1],ell[dd][i][2],ell[dd][i][3],x[0],x[1],y[0],y[1],1-dd*2)  # debug
+                    hdVert=hdGetPath(1-dd, ell[dd][i][0], ell[dd][i][1], ell[dd][i][2], ell[dd][i][3], x[0], x[1], y[0], y[1], 1-dd*2)  # debug
                     deltap = []
                     cc = 0
                     for p in ll:
@@ -194,10 +194,10 @@ def hdCond2(rect,ell,to0,toPlus):
                         if ssum != 0:
                             deltap.append((cc, ssum))
                         cc+=1
-                    if (x[3]*3+x[5],x[4]*3+x[6])==(y[3]*3+y[5],y[4]*3+y[6]):
+                    if (x[3]*3+x[5], x[4]*3+x[6])==(y[3]*3+y[5], y[4]*3+y[6]):
                         deltap = []
-                    delta[(x[2],x[3]*3+x[5],x[4]*3+x[6],
-                           y[3]*3+y[5],y[4]*3+y[6])] = deltap
+                    delta[(x[2], x[3]*3+x[5], x[4]*3+x[6],
+                           y[3]*3+y[5], y[4]*3+y[6])] = deltap
     print("hdCond2Ready")
     return delta
 
@@ -247,7 +247,7 @@ def bdMapFirstPart(rect, gen1, gen2, ell):
     hori = []
     for i in range(n):
         if tmp[i]!=[]:
-            hori.append((tmp[i][0],tmp[i][1],i))
+            hori.append((tmp[i][0], tmp[i][1], i))
     for i in range(n):
         if gen1[i]==-1:
             continue
@@ -255,8 +255,8 @@ def bdMapFirstPart(rect, gen1, gen2, ell):
             continue
         if gen1[i] == gen2[i]:  # and insidePerm.count(i)==1:
             diff.append(i)
-            hori.append((i,i,gen1[i]))
-    return (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)  # if no problem from pseudogen diff is a "gift"
+            hori.append((i, i, gen1[i]))
+    return (diff, lenDiff, vert, hori, insidePerm, insideWarning, immobile)  # if no problem from pseudogen diff is a "gift"
 
 
 def bdMapPsgenCache(rect, ell, pool):
@@ -265,7 +265,7 @@ def bdMapPsgenCache(rect, ell, pool):
             for i, pi in enumerate(pool)]
 
 
-def preparePath(rect,ell):  # we need a knot!!
+def preparePath(rect, ell):  # we need a knot!!
     x = ell[0].index(-1)
     y = rect[x][1] if ell[1][rect[x][0]] == -1 else rect[x][0]
     side = 0 if rect[x][0]==y else 1
@@ -288,21 +288,21 @@ def fillLl(gen1, gen2, cache, to0, toPlus, chEll, delta, diff, hori):
     lT0 = len(to0)
     ll = [0] * (lT0 + lTp)
     for i in diff:
-        tmp = delta[(0,i*3+gen1.xShift[i],gen1.perm[i]*3+gen1.yShift[i],
-                     i*3+gen2.xShift[i],gen2.perm[i]*3+gen2.yShift[i])]
+        tmp = delta[(0, i*3+gen1.xShift[i], gen1.perm[i]*3+gen1.yShift[i],
+                     i*3+gen2.xShift[i], gen2.perm[i]*3+gen2.yShift[i])]
         for j in tmp:
             ll[j[0]] += j[1]
     for k in hori:
         h0 = gen1.perm.index(k)
         h1 = gen2.perm.index(k)
-        tmp=delta[(1,h0*3+gen1.xShift[h0],gen1.perm[h0]*3+gen1.yShift[h0],
-                   h1*3+gen2.xShift[h1],gen2.perm[h1]*3+gen2.yShift[h1])]
+        tmp=delta[(1, h0*3+gen1.xShift[h0], gen1.perm[h0]*3+gen1.yShift[h0],
+                   h1*3+gen2.xShift[h1], gen2.perm[h1]*3+gen2.yShift[h1])]
         for j in tmp:
             ll[j[0]] += j[1]
     return ll
 
 
-def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
+def fillFValue(genPool, cache, ell, to0, toPlus, chEll, delta):
     ref = -1
     for i in genPool:  # find a reference Element
         for j in i:
@@ -320,8 +320,8 @@ def fillFValue(genPool,cache,ell,to0,toPlus,chEll,delta):
     for i in genPool:
         for j in i:
             for gen in j:
-                gen.llRefGen = fillLl(ref,gen,cache,to0,toPlus,chEll,delta,diff,hori)
-                gen.llGenRef = fillLl(gen,ref,cache,to0,toPlus,chEll,delta,diff,hori)
+                gen.llRefGen = fillLl(ref, gen, cache, to0, toPlus, chEll, delta, diff, hori)
+                gen.llGenRef = fillLl(gen, ref, cache, to0, toPlus, chEll, delta, diff, hori)
 
 
 categ = [0] * 20
@@ -334,9 +334,9 @@ def bdMap(rect, gen1, gen2, cache, ell, to0, toPlus, chEll, delta, path, init):
         categ[0] += 1
         return 0
     n = len(rect)
-    (diff,lenDiff,vert,hori,insidePerm,insideWarning,immobile)=firstPart
-#     return deepBdMapRec(gen1,gen2,99,init,immobile)
-#     print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")
+    (diff, lenDiff, vert, hori, insidePerm, insideWarning, immobile)=firstPart
+#     return deepBdMapRec(gen1, gen2, 99, init, immobile)
+#     print("("+repr(rect)+", "+repr(ell)+", "+"[gen("+gen1.toString()+", 0), "+"gen("+gen2.toString()+", 0)])")
     ll = gen1.llGenRef[:]
     lenll = len(ll)
     for i in range(lenll):
@@ -363,12 +363,12 @@ def bdMap(rect, gen1, gen2, cache, ell, to0, toPlus, chEll, delta, path, init):
     categ[3] += 1
 #     k0=ell[0].index(-1)# optimisable cachable
 #     k1=ell[1].index(-1)+n-1
-#     ellDir=(tmp[0:k0]+[0]+tmp[k0:n-1],tmp[n-1:k1]+[0]+tmp[k1:])
+#     ellDir=(tmp[0:k0]+[0]+tmp[k0:n-1], tmp[n-1:k1]+[0]+tmp[k1:])
 #     print(ellDir)
-#     print("("+repr(rect)+","+repr(ell)+","+"[gen("+gen1.toString()+",0),"+"gen("+gen2.toString()+",0)])")
+#     print("("+repr(rect)+", "+repr(ell)+", "+"[gen("+gen1.toString()+", 0), "+"gen("+gen2.toString()+", 0)])")
 #     return 1
 #     print("fore")
-#     if not insideWarning and fastPosi.detectSimple(n,gen1,gen2,ellDir)==1: return 1
+#     if not insideWarning and fastPosi.detectSimple(n, gen1, gen2, ellDir)==1: return 1
     categ[4] += 1
     tmp = deepBdMapRec(gen1, gen2, 99, init, immobile)
     return tmp % 2

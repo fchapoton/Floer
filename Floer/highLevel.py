@@ -80,7 +80,7 @@ def getKnotFloerHomology(rect):
         return bdMap(rect, x, y, cache, ell,
                      to0, toPlus, chEll, delta,
                      path, init)
-    
+
     tmp2 = homology.chain2DToHomv3(tmp, coeff, len(rect) - 1, index)
 
     return transpose(tmp2)

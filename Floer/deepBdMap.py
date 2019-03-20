@@ -25,7 +25,7 @@ def isSimplePermComp(p1, p2, trans1, trans2, startx):
     """
     compute the size and whitney nb of a cycle of a perm
 
-    print(isSimplePermComp([2,1,0],[0,1,2],[2,1,0],[0,1,2],0))
+    print(isSimplePermComp([2, 1, 0], [0, 1, 2], [2, 1, 0], [0, 1, 2], 0))
     """
     x=startx
     y=p1[x]
@@ -104,7 +104,7 @@ def detectSimple(n, gen1, gen2, ellDir):  # 1=accepted 0 don't know -1 refused
             else:
                 start=trans1[i]
         # is there only one component?
-        tmp = isSimplePermComp(gen1.perm,gen2.perm,trans1,trans2,start)
+        tmp = isSimplePermComp(gen1.perm, gen2.perm, trans1, trans2, start)
         if tmp[1]==nbMobile and tmp[0]==4:
             return 1
         else:
@@ -132,10 +132,10 @@ def isBetween(a1, a2, a3):
     return a1 <= a2 <= a3 or a3 <= a1 <= a2 or a2 <= a3 <= a1
 
 
-def isThrough(vh,cx,cy,full,p1,p2,g,d):
-    a=cPj(p1[0],p1[1],p1[2],p1[3],cx,cy)
-    c=cPj(p2[0],p2[1],p2[2],p2[3],cx,cy)
-    b=cPj(g[0],g[1],g[2],g[3],cx,cy)
+def isThrough(vh, cx, cy, full, p1, p2, g, d):
+    a=cPj(p1[0], p1[1], p1[2], p1[3], cx, cy)
+    c=cPj(p2[0], p2[1], p2[2], p2[3], cx, cy)
+    b=cPj(g[0], g[1], g[2], g[3], cx, cy)
 
     if (vh == 1) ^ (full == 1):  # 1 is horizontal
         a, c = c, a
@@ -153,31 +153,31 @@ def isThrough(vh,cx,cy,full,p1,p2,g,d):
     return 0
 
 
-def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
+def findNextBigonList(rect, gen1, gen2, ell, ellDir, ext, trans1, trans2):
     n=len(rect)
     if ext[0]==0:
         if ext[2]==1:
-            pairs=[(ext[1],ell[0][ext[1]][1],-1,1,1,1)]  # x, y, xShift, y shift
-            for i in range(ell[0][ext[1]][1]+1,n):
-                for b in [-1,1]:
-                    pairs.append((ext[1],i,-1,b,1,b))
+            pairs=[(ext[1], ell[0][ext[1]][1], -1, 1, 1, 1)]  # x, y, xShift, y shift
+            for i in range(ell[0][ext[1]][1]+1, n):
+                for b in [-1, 1]:
+                    pairs.append((ext[1], i, -1, b, 1, b))
         else:
-            pairs=[(ext[1],ell[0][ext[1]][0],-1,-1,1,-1)]  # x, y, xShift, y shift
+            pairs=[(ext[1], ell[0][ext[1]][0], -1, -1, 1, -1)]  # x, y, xShift, y shift
             for i in range(ell[0][ext[1]][0]):
-                for b in [-1,1]:
-                    pairs.append((ext[1],i,-1,b,1,b))
+                for b in [-1, 1]:
+                    pairs.append((ext[1], i, -1, b, 1, b))
         res=[]
         for p in pairs:
-            # premiere selection -any ellipse,-on the ellipse?
+            # premiere selection -any ellipse, -on the ellipse?
             if ell[1][p[1]]==-1 or p[0]<ell[1][p[1]][0] or p[0]>ell[1][p[1]][1]:
                 continue
-            cx,cy=(ell[1][p[1]][0]+ell[1][p[1]][1])*0.5, p[1]
-            a=cPj(trans1[p[1]],p[1],gen1.xShift[trans1[p[1]]],gen1.yShift[trans1[p[1]]],cx,cy)
-            c=cPj(trans2[p[1]],p[1],gen2.xShift[trans2[p[1]]],gen2.yShift[trans2[p[1]]],cx,cy)
+            cx, cy=(ell[1][p[1]][0]+ell[1][p[1]][1])*0.5, p[1]
+            a=cPj(trans1[p[1]], p[1], gen1.xShift[trans1[p[1]]], gen1.yShift[trans1[p[1]]], cx, cy)
+            c=cPj(trans2[p[1]], p[1], gen2.xShift[trans2[p[1]]], gen2.yShift[trans2[p[1]]], cx, cy)
             if a==c and ellDir[1][p[1]]==1:
                 continue
-            b1=cPj(p[0],p[1],p[2],p[3],cx,cy)
-            b2=cPj(p[0],p[1],p[4],p[5],cx,cy)
+            b1=cPj(p[0], p[1], p[2], p[3], cx, cy)
+            b2=cPj(p[0], p[1], p[4], p[5], cx, cy)
             if ellDir[1][p[1]]==-1:
                 a, c = c, a
             if isBetween(a, b1, c) and isBetween(a, b2, c):
@@ -185,34 +185,34 @@ def findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2):
     else:
         if ext[2] == 1:
             pairs = []  # x, y, xShift, y shift
-            for i in range(ell[1][ext[1]][1]+1,n):
+            for i in range(ell[1][ext[1]][1]+1, n):
                 if ell[1][ext[1]]!=-1:
-                    for b in [-1,1]:
-                        pairs.append((i,ext[1],b,-1,b,1))
+                    for b in [-1, 1]:
+                        pairs.append((i, ext[1], b, -1, b, 1))
         else:
             pairs = []  # x, y, xShift, y shift
             for i in range(ell[1][ext[1]][0]):
-                for b in [-1,1]:
-                    pairs.append((i,ext[1],b,-1,b,1))
+                for b in [-1, 1]:
+                    pairs.append((i, ext[1], b, -1, b, 1))
         res = []
         for p in pairs:
             if ell[0][p[0]]==-1 or p[1] < ell[0][p[0]][0] or p[1] > ell[0][p[0]][1]:
                 continue
-            cx,cy = p[0],(ell[0][p[0]][0]+ell[0][p[0]][1])*0.5
-            a=cPj(p[0],gen1.perm[p[0]],gen1.xShift[p[0]],gen1.yShift[p[0]],cx,cy)
-            c=cPj(p[0],gen2.perm[p[0]],gen2.xShift[p[0]],gen2.yShift[p[0]],cx,cy)
+            cx, cy = p[0], (ell[0][p[0]][0]+ell[0][p[0]][1])*0.5
+            a=cPj(p[0], gen1.perm[p[0]], gen1.xShift[p[0]], gen1.yShift[p[0]], cx, cy)
+            c=cPj(p[0], gen2.perm[p[0]], gen2.xShift[p[0]], gen2.yShift[p[0]], cx, cy)
             if a == c and ellDir[0][p[0]] == 1:
                 continue
-            b1 = cPj(p[0],p[1],p[2],p[3],cx,cy)
-            b2 = cPj(p[0],p[1],p[4],p[5],cx,cy)
+            b1 = cPj(p[0], p[1], p[2], p[3], cx, cy)
+            b2 = cPj(p[0], p[1], p[4], p[5], cx, cy)
             if ellDir[0][p[0]]==1:
                 a, c = c, a
-            if isBetween(a,b1,c) and isBetween(a,b2,c):
+            if isBetween(a, b1, c) and isBetween(a, b2, c):
                 res.append(p)
-    return [(p,ext) for p in res]
+    return [(p, ext) for p in res]
 
 
-def giveDir(vh, n12, ellDir, xs, ys):  # 0=right 1up 2left 3down ,n12=1 or 2
+def giveDir(vh, n12, ellDir, xs, ys):  # 0=right 1up 2left 3down , n12=1 or 2
     if vh == 1:  # 0:vertical 1 horizontal
         return (-(n12*2-3) * ellDir * ys) + 1
     else:
@@ -226,18 +226,18 @@ def findObtuse(rect, gen1, gen2, ell, ellDir):
     for i in range(n):
         if gen1.perm[i]==gen2.perm[i] and gen1.xShift[i]==gen2.xShift[i] and gen1.yShift[i]==gen2.yShift[i]:  # for flat angle
             if ellDir[0][i]==-1 and ellDir[1][gen1.perm[i]]==1:
-                flat.append((i,gen1.perm[i],gen2.xShift[i],gen1.yShift[i],1-gen2.xShift[i]))  # last number the direction
+                flat.append((i, gen1.perm[i], gen2.xShift[i], gen1.yShift[i], 1-gen2.xShift[i]))  # last number the direction
             if ellDir[0][i]==1 and ellDir[1][gen1.perm[i]]==-1:
-                flat.append((i,gen1.perm[i],gen2.xShift[i],gen1.yShift[i],2-gen1.yShift[i]))
+                flat.append((i, gen1.perm[i], gen2.xShift[i], gen1.yShift[i], 2-gen1.yShift[i]))
         else:
-            for k,g in [(1,gen1),(2,gen2)]:  # for obtuse angle
+            for k, g in [(1, gen1), (2, gen2)]:  # for obtuse angle
                 if g.perm[i]==-1:
                     continue
-                x,y,xs,ys=i,g.perm[i],g.xShift[i],g.yShift[i]
-                d1=giveDir(0,k,ellDir[0][i],xs,ys)  # vertical
-                d2=giveDir(1,k,ellDir[1][g.perm[i]],xs,ys)
+                x, y, xs, ys=i, g.perm[i], g.xShift[i], g.yShift[i]
+                d1=giveDir(0, k, ellDir[0][i], xs, ys)  # vertical
+                d2=giveDir(1, k, ellDir[1][g.perm[i]], xs, ys)
                 if (d2==(d1+1) % 4 and k==1) or (d1==(d2+1) % 4 and k == 2):
-                    obt.append((x, y, xs, ys, (d1+2) % 4,(d2+2) % 4))
+                    obt.append((x, y, xs, ys, (d1+2) % 4, (d2+2) % 4))
     return obt, flat
 
 
@@ -247,24 +247,24 @@ def findAllInter(ell):  # must be changeed if slow ovals
     for i in range(n):
         if ell[0][i] != -1:
             if 0<=ell[0][i][0]<n and ell[1][ell[0][i][0]]!=-1:
-                res[(i,ell[0][i][0],1,1)]=1
-                res[(i,ell[0][i][0],-1,1)]=1
+                res[(i, ell[0][i][0], 1, 1)]=1
+                res[(i, ell[0][i][0], -1, 1)]=1
             if 0<=ell[0][i][1]<n and ell[1][ell[0][i][1]]!=-1:
-                res[(i,ell[0][i][1],-1,-1)]=1
-                res[(i,ell[0][i][1],1,-1)]=1
-            for y in range(max(ell[0][i][0]+1,0),min(n,ell[0][i][1])):
+                res[(i, ell[0][i][1], -1, -1)]=1
+                res[(i, ell[0][i][1], 1, -1)]=1
+            for y in range(max(ell[0][i][0]+1, 0), min(n, ell[0][i][1])):
                 if ell[1][y]==-1:
                     continue
                 if ell[1][y][0]<=i<=ell[1][y][1]:
-                    res[(i,y,-1,1)]=1
-                    res[(i,y,-1,-1)]=1
-                    res[(i,y,1,1)]=1
-                    res[(i,y,1,-1)]=1
+                    res[(i, y, -1, 1)]=1
+                    res[(i, y, -1, -1)]=1
+                    res[(i, y, 1, 1)]=1
+                    res[(i, y, 1, -1)]=1
     return res
 
 
-def iterate(n,p,d):
-    x,y,xs,ys=p
+def iterate(n, p, d):
+    x, y, xs, ys=p
     if d == 0 or d == 2:
         if (xs==-1) == (d==0):
             xs = -xs
@@ -288,9 +288,9 @@ def iterate(n,p,d):
     return (x, y, xs, ys), d
 
 
-def aim(rect,gen1,gen2,ell,ellDir,trans1,trans2,inter,x,y,xs,ys,d):
+def aim(rect, gen1, gen2, ell, ellDir, trans1, trans2, inter, x, y, xs, ys, d):
     n=len(rect)
-    start=(x,y,xs,ys)
+    start=(x, y, xs, ys)
     p=start
     lvl=0
 
@@ -305,13 +305,13 @@ def aim(rect,gen1,gen2,ell,ellDir,trans1,trans2,inter,x,y,xs,ys,d):
         if gen2.perm[p[0]]==p[1] and gen2.xShift[p[0]]==p[2] and gen2.yShift[p[0]]==p[3]:
             break
         if d % 2 == 0:
-            p1=(p[0],gen1.perm[p[0]],gen1.xShift[p[0]],gen1.yShift[p[0]])
-            p2=(p[0],gen2.perm[p[0]],gen2.xShift[p[0]],gen2.yShift[p[0]])
-            tmp=isThrough(0,p[0],(ell[0][p[0]][0]+ell[0][p[0]][1])/2,ellDir[0][p[0]],p1,p2,p,d)
+            p1=(p[0], gen1.perm[p[0]], gen1.xShift[p[0]], gen1.yShift[p[0]])
+            p2=(p[0], gen2.perm[p[0]], gen2.xShift[p[0]], gen2.yShift[p[0]])
+            tmp=isThrough(0, p[0], (ell[0][p[0]][0]+ell[0][p[0]][1])/2, ellDir[0][p[0]], p1, p2, p, d)
         else:
-            p1=(trans1[p[1]],p[1],gen1.xShift[trans1[p[1]]],gen1.yShift[trans1[p[1]]])
-            p2=(trans2[p[1]],p[1],gen2.xShift[trans2[p[1]]],gen2.yShift[trans2[p[1]]])
-            tmp=isThrough(1,(ell[1][p[1]][0]+ell[1][p[1]][1])/2,p[1],ellDir[1][p[1]],p1,p2,p,d)
+            p1=(trans1[p[1]], p[1], gen1.xShift[trans1[p[1]]], gen1.yShift[trans1[p[1]]])
+            p2=(trans2[p[1]], p[1], gen2.xShift[trans2[p[1]]], gen2.yShift[trans2[p[1]]])
+            tmp=isThrough(1, (ell[1][p[1]][0]+ell[1][p[1]][1])/2, p[1], ellDir[1][p[1]], p1, p2, p, d)
 
         if tmp==1:
             lvl+=tmp
@@ -325,13 +325,13 @@ def findCuts(obtuse, flat, rect, gen1, gen2, ell, ellDir,
     cuts = []
     for a in obtuse:
         for direction in [4, 5]:
-            tmp = aim(rect,gen1,gen2,ell,ellDir,trans1,trans2,inter,a[0],a[1],a[2],a[3],a[direction])
+            tmp = aim(rect, gen1, gen2, ell, ellDir, trans1, trans2, inter, a[0], a[1], a[2], a[3], a[direction])
         if tmp:
-            cuts.append(((a[0],a[1],a[2],a[3],a[direction]),tmp))
+            cuts.append(((a[0], a[1], a[2], a[3], a[direction]), tmp))
     for a in flat:
-        tmp = aim(rect,gen1,gen2,ell,ellDir,trans1,trans2,inter,a[0],a[1],a[2],a[3],a[4])
+        tmp = aim(rect, gen1, gen2, ell, ellDir, trans1, trans2, inter, a[0], a[1], a[2], a[3], a[4])
         if tmp:
-            cuts.append(((a[0],a[1],a[2],a[3],a[4]),tmp))
+            cuts.append(((a[0], a[1], a[2], a[3], a[4]), tmp))
     return cuts
 
 
@@ -341,22 +341,22 @@ def nextOnGen(p, gen1, gen2, cuts, trans1, trans2):
         for c in cuts:
             if all(c[j] == p[j] for j in range(4)) and not c[4] % 2:
                 ptmp = c[5]
-                p=(trans1[ptmp[1]],ptmp[1],gen1.xShift[trans1[ptmp[1]]],gen1.yShift[trans1[ptmp[1]]],[ptmp],0)
+                p=(trans1[ptmp[1]], ptmp[1], gen1.xShift[trans1[ptmp[1]]], gen1.yShift[trans1[ptmp[1]]], [ptmp], 0)
                 res.append(p)
-    ptmp=(p[0],gen2.perm[p[0]],gen2.xShift[p[0]],gen2.yShift[p[0]])
+    ptmp=(p[0], gen2.perm[p[0]], gen2.xShift[p[0]], gen2.yShift[p[0]])
     for c in cuts:
         if all(c[j] == ptmp[j] for j in range(4)) and c[4] % 2:
             ptmp2 = c[5]
-            p=(trans1[ptmp2[1]],ptmp2[1],gen1.xShift[trans1[ptmp2[1]]],gen1.yShift[trans1[ptmp2[1]]],[ptmp2],0)
+            p=(trans1[ptmp2[1]], ptmp2[1], gen1.xShift[trans1[ptmp2[1]]], gen1.yShift[trans1[ptmp2[1]]], [ptmp2], 0)
             res.append(p)
-    p=(trans1[ptmp[1]],ptmp[1],gen1.xShift[trans1[ptmp[1]]],gen1.yShift[trans1[ptmp[1]]],[],0)
+    p=(trans1[ptmp[1]], ptmp[1], gen1.xShift[trans1[ptmp[1]]], gen1.yShift[trans1[ptmp[1]]], [], 0)
     res.append(p)
     return res
 
 
 def nextOnCuts(p, cuts):
     """
-    cut=(x,y,xs,ys,d,(x,y,xs,ys))
+    cut=(x, y, xs, ys, d, (x, y, xs, ys))
     """
     res = []
     for c in cuts:
@@ -365,7 +365,7 @@ def nextOnCuts(p, cuts):
     return res
 
 
-def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
+def followUntil(start, goal, gen1, gen2, cuts, trans1, trans2, g1Acc, g2Acc):
     # I use the []=false trick
     #     global n
     #     if n>10: return 0
@@ -375,8 +375,8 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
         g1Acc[goal[0]]=goal
         for intermed in start[4]:
             g2Acc[intermed[0]]=intermed
-        return [(g1Acc,g2Acc)]
-    next = nextOnGen(start,gen1,gen2,cuts,trans1,trans2)+nextOnCuts(start,cuts)
+        return [(g1Acc, g2Acc)]
+    next = nextOnGen(start, gen1, gen2, cuts, trans1, trans2)+nextOnCuts(start, cuts)
 
     res = []
     for p in next:
@@ -384,7 +384,7 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
         #             g1Acc[goal[0]]=goal
         #             for intermed in p[4]:
         #                 g2Acc[intermed[0]]=intermed
-        #             res.append((g1Acc,g2Acc))
+        #             res.append((g1Acc, g2Acc))
         if g1Acc[p[0]]:
             continue
         tmp1=g1Acc[:]
@@ -392,11 +392,11 @@ def followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc):
         tmp1[p[0]]=p
         for intermed in p[4]:
             tmp2[intermed[0]]=intermed
-        res+=followUntil(p,goal,gen1,gen2,cuts,trans1,trans2,tmp1,tmp2)
+        res+=followUntil(p, goal, gen1, gen2, cuts, trans1, trans2, tmp1, tmp2)
     return res
 
 
-def findAll(startx, p1, p2, trans1, trans2):  # p1,p2are perms as arrays
+def findAll(startx, p1, p2, trans1, trans2):  # p1, p2are perms as arrays
     x = startx
     y = p1[x]
     compSize = [startx]
@@ -416,8 +416,8 @@ def findAll(startx, p1, p2, trans1, trans2):  # p1,p2are perms as arrays
 
 
 def findHoles(gen1, gen2, trans1, trans2, ellDir, bigon):
-    acc = findAll(bigon[0][0],gen1.perm,gen2.perm,trans1,trans2)
-    acc += findAll(trans1[bigon[0][1]],gen1.perm,gen2.perm,trans1,trans2)
+    acc = findAll(bigon[0][0], gen1.perm, gen2.perm, trans1, trans2)
+    acc += findAll(trans1[bigon[0][1]], gen1.perm, gen2.perm, trans1, trans2)
     res = []
     for i in range(len(gen1.perm)):
         if gen1.perm[i]==-1:
@@ -441,22 +441,22 @@ def isIn(g2, path, x, y):
     return p
 
 
-def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):  # g2Acc contains a point of bigon (the one of g2)
+def splitGens(gen1, gen2, trans1, trans2, ellDir, g1Path, g2Acc, bigon):  # g2Acc contains a point of bigon (the one of g2)
     newEllDir=deepcopy(ellDir)
     newEllDirp=deepcopy(ellDir)
-    holes=findHoles(gen1,gen2,trans1,trans2,ellDir,bigon)
+    holes=findHoles(gen1, gen2, trans1, trans2, ellDir, bigon)
     isH=[0]*len(gen1.perm)
     coPath=gen2.perm[:]
     coPath[bigon[0][0]]=bigon[0][1]
     for h in holes:
         tmp=2
-        if isIn(coPath,g1Path,h[0],gen1.perm[h[0]]):
+        if isIn(coPath, g1Path, h[0], gen1.perm[h[0]]):
             tmp=1
         for x in h[1]:
             isH[x]=tmp
     g1=gen1
-    g2=gen([],[],[],0)
-    g1p=gen([],[],[],0)
+    g2=gen([], [], [], 0)
+    g1p=gen([], [], [], 0)
     g2p=gen2
     for i in range(len(gen1.perm)):
         tmp1=g1Path[i]
@@ -497,36 +497,36 @@ def splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,bigon):  # g2Acc conta
 #     g1p.show()
 #     g2p.show()
 
-    return ((g1,g2,newEllDir),(g1p,g2p,newEllDirp))
+    return ((g1, g2, newEllDir), (g1p, g2p, newEllDirp))
 
 
-def splitting(rect,gen1,gen2,ell,ellDir,trans1,trans2,p):
+def splitting(rect, gen1, gen2, ell, ellDir, trans1, trans2, p):
     n=len(rect)
     print("split", p)
     inter=findAllInter(ell)
-    obtuse,flat=findObtuse(rect,gen1,gen2,ell,ellDir)
-    cuts=findCuts(obtuse,flat,rect,gen1,gen2,ell,ellDir,trans1,trans2,inter)
+    obtuse, flat=findObtuse(rect, gen1, gen2, ell, ellDir)
+    cuts=findCuts(obtuse, flat, rect, gen1, gen2, ell, ellDir, trans1, trans2, inter)
     print("cuts:", cuts)
     pairs=[]
     if p[1][0]==0:
         tmp=trans1[p[0][1]]
-        start=(tmp,gen1.perm[tmp],gen1.xShift[tmp],gen1.yShift[tmp],[])
-        goal=(p[1][1],gen1.perm[p[1][1]],gen1.xShift[p[1][1]],gen1.yShift[p[1][1]])
-        supp=(p[0][0],p[0][1],p[1][2],p[0][3])
+        start=(tmp, gen1.perm[tmp], gen1.xShift[tmp], gen1.yShift[tmp], [])
+        goal=(p[1][1], gen1.perm[p[1][1]], gen1.xShift[p[1][1]], gen1.yShift[p[1][1]])
+        supp=(p[0][0], p[0][1], p[1][2], p[0][3])
     else:
         tmp=trans1[p[0][1]]
-        goal=(tmp,gen1.perm[tmp],gen1.xShift[tmp],gen1.yShift[tmp])
-        start=(p[0][0],gen1.perm[p[0][0]],gen1.xShift[p[0][0]],gen1.yShift[p[0][0]],[])
-        supp=(p[0][0],p[0][1],p[0][2],p[1][2])
-    print("start,goal,supp:",start,goal,supp)
+        goal=(tmp, gen1.perm[tmp], gen1.xShift[tmp], gen1.yShift[tmp])
+        start=(p[0][0], gen1.perm[p[0][0]], gen1.xShift[p[0][0]], gen1.yShift[p[0][0]], [])
+        supp=(p[0][0], p[0][1], p[0][2], p[1][2])
+    print("start, goal, supp:", start, goal, supp)
     g1Acc=[0]*n
     g2Acc=[0]*n
     g1Acc[start[0]]=start
-    separation=followUntil(start,goal,gen1,gen2,cuts,trans1,trans2,g1Acc,g2Acc)
-    print("sep",separation)
-    for g1Path,g2Acc in separation:
+    separation=followUntil(start, goal, gen1, gen2, cuts, trans1, trans2, g1Acc, g2Acc)
+    print("sep", separation)
+    for g1Path, g2Acc in separation:
         g2Acc[supp[0]]=supp
-        pairs.append(splitGens(gen1,gen2,trans1,trans2,ellDir,g1Path,g2Acc,p))
+        pairs.append(splitGens(gen1, gen2, trans1, trans2, ellDir, g1Path, g2Acc, p))
     return pairs
 
 
@@ -536,9 +536,9 @@ totalG = 0
 # end debug
 
 
-def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
+def deepBdMap(rect, gen1, gen2, ell, ellDir, ordering=0):
     n = len(rect)
-    if detectSimple(n,gen1,gen2,ellDir)==1:
+    if detectSimple(n, gen1, gen2, ellDir)==1:
         return 1
     global totalG
 
@@ -555,25 +555,25 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
     while ordering:
         ext = ordering.pop()
         if ext[0]==0:
-            cx,cy=ext[1], (ell[0][ext[1]][0]+ell[0][ext[1]][1])*0.5
-            if isBetween(cPj(ext[1],gen1.perm[ext[1]],gen1.xShift[ext[1]],gen1.yShift[ext[1]],cx,cy), ((ext[2]-1)/2)*3.1415926535897931,
-                         cPj(ext[1],gen2.perm[ext[1]],gen2.xShift[ext[1]],gen2.yShift[ext[1]],cx,cy))==(ellDir[0][ext[1]]==-1):
+            cx, cy=ext[1], (ell[0][ext[1]][0]+ell[0][ext[1]][1])*0.5
+            if isBetween(cPj(ext[1], gen1.perm[ext[1]], gen1.xShift[ext[1]], gen1.yShift[ext[1]], cx, cy), ((ext[2]-1)/2)*3.1415926535897931,
+                         cPj(ext[1], gen2.perm[ext[1]], gen2.xShift[ext[1]], gen2.yShift[ext[1]], cx, cy))==(ellDir[0][ext[1]]==-1):
                 # finding the splitting
-                nextGeneration+=findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2)
-                ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
+                nextGeneration+=findNextBigonList(rect, gen1, gen2, ell, ellDir, ext, trans1, trans2)
+                ell[0][ext[1]][(ext[2]+1)/2]=[-1, 100][(ext[2]+1)/2]
                 break
-            ell[0][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
+            ell[0][ext[1]][(ext[2]+1)/2]=[-1, 100][(ext[2]+1)/2]
         if ext[0]==1:  # horizontal ellipse
             cx, cy = (ell[1][ext[1]][0]+ell[1][ext[1]][1])*0.5, ext[1]
             tmp1=trans1[ext[1]]
             tmp2=trans2[ext[1]]
-            if isBetween(cPj(tmp2,gen2.perm[tmp2],gen2.xShift[tmp2],gen2.yShift[tmp2],cx,cy), -ext[2]*1.5707963267948966,
-                         cPj(tmp1,gen1.perm[tmp1],gen1.xShift[tmp1],gen1.yShift[tmp1],cx,cy))==(ellDir[1][ext[1]]==-1):
+            if isBetween(cPj(tmp2, gen2.perm[tmp2], gen2.xShift[tmp2], gen2.yShift[tmp2], cx, cy), -ext[2]*1.5707963267948966,
+                         cPj(tmp1, gen1.perm[tmp1], gen1.xShift[tmp1], gen1.yShift[tmp1], cx, cy))==(ellDir[1][ext[1]]==-1):
                 # finding the splitting
-                nextGeneration+=findNextBigonList(rect,gen1,gen2,ell,ellDir,ext,trans1,trans2)
-                ell[1][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
+                nextGeneration+=findNextBigonList(rect, gen1, gen2, ell, ellDir, ext, trans1, trans2)
+                ell[1][ext[1]][(ext[2]+1)/2]=[-1, 100][(ext[2]+1)/2]
                 break
-            ell[1][ext[1]][(ext[2]+1)/2]=[-1,100][(ext[2]+1)/2]
+            ell[1][ext[1]][(ext[2]+1)/2]=[-1, 100][(ext[2]+1)/2]
 
     # operating the splitting
     pairs = [splitting(rect, gen1, gen2, ell, ellDir, trans1, trans2, poss)
@@ -581,9 +581,9 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
 
     # controlling the splitted (and returning when needed)
     for p in pairs:
-        if maslovIndex(p[0][0],rect)-maslovIndex(p[0][1],rect)!=-1 or maslovIndex(p[1][0],rect)-maslovIndex(p[1][1],rect)!=-1:
+        if maslovIndex(p[0][0], rect)-maslovIndex(p[0][1], rect)!=-1 or maslovIndex(p[1][0], rect)-maslovIndex(p[1][1], rect)!=-1:
             continue  # to optimise
-        if deepBdMap(rect,p[0][0],p[0][1],ell,p[0][2],ordering) and deepBdMap(rect,p[1][0],p[1][1],ell,p[1][2],ordering):
+        if deepBdMap(rect, p[0][0], p[0][1], ell, p[0][2], ordering) and deepBdMap(rect, p[1][0], p[1][1], ell, p[1][2], ordering):
             return 1
 
     if True:
@@ -600,11 +600,11 @@ def deepBdMap(rect,gen1,gen2,ell,ellDir,ordering=0):
             print("splitting:", splitting(rect, gen1, gen2, ell, ellDir,
                                           trans1, trans2, nextGeneration[0]))
             print("obtuse")
-            obtuse, flats = findObtuse(rect,gen1,gen2,ell,ellDir)
+            obtuse, flats = findObtuse(rect, gen1, gen2, ell, ellDir)
             print(obtuse, flats)
             inter = findAllInter(ell)
             print("cuts")
-            print(findCuts(obtuse,flats,rect,gen1,gen2,ell,ellDir,trans1,trans2,inter))
+            print(findCuts(obtuse, flats, rect, gen1, gen2, ell, ellDir, trans1, trans2, inter))
 
             frm = show_all.floerDiagram((rect, ell, [gen1, gen2]))
             frm.Show()
@@ -619,14 +619,14 @@ print(totalG)
 
 if __name__ == "__main__":
     #     app=wx.PySimpleApp()
-    #     g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1],0)
-    #     g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1],0)
-    #     data=([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],([[1,3],[2,5],[0,4],[0,3],[2,4],[1,5]],[[0,5]]*6),[g1,g2])
+    #     g1=gen([-1, 2, 0, 3, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, 1, -1, -1, -1], 0)
+    #     g2=gen([-1, 2, 3, 0, 4, 5], [0, 1, 1, 1, -1, -1], [0, 1, -1, 1, -1, -1], 0)
+    #     data=([[1, 3], [2, 5], [0, 4], [0, 3], [2, 4], [1, 5]], ([[1, 3], [2, 5], [0, 4], [0, 3], [2, 4], [1, 5]], [[0, 5]]*6), [g1, g2])
     #     frm=show_all.floerDiagram(data)
     #     frm.Show()
     #     app.MainLoop()
-    gen1 = gen([1, 0, 4, 2, 5, 6, 8, 7, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, -1, 1, -1, -1, 0],0)
-    gen2 = gen([6, 1, 4, 0, 2, 7, 8, 5, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [-1, 1, -1, 1, 1, -1, -1, 1, 0],0)
+    gen1 = gen([1, 0, 4, 2, 5, 6, 8, 7, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [1, 1, -1, 1, -1, 1, -1, -1, 0], 0)
+    gen2 = gen([6, 1, 4, 0, 2, 7, 8, 5, -1], [-1, -1, 1, 1, -1, 1, -1, -1, 0], [-1, 1, -1, 1, 1, -1, -1, 1, 0], 0)
     rect = [[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], [3, 8]]
     ell = ([[1, 6], [0, 2], [1, 4], [0, 3], [2, 5], [4, 7], [6, 8], [5, 7], -1], [[1, 3], [0, 2], [1, 4], -1, [2, 5], [4, 7], [0, 6], [5, 7], [6, 8]])
     ellDir = ([1, -1, -1, -1, -1, -1, 1, -1, 0],

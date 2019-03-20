@@ -22,7 +22,7 @@ def findMax(rect):
 
 def braidToRect(br, n):
     """
-    >>> print(braidToRect([[0,0],[1,0]],2))
+    >>> print(braidToRect([[0, 0], [1, 0]], 2))
     """
     start = list(range(n))
     end = list(range(n))
@@ -33,19 +33,19 @@ def braidToRect(br, n):
             height2=end[gen[1]+1]
             spaceColumn(start, height)
             spaceRect(rect, height)
-            rect.append([height,height2+1])
+            rect.append([height, height2+1])
             end[gen[1]+1]=height+1
-            spaceColumn(end,height+2)
+            spaceColumn(end, height+2)
         else:
             spaceColumn(start, end[gen[1]+1]+1)
             spaceRect(rect, end[gen[1]+1]+1)
-            rect.append([end[gen[1]],end[gen[1]+1]+1])
+            rect.append([end[gen[1]], end[gen[1]+1]+1])
             tmp=end[gen[1]+1]
             spaceColumn(end, tmp)
             end[gen[1]] = tmp
     mx = findMax(rect)
     for i in range(len(start)):
-        rect = [[start[len(start)-i-1],mx+i+1]]+rect+[[end[len(start)-i-1],mx+i+1]]
+        rect = [[start[len(start)-i-1], mx+i+1]]+rect+[[end[len(start)-i-1], mx+i+1]]
     return rect
 
 
@@ -55,17 +55,17 @@ def elim(tab):
 
 def rdBraid(s):
     tmp = s[1:-1]
-    tmp = tmp.split(",")
+    tmp = tmp.split(", ")
     mx=-1
     res = []
     for kk in tmp:
         k=int(kk)
         if k<0:
-            res.append((0,-k-1))
-            mx=max(mx,-k)
+            res.append((0, -k-1))
+            mx=max(mx, -k)
         else:
-            res.append((1,k-1))
-            mx=max(mx,k)
+            res.append((1, k-1))
+            mx=max(mx, k)
     return (res, mx + 1)
 
 # # # # # # # #application
@@ -74,19 +74,19 @@ def rdBraid(s):
 if __name__ == "__main__":
     pass
 #
-#     with open("braidList.txt","r") as br:
+#     with open("braidList.txt", "r") as br:
 #         rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
 #     atlas = {}
 #     import simplify.diagSimplify
 #
 #     for kn in rawList:
 #         tmp = rdBraid(kn[2])
-#         atlas[(int(kn[0]),int(kn[1]))]=simplify.diagSimplify.simplify(
-#             braidToRect(tmp[0],tmp[1]),5000)
+#         atlas[(int(kn[0]), int(kn[1]))]=simplify.diagSimplify.simplify(
+#             braidToRect(tmp[0], tmp[1]), 5000)
 #         if len(atlas)%100==0:
 #             print(len(atlas))
 #     # the result is the knot dico called atlas!
-#     with open("knotAtlas.pic","wb") as sav:
+#     with open("knotAtlas.pic", "wb") as sav:
 #         pickle.dump(atlas, sav)
 #     print("Atlas ready")
 
@@ -101,7 +101,7 @@ pour reconstruction du fichier knotAtlasV1.txt
 #     for i in range(13):
 #         for j in range(1, len(atlas) + 1):
 #             if (i, j) in atlas:
-#                 s += str((i, j)) + ": " + str(atlas[(i, j)]) + ",\n"
+#                 s += str((i, j)) + ": " + str(atlas[(i, j)]) + ", \n"
 #             else:
 #                 break
 #     s += "}"
