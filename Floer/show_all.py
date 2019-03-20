@@ -32,24 +32,24 @@ class floerDiagram(wx.Frame):
         brush = wx.Brush(bkgColor)
         dc.SetBackground(brush)
         dc.Clear()
-        tmp = [[] for i in range(n)]
+        tmp = [[] for _ in range(n)]
         for i, dp in enumerate(diag):
             for p in dp:
                 tmp[p].append(i)
         for i, dp in enumerate(tmp):
             dc.SetPen(wx.Pen("black", 2))
-            dc.DrawLine(incx*(dp[0]+1)+size, incy*(n-i),
-                        incx*(dp[1]+1)-size, incy*(n-i))
+            dc.DrawLine(incx * (dp[0] + 1) + size, incy * (n - i),
+                        incx * (dp[1] + 1) - size, incy * (n - i))
         for i, dp in enumerate(diag):
-            dc.SetPen(wx.Pen(bkgColor, size*2))
-            dc.DrawLine(incx*(i+1), incy*(n-dp[0])+size,
-                        incx*(i+1), incy*(n-dp[1])-size)
+            dc.SetPen(wx.Pen(bkgColor, size * 2))
+            dc.DrawLine(incx * (i + 1), incy * (n - dp[0]) + size,
+                        incx * (i + 1), incy * (n - dp[1]) - size)
             dc.SetPen(wx.Pen("black", 2))
-            dc.DrawLine(incx*(i+1), incy*(n-dp[0])+size,
-                        incx*(i+1), incy*(n-dp[1])-size)
+            dc.DrawLine(incx * (i + 1), incy * (n - dp[0]) + size,
+                        incx * (i + 1), incy * (n - dp[1]) - size)
             for p in dp:
                 dc.SetBrush(wx.Brush("light gray"))
-                dc.DrawCircle(incx*(i+1), incy*(n-p), size)
+                dc.DrawCircle(incx * (i + 1), incy * (n - p), size)
         if ell:
             for i, dp in enumerate(ell[1]):
                 if dp == -1:
@@ -71,15 +71,15 @@ class floerDiagram(wx.Frame):
                         s1 = 1
                     else:
                         s1 = 0
-                dc.DrawLine(incx*(dp[0]+1) - size*s0, incy*(n-i),
-                            incx*(dp[1]+1) + size*s1, incy*(n-i))
+                dc.DrawLine(incx * (dp[0] + 1) - size * s0, incy * (n - i),
+                            incx * (dp[1] + 1) + size * s1, incy * (n - i))
 
             for i, dp in enumerate(ell[0]):
                 if dp == -1:
                     continue
                 dc.SetPen(wx.Pen("yellow", size * 3, wx.BDIAGONAL_HATCH))
-                dc.DrawLine(incx*(i+1), incy*(n-dp[0])-size,
-                            incx*(i+1), incy*(n-dp[1])+size)
+                dc.DrawLine(incx * (i + 1), incy * (n - dp[0]) - size,
+                            incx * (i + 1), incy * (n - dp[1]) + size)
         if genList:
             for col, gene in enumerate(genList):
                 dc.SetPen(wx.Pen(["red", "yellow", "pink", "brown", "blue",
@@ -89,8 +89,8 @@ class floerDiagram(wx.Frame):
                 for i in range(n):
                     if gene.perm[i] == -1:
                         continue
-                    dc.DrawCircle(incx*(i+1) + gene.xShift[i]*size,
-                                  incy*(n-gene.perm[i])-gene.yShift[i]*size, 4)
+                    dc.DrawCircle(incx * (i + 1) + gene.xShift[i] * size,
+                                  incy * (n - gene.perm[i]) - gene.yShift[i] * size, 4)
 
 
 def show(*data):

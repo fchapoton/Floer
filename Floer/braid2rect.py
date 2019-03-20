@@ -29,23 +29,23 @@ def braidToRect(br, n):
     rect = []
     for gen in br:
         if gen[0] == 0:
-            height=end[gen[1]]
-            height2=end[gen[1]+1]
+            height = end[gen[1]]
+            height2 = end[gen[1] + 1]
             spaceColumn(start, height)
             spaceRect(rect, height)
-            rect.append([height, height2+1])
-            end[gen[1]+1]=height+1
-            spaceColumn(end, height+2)
+            rect.append([height, height2 + 1])
+            end[gen[1] + 1] = height + 1
+            spaceColumn(end, height + 2)
         else:
-            spaceColumn(start, end[gen[1]+1]+1)
-            spaceRect(rect, end[gen[1]+1]+1)
-            rect.append([end[gen[1]], end[gen[1]+1]+1])
-            tmp=end[gen[1]+1]
+            spaceColumn(start, end[gen[1] + 1] + 1)
+            spaceRect(rect, end[gen[1] + 1] + 1)
+            rect.append([end[gen[1]], end[gen[1] + 1] + 1])
+            tmp = end[gen[1] + 1]
             spaceColumn(end, tmp)
             end[gen[1]] = tmp
     mx = findMax(rect)
     for i in range(len(start)):
-        rect = [[start[len(start)-i-1], mx+i+1]]+rect+[[end[len(start)-i-1], mx+i+1]]
+        rect = [[start[len(start) - i - 1], mx + i + 1]] + rect + [[end[len(start) - i - 1], mx + i + 1]]
     return rect
 
 
@@ -56,19 +56,19 @@ def elim(tab):
 def rdBraid(s):
     tmp = s[1:-1]
     tmp = tmp.split(", ")
-    mx=-1
+    mx = -1
     res = []
     for kk in tmp:
-        k=int(kk)
-        if k<0:
-            res.append((0, -k-1))
-            mx=max(mx, -k)
+        k = int(kk)
+        if k < 0:
+            res.append((0, -k - 1))
+            mx = max(mx, -k)
         else:
-            res.append((1, k-1))
-            mx=max(mx, k)
+            res.append((1, k - 1))
+            mx = max(mx, k)
     return (res, mx + 1)
 
-# # # # # # # #application
+# ---------- application ----------
 
 
 if __name__ == "__main__":

@@ -60,9 +60,9 @@ def evalEll(ellx, elly):
 def main(rect, retry):
     print("opti, Ell")
     ellCandidate = []
-    l = genCycles(rect)
+    list_cycles = genCycles(rect)
     score = 1000000000
-    for r in l:
+    for r in list_cycles:
         tmp = genEll(r)
         tmp = (tmp[0], tmp[1], tmp[2], r)
         ellCandidate.append(tmp)

@@ -12,11 +12,11 @@ def deConv(tab, n, s):
         for i in range(y):
             mul = tab[k][i]
             if mul != 0:
-                for j in range(n+1):
+                for j in range(n + 1):
                     a = k + j
                     b = i + j
-                    if a>=0 and b>=0 and a<x and b<y:
-                        tab[a][b]-=ex[j]*mul
+                    if 0 <= a < x and 0 <= b < y:
+                        tab[a][b] -= ex[j] * mul
     return tab
 
 
@@ -35,6 +35,6 @@ def deConvSimp(tab, n):
                 for j in range(n + 1):
                     a = k + j
                     b = i + j
-                    if a>=0 and b>=0 and a<x and b<y:
+                    if a >= 0 and b >= 0 and a < x and b < y:
                         tab[a][b] -= ex[j] * mul
     return tab

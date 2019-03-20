@@ -233,18 +233,18 @@ def chain2DToHomv3(chain, bndFunc, n, index="no"):
 #                         print(k)
 #                         chain[i+1][j][k].show()
                 imageDimTab[j][i] = imageDim(tmpMat)
-            if len(chain[j][i]) or len(chain[j][i+1]):
+            if len(chain[j][i]) or len(chain[j][i + 1]):
                 print("Image", i, j, ":", len(chain[j][i]),
-                      len(chain[j][i+1]), imageDimTab[j][i])
+                      len(chain[j][i + 1]), imageDimTab[j][i])
 #             f=open("C:\Program Files\python5\pyprog\Floer\s.txt","a")
 #             f.write(str(("Image",i,j,":",imageDimTab[i][j])))
 #             f.close()
-    res = [[0] * len(chain[0]) for i in range(len(chain))]
+    res = [[0] * len(chain[0]) for _ in range(len(chain))]
     for i in range(1, len(chain[0])):
         for j in range(len(chain)):
             if index <= j < index + n:
                 continue
-            res[j][i] = len(chain[j][i])-imageDimTab[j][i-1]-imageDimTab[j][i]
+            res[j][i] = len(chain[j][i]) - imageDimTab[j][i - 1] - imageDimTab[j][i]
     for j in range(len(chain)):
         if index <= j < index + n:
             continue
@@ -280,7 +280,7 @@ def deconv(res, index, n):
         for k in range(len(res[0])):
             mul = res[i][k]
             if mul != 0:
-                for j in range(n+1):
+                for j in range(n + 1):
                     a = k + j
                     b = i + j
                     if a >= 0 and b >= 0 and a < x and b < y:
