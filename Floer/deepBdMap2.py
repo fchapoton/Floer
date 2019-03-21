@@ -19,18 +19,18 @@ def findAge(gen, rect, tr):  # next in line!
         if gen.perm[i] != -1:
             tmp = i
             if tmp < tr[gen.perm[i]][0]:
-                age=max(age, 2*(n+gen.perm[i])+2)
+                age = max(age, 2 * (n + gen.perm[i]) + 2)
             if tmp > tr[gen.perm[i]][1]:
-                age=max(age, 2*(n+gen.perm[i])+1)
+                age = max(age, 2 * (n + gen.perm[i]) + 1)
     if age > 0:
         return age
     for i in range(n):
-        if gen.perm[i]!=-1:
-            tmp = gen.perm[i]+(gen.yShift[i]+1) // 2
-            if tmp<=rect[i][0]:
-                age=max(age, 2*i+2)
-            if tmp>rect[i][1]:
-                age=max(age, 2*i+1)
+        if gen.perm[i] != -1:
+            tmp = gen.perm[i] + (gen.yShift[i] + 1) // 2
+            if tmp <= rect[i][0]:
+                age = max(age, 2 * i + 2)
+            if tmp > rect[i][1]:
+                age = max(age, 2 * i + 1)
     return age
 
 
@@ -63,12 +63,14 @@ def listPossRectMp(rect, ell):
         for ur in coord:
             if ll[0] < ur[0] and ll[1] < ur[1]:
                 b = 0
-                for x in range(ll[0]+(ll[2]+1)//2, ur[0]+(ur[2]+1)//2):
-                    if ur[1]+(ur[3]+1)/2>rect[x][1]>=ll[1]+(ll[3]+1)//2 or ur[1]+(ur[3]+1)//2>rect[x][0]>=ll[1]+(ll[3]+1)//2:
-                        b=1
+                for x in range(ll[0] + (ll[2] + 1) // 2,
+                               ur[0] + (ur[2] + 1) // 2):
+                    if (ur[1] + (ur[3] + 1) // 2 > rect[x][1] >= ll[1] + (ll[3] + 1) // 2 or ur[1] + (ur[3] + 1) // 2 > rect[x][0] >= ll[1] + (ll[3] + 1) // 2):
+                        b = 1
                         break
-                if b==0:
-                    possRect[(ll, ur)]=((ll[0], ur[1], ll[2], ur[3]), (ur[0], ll[1], ur[2], ll[3]))
+                if b == 0:
+                    possRect[(ll, ur)] = ((ll[0], ur[1], ll[2], ur[3]),
+                                          (ur[0], ll[1], ur[2], ll[3]))
     return possRect
 
 
@@ -105,21 +107,21 @@ def listBigon(gen, rect, tr, immobile):
     n = len(gen.perm)
     res = []
     for i in range(n):
-        if gen.perm[i]!=-1 and not immobile[i]:
-            tmp=i+(gen.xShift[i]+1)//2
-            if tmp<=tr[gen.perm[i]][0] and gen.yShift[i]==1 or tmp>tr[gen.perm[i]][1] and gen.yShift[i]==-1:
-                ng=copyGen(gen)
-                ng.yShift[i]*=-1
-                if gen.perm[i]==rect[i][0] or gen.perm[i]==rect[i][1]:
-                    age=-1
+        if gen.perm[i] != -1 and not immobile[i]:
+            tmp = i + (gen.xShift[i] + 1) // 2
+            if tmp <= tr[gen.perm[i]][0] and gen.yShift[i] == 1 or tmp > tr[gen.perm[i]][1] and gen.yShift[i] == -1:
+                ng = copyGen(gen)
+                ng.yShift[i] *= -1
+                if gen.perm[i] == rect[i][0] or gen.perm[i] == rect[i][1]:
+                    age = -1
                 else:
-                    age=2*(n+gen.perm[i])+2-(ng.yShift[i]+1)//2
+                    age = 2 * (n + gen.perm[i]) + 2 - (ng.yShift[i] + 1) // 2
                 res.append((ng, age))
-            tmp=gen.perm[i]+(gen.yShift[i]+1)//2
-            if tmp<=rect[i][0] and gen.xShift[i]==1 or tmp>rect[i][1] and gen.xShift[i]==-1:
-                ng=copyGen(gen)
-                ng.xShift[i]*=-1
-                age=2*i+2-(ng.xShift[i]+1)//2
+            tmp = gen.perm[i] + (gen.yShift[i] + 1) // 2
+            if tmp <= rect[i][0] and gen.xShift[i] == 1 or tmp > rect[i][1] and gen.xShift[i] == -1:
+                ng = copyGen(gen)
+                ng.xShift[i] *= -1
+                age = 2 * i + 2 - (ng.xShift[i] + 1) // 2
                 res.append((ng, age))
     return res
 
@@ -130,16 +132,16 @@ def listReverseBigon(gen, rect, tr, immobile):
     for i in range(n):
         if gen.perm[i] != -1 and not immobile[i]:
             tmp = i  # carefull!!!!!!!!! changed from above!
-            if tmp<tr[gen.perm[i]][0] and gen.yShift[i]==-1 or tmp>tr[gen.perm[i]][1] and gen.yShift[i]==1:  # carefull!!!!!!!!! changed
+            if tmp < tr[gen.perm[i]][0] and gen.yShift[i] == -1 or tmp > tr[gen.perm[i]][1] and gen.yShift[i] == 1:  # carefull!!!!!!!!! changed
                 ng = copyGen(gen)
-                ng.yShift[i]*=-1
-                age = 2*(n+gen.perm[i])+1+(ng.yShift[i]+1)//2  # carefull!!!!!!!!! changed
+                ng.yShift[i] *= -1
+                age = 2 * (n + gen.perm[i]) + 1 + (ng.yShift[i] + 1) // 2  # carefull!!!!!!!!! changed
                 res.append((ng, age))
-            tmp = gen.perm[i]+(gen.yShift[i]+1)//2
-            if tmp<=rect[i][0] and gen.xShift[i]==-1 or tmp>rect[i][1] and gen.xShift[i]==1:
+            tmp = gen.perm[i] + (gen.yShift[i] + 1) // 2
+            if tmp <= rect[i][0] and gen.xShift[i] == -1 or tmp > rect[i][1] and gen.xShift[i] == 1:
                 ng = copyGen(gen)
-                ng.xShift[i]*=-1
-                age = 2*i+1+(ng.xShift[i]+1) // 2  # carefull!!!!!!!!! changed
+                ng.xShift[i] *= -1
+                age = 2 * i + 1 + (ng.xShift[i] + 1) // 2  # carefull!!!!!!!!! changed
                 res.append((ng, age))
     return res
 
@@ -147,30 +149,36 @@ def listReverseBigon(gen, rect, tr, immobile):
 debug = [0] * 128
 
 
-def deepBdMapRec(genStart, genGoal, depth, init, immobile, upDown=0, inherited=-1, hmap=-1):  # init should contains what doesn't change without the diag changing
+def deepBdMapRec(genStart, genGoal, depth, init, immobile, upDown=0,
+                 inherited=-1, hmap=-1):
+    """
+    init should contains what does not change without the diag changing
+    """
     if not findIsPoss(genStart.perm, genGoal.perm):
         return 0
     possRect, rect, tr = init
-    if hmap==-1:
+    if hmap == -1:
         hmap = {}
     acc = []
     age = findAge(genStart, rect, tr)
-    if upDown==1 and age==0:  # first condition: the steps on the path disappear
+    if upDown == 1 and age == 0:
+        # first condition: the steps on the path disappear
         return areGenEqual(genStart, genGoal)
 #    print("("+repr(rect)+", "+"[gen("+genStart.toString()+", 0), "+"gen("+genGoal.toString()+", 0)])")
 #    print(depth, "I"*(19-depth)+genStart.toString(), age, inherited)
-    if age<=inherited or age==0:
-        age=-1
+    if age <= inherited or age == 0:
+        age = -1
     if upDown == 1:  # the second value!
-        acc+=[b for b in listReverseBigon(genStart, rect, tr, immobile) if b[1]>=age]
+        acc += [b for b in listReverseBigon(genStart, rect, tr, immobile)
+                if b[1] >= age]
     else:
-        if age<1:
-            acc+=listRect(genStart, possRect, immobile)
-        acc+=[b for b in listBigon(genStart, rect, tr, immobile) if b[1]>=age and (b[1]==-1 or b[1]!=inherited)]
-#    for i in acc: print(i[0].toString(), i[1])
+        if age < 1:
+            acc += listRect(genStart, possRect, immobile)
+        acc += [b for b in listBigon(genStart, rect, tr, immobile)
+                if b[1] >= age and (b[1] == -1 or b[1] != inherited)]
     parity = 0
     for g in acc:
-        ttt=(tuple(g[0].perm), tuple(g[0].xShift), tuple(g[0].yShift))
+        ttt = (tuple(g[0].perm), tuple(g[0].xShift), tuple(g[0].yShift))
         if ttt in hmap:
             if hmap[ttt] >= g[1]:
                 continue
@@ -178,8 +186,8 @@ def deepBdMapRec(genStart, genGoal, depth, init, immobile, upDown=0, inherited=-
             parity += 1
             continue
         if depth > 1:
-            tmp = deepBdMapRec(g[0], genGoal, depth-1, init,
-                               immobile, 1-upDown, g[1], hmap)
+            tmp = deepBdMapRec(g[0], genGoal, depth - 1, init,
+                               immobile, 1 - upDown, g[1], hmap)
             if tmp == 0:
                 hmap[ttt] = g[1]
             parity += tmp
