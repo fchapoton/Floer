@@ -128,21 +128,30 @@ def readLetterBraid(s):
     """
     lecture d'une tresse ? sortie = une tresse sous une autre forme ?
 
-    readLetterBraid('AbAbCbAbC') ?
+    In [9]: from simplify.formatRectDiag import readLetterBraid
 
-    question: capitale = generateur ou inverse de generateur ?
+    In [10]: readLetterBraid('AAbABBaB')
+    Out[10]: ([(0, 1), (0, 1), (1, 0), (0, 1), (1, 1), (1, 1), (0, 0), (1, 1)], 3)
+
+    In [11]: readLetterBraid('AbAbCbAbC')
+    Out[11]: ([(0, 1), (1, 0), (0, 1), (1, 0), (2, 1), (1, 0), (0, 1), (1, 0), (2, 1)], 4)
+
+    question: lettre capitale = generateur ou inverse de generateur ?
     """
     b = []  # braid word
-    mm = 0  # number of generators
+    m = len(set(s.lower())) + 1  # index of the braid group
+    # G = BraidGroup(m)
+    # g = G.gens()
+    # x = G.one()
     for l in s:
         n = ord(l)
         if n > 96:  # small letters
-            b.append((0, n - 97))
-            mm = max(mm, n - 97)
+            b.append((n - 97, 0))
+            # x = x * g[]**()
         else:  # capital letters
-            b.append((1, n - 65))
-            mm = max(mm, n - 65)
-    return (b, mm + 2)  # braid and index of the braid group
+            b.append((n - 65, 1))
+            # x = x * g[]**()
+    return (b, m)  # braid and index of the braid group
 
 
 def knot_source():
@@ -164,7 +173,6 @@ def knot_source():
     return s
 
 
-# knot_source()
 # ---------- from DTcode now ----------
 
 
@@ -222,8 +230,7 @@ def extractBraid(s):
         print(tmp)
         print("")
         s += "\n" + tmp + "\n"
-    with open("c://temp//knot16cr.txt", 'w') as f:
-        f.write(s)
+    return s
 
 # extractBraid("""
 # Out[9]=
