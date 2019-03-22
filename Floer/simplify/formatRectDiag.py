@@ -110,6 +110,8 @@ def fromBraidToRectDiag(word, width):
     """
     convert a braid (in which format) to what (in what format)
 
+    format d'entree = format de sortie de readLetterBraid
+
     fromBraidToRectDiag([[1, 0], [1, 0], [1, 0]], 2)
     """
     return fromTangleToRect(fromBraidToTangle(word, width))
@@ -123,19 +125,24 @@ def forAnna(word, width):
 
 
 def readLetterBraid(s):
-    b = []
-    mm = 0
+    """
+    lecture d'une tresse ? sortie = une tresse sous une autre forme ?
+
+    readLetterBraid('AbAbCbAbC') ?
+
+    question: capitale = generateur ou inverse de generateur ?
+    """
+    b = []  # braid word
+    mm = 0  # number of generators
     for l in s:
         n = ord(l)
-        if n > 96:
-            b.append([0, n - 97])
-            if n - 97 > mm:
-                mm = n - 97
-        else:
-            b.append([1, n - 65])
-            if n - 65 > mm:
-                mm = n - 65
-    return (b, mm + 2)
+        if n > 96:  # small letters
+            b.append((0, n - 97))
+            mm = max(mm, n - 97)
+        else:  # capital letters
+            b.append((1, n - 65))
+            mm = max(mm, n - 65)
+    return (b, mm + 2)  # braid and index of the braid group
 
 
 def knot_source():
@@ -144,18 +151,17 @@ def knot_source():
     with open("braidRep.txt") as subFile:
         sub = subFile.read()
 
-    tab = sub.split("\n")
-    tab = [[x.split(" ")[0], x.split(" ")[2]] for x in tab]
-    for i in tab:
-        print(i[0])
+    tab = [x.split(" ") for x in sub.splitlines()]
+    tab = [[x[0], x[2]] for x in tab]
+    for x in tab:
+        print(x[0])
         print("")
-        bbb = readLetterBraid(i[1])
-        tmp = forAnna(bbb[0], bbb[1])
+        braid = readLetterBraid(x[1])
+        tmp = forAnna(braid[0], braid[1])
         print(tmp)
         print("")
-        s += i[0] + "\n" + tmp + "\n"
-    with open("c://knot.txt", 'w') as f:
-        f.write(s)
+        s += x[0] + "\n" + tmp + "\n"
+    return s
 
 
 # knot_source()

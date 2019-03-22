@@ -1,6 +1,16 @@
+"""
+The file knotAtlas.pic contains a Python pickle for the knot table,
+as a dictionary {(n,i): rectangular diagram}
+
+The same data is available in json format in knotAtlasV1.txt.
+
+This is not convenient for use in sage.
+"""
 from six.moves import range
 
 import pickle
+
+import simplify.diagSimplify
 
 
 def spaceRect(rect, y):
@@ -71,20 +81,19 @@ def rdBraid(s):
 # ---------- application ----------
 
 
-if __name__ == "__main__":
-    pass
-#
-#     with open("braidList.txt", "r") as br:
-#         rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
-#     atlas = {}
-#     import simplify.diagSimplify
-#
-#     for kn in rawList:
-#         tmp = rdBraid(kn[2])
-#         atlas[(int(kn[0]), int(kn[1]))]=simplify.diagSimplify.simplify(
-#             braidToRect(tmp[0], tmp[1]), 5000)
-#         if len(atlas)%100==0:
-#             print(len(atlas))
+def read_from_braid_file():
+    with open("braidList.txt", "r") as br:
+        rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
+    atlas = {}
+
+    for kn in rawList:
+        tmp = rdBraid(kn[2])
+        atlas[(int(kn[0]), int(kn[1]))]=simplify.diagSimplify.simplify(
+            braidToRect(tmp[0], tmp[1]), 5000)
+        if len(atlas) % 100 == 0:
+            print(len(atlas))
+    return atlas
+
 #     # the result is the knot dico called atlas!
 #     with open("knotAtlas.pic", "wb") as sav:
 #         pickle.dump(atlas, sav)
