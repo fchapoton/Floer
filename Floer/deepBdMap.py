@@ -216,9 +216,9 @@ def findNextBigonList(rect, gen1, gen2, ell, ellDir, ext, trans1, trans2):
 
 def giveDir(vh, n12, ellDir, xs, ys):
     """
-    # 0=right 1up 2left 3down , n12=1 or 2
+    # 0=right 1=up 2=left 3=down, n12=1 or 2
     """
-    if vh == 1:  # 0:vertical 1 horizontal
+    if vh == 1:  # 0: vertical, 1: horizontal
         return (-(n12 * 2 - 3) * ellDir * ys) + 1
     else:
         return (-(n12 * 2 - 3) * ellDir * xs) + 2
@@ -233,7 +233,7 @@ def findObtuse(rect, gen1, gen2, ell, ellDir):
             if ellDir[0][i] == -1 and ellDir[1][gen1.perm[i]] == 1:
                 flat.append((i, gen1.perm[i], gen2.xShift[i],
                              gen1.yShift[i], 1 - gen2.xShift[i]))  # last number the direction
-            if ellDir[0][i] == 1 and ellDir[1][gen1.perm[i]] = =-1:
+            if ellDir[0][i] == 1 and ellDir[1][gen1.perm[i]] == -1:
                 flat.append((i, gen1.perm[i], gen2.xShift[i],
                              gen1.yShift[i], 2 - gen1.yShift[i]))
         else:
