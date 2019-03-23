@@ -276,7 +276,7 @@ class RectDia(object):
             if p.y == n:
                 p.y -= 1
 
-    def __hash__(self):
+    def _hash(self):
         """
         a "perfect" hash function
         """
@@ -289,6 +289,7 @@ class RectDia(object):
             res += self.points[i].y
         return (res * 2 + 1) * pow(2, n)
 
+    
 # ---------- building lists of successors by the moves ----------
 
     def succCy(self):
