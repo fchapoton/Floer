@@ -373,7 +373,7 @@ def bdMap(rect, gen1, gen2, cache, ell, to0, toPlus, chEll, delta, path, init):
         if ll[i] < 0:
             return 0
     categ[3] += 1
-#     k0=ell[0].index(-1)# optimisable cachable
+#     k0=ell[0].index(-1)  # optimisable cacheable
 #     k1=ell[1].index(-1)+n-1
 #     ellDir=(tmp[0:k0]+[0]+tmp[k0:n-1], tmp[n-1:k1]+[0]+tmp[k1:])
 #     print(ellDir)

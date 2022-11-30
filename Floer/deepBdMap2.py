@@ -131,17 +131,17 @@ def listReverseBigon(gen, rect, tr, immobile):
     res = []
     for i in range(n):
         if gen.perm[i] != -1 and not immobile[i]:
-            tmp = i  # carefull!!!!!!!!! changed from above!
-            if tmp < tr[gen.perm[i]][0] and gen.yShift[i] == -1 or tmp > tr[gen.perm[i]][1] and gen.yShift[i] == 1:  # carefull!!!!!!!!! changed
+            tmp = i  # careful !!!!!!!!! changed from above!
+            if tmp < tr[gen.perm[i]][0] and gen.yShift[i] == -1 or tmp > tr[gen.perm[i]][1] and gen.yShift[i] == 1:  # careful !!!!!!!!! changed
                 ng = copyGen(gen)
                 ng.yShift[i] *= -1
-                age = 2 * (n + gen.perm[i]) + 1 + (ng.yShift[i] + 1) // 2  # carefull!!!!!!!!! changed
+                age = 2 * (n + gen.perm[i]) + 1 + (ng.yShift[i] + 1) // 2  # careful !!!!!!!!! changed
                 res.append((ng, age))
             tmp = gen.perm[i] + (gen.yShift[i] + 1) // 2
             if tmp <= rect[i][0] and gen.xShift[i] == -1 or tmp > rect[i][1] and gen.xShift[i] == 1:
                 ng = copyGen(gen)
                 ng.xShift[i] *= -1
-                age = 2 * i + 1 + (ng.xShift[i] + 1) // 2  # carefull!!!!!!!!! changed
+                age = 2 * i + 1 + (ng.xShift[i] + 1) // 2  # careful !!!!!!!!! changed
                 res.append((ng, age))
     return res
 

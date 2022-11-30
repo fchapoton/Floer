@@ -289,8 +289,7 @@ class RectDia(object):
             res += self.points[i].y
         return (res * 2 + 1) * pow(2, n)
 
-    
-# ---------- building lists of successors by the moves ----------
+    # ---------- building lists of successors by the moves ----------
 
     def succCy(self):
         succ = []
@@ -496,7 +495,7 @@ class RectDia(object):
         self.points = []
         for x in range(len(forbidden)):
             for p in points:
-                if(p[0] == forbidden[x]):
+                if p[0] == forbidden[x]:
                     self.points.append(self.point(x - 1, p[1], 0, 0))
 
     def toStringNice(self):

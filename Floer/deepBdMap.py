@@ -599,7 +599,7 @@ def deepBdMap(rect, gen1, gen2, ell, ellDir, ordering=0):
     pairs = [splitting(rect, gen1, gen2, ell, ellDir, trans1, trans2, poss)
              for poss in nextGeneration]
 
-    # controlling the splitted (and returning when needed)
+    # controlling the split one (and returning when needed)
     for p in pairs:
         if maslovIndex(p[0][0], rect) - maslovIndex(p[0][1], rect) != -1 or maslovIndex(p[1][0], rect) - maslovIndex(p[1][1], rect) != -1:
             continue  # to optimise

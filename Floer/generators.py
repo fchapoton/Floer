@@ -90,7 +90,7 @@ def maslovIndex2(gen, tab, ipp):
     return -(gen.maslov + ipp - res)
 
 
-def classifiedGen(rect, ell, strat=0):
+def classifiedGen(rect, ell, strata=0):
     p1, p2 = rectDiagMisc.recToPermAndComp(rect)[0]
     tabAl = rectDiagMisc.getWindingNbTable(p1, p2)
     print("alexander table:", tabAl)
@@ -100,7 +100,7 @@ def classifiedGen(rect, ell, strat=0):
     tabMas = maslovTab(p1)
     ipp = _I(p1, p1)
 
-    if strat == 0:
+    if strata == 0:
         gen, pool = genGen(ell[0], ell[1])
         print("nb of gens:")
         print(len(gen))

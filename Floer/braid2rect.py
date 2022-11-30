@@ -83,24 +83,25 @@ def rdBraid(s):
 
 def read_from_braid_file():
     with open("braidList.txt", "r") as br:
-        rawList=[elim(kn.split(" ")) for kn in br.read().split("\n")]
+        rawList = [elim(kn.split(" ")) for kn in br.read().split("\n")]
     atlas = {}
 
     for kn in rawList:
         tmp = rdBraid(kn[2])
-        atlas[(int(kn[0]), int(kn[1]))]=simplify.diagSimplify.simplify(
+        atlas[(int(kn[0]), int(kn[1]))] = simplify.diagSimplify.simplify(
             braidToRect(tmp[0], tmp[1]), 5000)
         if len(atlas) % 100 == 0:
             print(len(atlas))
     return atlas
 
 #     # the result is the knot dico called atlas!
-#     with open("knotAtlas.pic", "wb") as sav:
-#         pickle.dump(atlas, sav)
+#     with open("knotAtlas.pic", "wb") as f:
+#         pickle.dump(atlas, f)
 #     print("Atlas ready")
 
-with open("knotAtlas.pic", "rb") as av:
-    atlas = pickle.load(av)
+
+with open("knotAtlas.pic", "rb") as f:
+    atlas = pickle.load(f)
 
 """
 pour reconstruction du fichier knotAtlasV1.txt
